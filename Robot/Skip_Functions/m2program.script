@@ -1,0 +1,465 @@
+def m2program():
+  global _hidden_verificationVariable=0
+  step_count_fb48d3ff_0c9f_4d99_a765_ea41926c28d5 = 0.0
+  thread Step_Counter_Thread_a9617a2c_6c0b_4ca4_aaba_c79477845290():
+    while (True):
+      step_count_fb48d3ff_0c9f_4d99_a765_ea41926c28d5 = step_count_fb48d3ff_0c9f_4d99_a765_ea41926c28d5 + 1.0
+      sync()
+    end
+  end
+  run Step_Counter_Thread_a9617a2c_6c0b_4ca4_aaba_c79477845290()
+  set_standard_analog_input_domain(0, 1)
+  set_standard_analog_input_domain(1, 1)
+  set_tool_analog_input_domain(0, 1)
+  set_tool_analog_input_domain(1, 1)
+  set_analog_outputdomain(0, 0)
+  set_analog_outputdomain(1, 0)
+  set_input_actions_to_default()
+  set_tool_communication(False, 115200, 0, 1, 1.5, 3.5)
+  set_tool_output_mode(0)
+  set_tool_digital_output_mode(0, 1)
+  set_tool_digital_output_mode(1, 1)
+  set_tool_voltage(0)
+  set_safety_mode_transition_hardness(1)
+  set_gravity([0.0, 0.0, 9.82])
+  set_target_payload(0.530000, [0.009000, -0.039000, 0.092000], [0.000534, 0.000534, 0.000534, 0.000000, 0.000000, 0.000000])
+  set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+  global Al_plate=p[0.12405209206180495,-0.2666666051843552,0.020008101224669964,-9.276623980477388E-5,1.8107917580596192E-5,3.1233857134705927]
+  global Frame2x2=p[0.18266245434305164,-0.34273121659514855,0.026002571110600767,-2.225423529876215E-4,3.0110667546023537E-4,3.1233976058306383]
+  global Plane_1=p[0.0,0.0,0.0,0.0,0.0,0.0]
+  global URlogoTutorial=p[-0.08178353973148575,-0.3363174165299142,0.04788621506469384,-3.9746155723688456E-5,-3.4682148779121894E-5,-1.5668291789091222]
+  global carousel=p[0.13865255139760183,-0.25132593351268107,0.051531504137083003,-4.453572132438073E-5,-1.3071222590669835E-4,-3.1349676625391965]
+  global carouselrod=p[0.2020731702281844,-0.34951442511341274,0.1947611446273096,3.139766958234101,-0.10689428010274801,-1.1796370330365635E-5]
+  global paper=p[-0.09670794781244417,-0.3283412964648025,0.027665994240809913,-3.2057893450593004E-5,2.867088716161181E-5,-1.6085327915291054]
+  global rod=p[0.13368013097420872,-0.41123185103490206,0.09926814901395645,2.2214229924093103,-2.2214158162465862,-2.9165882738638143E-5]
+  global toprightscrew1_p=p[.118008567709, -.261629803235, .156757348789, 3.141245030984, -.040839262716, -.000051704045]
+  global toprightscrew1_q=[-0.672187630330221, -1.4025648397258301, -1.8969721794128418, -1.4120679509690781, 1.5716394186019897, 4.064958095550537]
+  global trs2_p=p[.042009975092, -.263205563019, .156774347442, 3.141229303448, -.040923876526, .000039252504]
+  global trs2_q=[-0.8978245894061487, -1.3013881009868165, -1.972687005996704, -1.4374634337476273, 1.5715731382369995, 3.8394064903259277]
+  global trs3_p=p[-.034172627781, -.260147935585, .156763329141, 3.141247635339, -.040985822835, -.000012345450]
+  global trs3_q=[-1.1777480284320276, -1.2801895302585145, -1.9871671199798584, -1.4442043763450165, 1.5715537071228027, 3.5595285892486572]
+  global chipC_p=p[-.106213015706, -.225211293281, .136759970370, 3.139766252137, -.105418643517, -.000092989457]
+  global chipC_q=[-1.4565861860858362, -1.2239580613425751, -2.118055582046509, -1.3695676934770127, 1.5715417861938477, 3.321840286254883]
+  global Waypoint_15_p=p[-.097581231147, -.225680703255, .136763827852, 3.139745246296, -.105384765824, -.000096185380]
+  global Waypoint_15_q=[-1.4161136786090296, -1.2064957183650513, -2.128415584564209, -1.376651407485344, 1.5715144872665405, 3.3622958660125732]
+  global Waypoint_1_p=p[.263501689877, -.337317763427, .239349489480, 3.139797243720, -.105347053477, -.000037720516]
+  global Waypoint_1_q=[-0.5959728399859827, -2.1057659588255824, -0.6533136367797852, -1.9525557957091273, 1.5718059539794922, 4.181682586669922]
+  global Waypoint_2_p=p[.265438435610, -.352444474661, .141740907029, 3.139726376264, -.105360108121, -.000022031768]
+  global Waypoint_2_q=[-0.6231134573565882, -2.1016999683775843, -1.126999020576477, -1.4828875821879883, 1.5722739696502686, 4.154912948608398]
+  global Waypoint_3_p=p[.206441973084, -.349241721273, .141737893294, 3.139734184252, -.105329347268, -.000022485776]
+  global Waypoint_3_q=[-0.7073677221881312, -1.9410401783385218, -1.3681066036224365, -1.4024366003325959, 1.5721865892410278, 4.070710182189941]
+  global Waypoint_4_p=p[.157616611756, -.378012026932, .141738203587, 3.139764187573, -.105376653239, -.000076760662]
+  global Waypoint_4_q=[-0.8494070211993616, -1.9579774341978968, -1.3439116477966309, -1.409730003481247, 1.5722019672393799, 3.928692579269409]
+  global Waypoint_5_p=p[.109134761588, -.393436595889, .141742225598, 3.139732501163, -.105376381431, -.000050533951]
+  global Waypoint_5_q=[-0.972816292439596, -1.9523960552611292, -1.3519116640090942, -1.4072665137103577, 1.5721949338912964, 3.805286407470703]
+  global Waypoint_6_p=p[-.188131250090, -.345166366147, .141750553976, 3.139727051239, -.105353578209, -.000024875816]
+  global Waypoint_6_q=[-1.7293437162982386, -1.8864180050291957, -1.4439769983291626, -1.381135032778122, 1.572224736213684, 3.0487747192382812]
+  global Waypoint_7_p=p[-.131564048097, -.216205376465, .141741700579, 3.139714533984, -.105382776464, -.000044168049]
+  global Waypoint_7_q=[-1.572542969380514, -1.2417927545360108, -2.0833356380462646, -1.3863917154124756, 1.571577787399292, 3.2058310508728027]
+  def m2():
+    $ 247 "m2" "noBreak"
+    $ 248 "p1≔p[c[0]+0.008,c[1]-0.027,c[2],c[3],c[4],c[5]-0.4]"
+    global p1=p[c[0]+0.008,c[1]-0.027,c[2],c[3],c[4],c[5]-0.4]
+    $ 249 "p2≔p[c[0]+0.008,c[1]-0.072,c[2],c[3],c[4],c[5]-0.4]"
+    global p2=p[c[0]+0.008,c[1]-0.072,c[2],c[3],c[4],c[5]-0.4]
+    $ 250 "p3≔p[c[0]+0.011,c[1]-0.088,c[2]+0.01,c[3],c[4],c[5]]"
+    global p3=p[c[0]+0.011,c[1]-0.088,c[2]+0.01,c[3],c[4],c[5]]
+    $ 251 "p4≔p[p3[0]-0.04,p3[1],p3[2],p3[3],p3[4],p3[5]]"
+    global p4=p[p3[0]-0.04,p3[1],p3[2],p3[3],p3[4],p3[5]]
+    $ 252 "p5≔p[p2[0]-0.044,p2[1],p2[2],p2[3],p2[4],p2[5]+0.9]"
+    global p5=p[p2[0]-0.044,p2[1],p2[2],p2[3],p2[4],p2[5]+0.9]
+    $ 253 "p6≔p[p5[0],p5[1]+0.045,p5[2],p5[3],p5[4],p5[5]]"
+    global p6=p[p5[0],p5[1]+0.045,p5[2],p5[3],p5[4],p5[5]]
+    $ 254 "p7≔p[c[0]-0.013,c[1]-0.03,c[2],c[3]+0.1,c[4],c[5]]"
+    global p7=p[c[0]-0.013,c[1]-0.03,c[2],c[3]+0.1,c[4],c[5]]
+    $ 255 "p8≔p[p7[0],p7[1]-0.025,p7[2],p7[3]-0.75,p7[4],p7[5]]"
+    global p8=p[p7[0],p7[1]-0.025,p7[2],p7[3]-0.75,p7[4],p7[5]]
+    $ 256 "MoveJ"
+    $ 257 "p1" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(p1, a=1.3962634015954636, v=1.0471975511965976, r=0.005)
+    $ 258 "p2" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(p2, a=1.3962634015954636, v=1.0471975511965976, r=0.005)
+    $ 259 "p3" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(p3, a=1.3962634015954636, v=1.0471975511965976, r=0.005)
+    $ 260 "p4" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(p4, a=1.3962634015954636, v=1.0471975511965976, r=0.005)
+    $ 261 "p5" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(p5, a=1.3962634015954636, v=1.0471975511965976, r=0.005)
+    $ 262 "p6" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(p6, a=1.3962634015954636, v=1.0471975511965976, r=0.005)
+    $ 263 "p7" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(p7, a=1.3962634015954636, v=1.0471975511965976, r=0.005)
+    $ 264 "p8" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(p8, a=1.3962634015954636, v=1.0471975511965976, r=0.005)
+  end
+  def Spraychip2():
+    $ 265 "Spraychip2" "noBreak"
+    $ 266 "MoveJ"
+    $ 267 "chipC" "breakAfter"
+    movej(get_inverse_kin(chipC_p, qnear=chipC_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 268 "c≔chipC"
+    global c=chipC_p
+    $ 269 "rc≔24/1000"
+    global rc=24/1000
+    $ 270 "p0≔p[c[0]+rc,c[1],c[2],c[3],c[4],c[5]-1.5*0]"
+    global p0=p[c[0]+rc,c[1],c[2],c[3],c[4],c[5]-1.5*0]
+    $ 271 "p45≔p[c[0]+0.71*rc,c[1]+0.71*rc,c[2],c[3]-0/1.1,c[4],c[5]-0/1.1]"
+    global p45=p[c[0]+0.71*rc,c[1]+0.71*rc,c[2],c[3]-0/1.1,c[4],c[5]-0/1.1]
+    $ 272 "p90≔p[c[0],c[1]+rc,c[2],c[3]-0,c[4],c[5]]"
+    global p90=p[c[0],c[1]+rc,c[2],c[3]-0,c[4],c[5]]
+    $ 273 "p135≔p[c[0]-0.71*rc,c[1]+0.71*rc,c[2],c[3]-0/1.1,c[4],c[5]+0/1.1]"
+    global p135=p[c[0]-0.71*rc,c[1]+0.71*rc,c[2],c[3]-0/1.1,c[4],c[5]+0/1.1]
+    $ 274 "p180≔p[c[0]-rc,c[1],c[2],c[3],c[4],c[5]+1.5*0]"
+    global p180=p[c[0]-rc,c[1],c[2],c[3],c[4],c[5]+1.5*0]
+    $ 275 "p225≔p[c[0]-0.71*rc,c[1]-0.71*rc,c[2],c[3]+0/1.1,c[4],c[5]+0/1.1]"
+    global p225=p[c[0]-0.71*rc,c[1]-0.71*rc,c[2],c[3]+0/1.1,c[4],c[5]+0/1.1]
+    $ 276 "p270≔p[c[0],c[1]-rc,c[2],c[3]+0,c[4],c[5]]"
+    global p270=p[c[0],c[1]-rc,c[2],c[3]+0,c[4],c[5]]
+    $ 277 "p315≔p[c[0]+0.71*rc,c[1]-0.71*rc,c[2],c[3]+0/1.1,c[4],c[5]-0/1.1]"
+    global p315=p[c[0]+0.71*rc,c[1]-0.71*rc,c[2],c[3]+0/1.1,c[4],c[5]-0/1.1]
+    $ 278 "Set atomization=On"
+    set_standard_digital_out(1, True)
+    $ 279 "Set triggersolenoid=On"
+    set_standard_digital_out(0, True)
+    $ 280 "MoveL"
+    $ 281 "p0" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p0, a=1.3, v=0.015, r=0.01)
+    $ 282 "p45" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p45, a=1.3, v=0.015, r=0.01)
+    $ 283 "p90" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p90, a=1.3, v=0.015, r=0.01)
+    $ 284 "p135" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p135, a=1.3, v=0.015, r=0.01)
+    $ 285 "p180" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p180, a=1.3, v=0.015, r=0.01)
+    $ 286 "Set triggersolenoid=Off"
+    set_standard_digital_out(0, False)
+    $ 287 "Wait: 0.1"
+    sleep(0.1)
+    $ 288 "Set triggersolenoid=On"
+    set_standard_digital_out(0, True)
+    $ 289 "p225" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p225, a=1.3, v=0.015, r=0.01)
+    $ 290 "p270" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p270, a=1.3, v=0.015, r=0.01)
+    $ 291 "p315" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p315, a=1.3, v=0.015, r=0.01)
+    $ 292 "p0" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p0, a=1.3, v=0.015, r=0.01)
+    $ 293 "p45" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p45, a=1.3, v=0.015, r=0.01)
+    $ 294 "Set triggersolenoid=Off"
+    set_standard_digital_out(0, False)
+    $ 295 "Wait: 0.1"
+    sleep(0.1)
+    $ 296 "Set triggersolenoid=On"
+    set_standard_digital_out(0, True)
+    $ 297 "p90" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p90, a=1.3, v=0.015, r=0.01)
+    $ 298 "p135" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p135, a=1.3, v=0.015, r=0.01)
+    $ 299 "p180" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p180, a=1.3, v=0.015, r=0.01)
+    $ 300 "p225" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p225, a=1.3, v=0.015, r=0.01)
+    $ 301 "p270" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p270, a=1.3, v=0.015, r=0.01)
+    $ 302 "p315" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p315, a=1.3, v=0.015, r=0.01)
+    $ 303 "p0" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p0, a=1.3, v=0.015, r=0.01)
+    $ 304 "MoveJ"
+    $ 305 "Waypoint_15" "breakAfter"
+    movej(get_inverse_kin(Waypoint_15_p, qnear=Waypoint_15_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 306 "Wait: 1.0"
+    sleep(1.0)
+    $ 307 "Set atomization=Off"
+    set_standard_digital_out(1, False)
+    $ 308 "Set triggersolenoid=Off"
+    set_standard_digital_out(0, False)
+  end
+  def turntable():
+    $ 309 "turntable" "noBreak"
+    $ 310 "MoveJ"
+    $ 311 "Waypoint_1" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115579, .194760490892, -3.139766958285, .106894280104, .000011796367], Waypoint_1_p)), qnear=Waypoint_1_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 312 "Waypoint_2" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115579, .194760490892, -3.139766958285, .106894280104, .000011796367], Waypoint_2_p)), qnear=Waypoint_2_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 313 "Waypoint_3" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115579, .194760490892, -3.139766958285, .106894280104, .000011796367], Waypoint_3_p)), qnear=Waypoint_3_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 314 "Waypoint_4" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115579, .194760490892, -3.139766958285, .106894280104, .000011796367], Waypoint_4_p)), qnear=Waypoint_4_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 315 "Waypoint_5" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115579, .194760490892, -3.139766958285, .106894280104, .000011796367], Waypoint_5_p)), qnear=Waypoint_5_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 316 "MoveJ"
+    $ 317 "Waypoint_6" "breakAfter"
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115579, .194760490892, -3.139766958285, .106894280104, .000011796367], Waypoint_6_p)), qnear=Waypoint_6_q), a=1.3962634015954636, v=0.3141592653589793)
+    $ 318 "Wait: 1.0"
+    sleep(1.0)
+    $ 319 "MoveJ"
+    $ 320 "Waypoint_7" "breakAfter"
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115579, .194760490892, -3.139766958285, .106894280104, .000011796367], Waypoint_7_p)), qnear=Waypoint_7_q), a=1.3962634015954636, v=1.0471975511965976, r=0.02)
+  end
+  while (True):
+    $ 2 "Robot Program"
+    $ 3 "'Program to be used for part #130742-001 rev A telescope M2 structure'"
+    # 'Program to be used for part #130742-001 rev A telescope M2 structure'
+    $ 4 "'Program rev ___: mm/dd/yy note'"
+    # 'Program rev ___: mm/dd/yy note'
+    $ 6 "Loop_1≔1"
+    global Loop_1=1
+    $ 7 "sidenum≔3"
+    global sidenum=3
+    $ 9 "coatnum≔2"
+    global coatnum=2
+    $ 11 "partnum≔2"
+    global partnum=2
+    $ 48 "If partnum≤sidenum"
+    global thread_flag_48=0
+    thread Thread_if_48():
+      $ 49 "Loop (coatnum)>0"
+      thread Thread_while_49():
+        while (True):
+          $ 50 "partleft≔partnum"
+          global partleft=partnum
+          $ 51 "loopnum≔1"
+          global loopnum=1
+          $ 52 "Loop partleft>0"
+          thread Thread_while_52():
+            while (True):
+              $ 54 "Call Spraychip2"
+              Spraychip2()
+              $ 55 "If loopnum≟1 or loopnum≟4 or loopnum≟7 or loopnum≟10"
+              global thread_flag_55=0
+              thread Thread_if_55():
+                $ 75 "MoveJ"
+                $ 76 "toprightscrew1" "breakAfter"
+                set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+                movej(get_inverse_kin(toprightscrew1_p, qnear=toprightscrew1_q), a=1.3962634015954636, v=1.0471975511965976)
+                $ 77 "c≔toprightscrew1"
+                global c=toprightscrew1_p
+                $ 78 "Call m2"
+                m2()
+                thread_flag_55 = 1
+              end
+              if (loopnum == 1  or  loopnum == 4  or  loopnum == 7  or  loopnum == 10):
+                global thread_handler_55=run Thread_if_55()
+                while (thread_flag_55 == 0):
+                  if not(loopnum == 1  or  loopnum == 4  or  loopnum == 7  or  loopnum == 10):
+                    kill thread_handler_55
+                    thread_flag_55 = 2
+                  else:
+                    sync()
+                  end
+                end
+              else:
+                thread_flag_55 = 2
+              end
+              if (thread_flag_55 == 2):
+                $ 79 "ElseIf loopnum≟2 or loopnum≟5 or loopnum≟8 or loopnum≟11"
+                if (loopnum == 2  or  loopnum == 5  or  loopnum == 8  or  loopnum == 11):
+                  $ 99 "MoveJ"
+                  $ 100 "trs2" "breakAfter"
+                  set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+                  movej(get_inverse_kin(trs2_p, qnear=trs2_q), a=1.3962634015954636, v=1.0471975511965976)
+                  $ 101 "c≔trs2"
+                  global c=trs2_p
+                  $ 102 "Call m2"
+                  m2()
+                else:
+                  $ 103 "Else" "noBreak"
+                  $ 124 "MoveJ"
+                  $ 125 "trs3" "breakAfter"
+                  set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+                  movej(get_inverse_kin(trs3_p, qnear=trs3_q), a=1.3962634015954636, v=1.0471975511965976)
+                  $ 126 "c≔trs3"
+                  global c=trs3_p
+                  $ 127 "Call m2"
+                  m2()
+                end
+              end
+              $ 128 "loopnum≔loopnum+1"
+              global loopnum=loopnum+1
+              $ 129 "partleft≔partleft-1"
+              global partleft=partleft-1
+            end
+          end
+          if (partleft>0):
+            global thread_handler_52=run Thread_while_52()
+            while (partleft>0):
+              sync()
+            end
+            kill thread_handler_52
+          end
+          $ 130 "i≔0"
+          global i=0
+          $ 131 "coatnum≔coatnum-1"
+          global coatnum=coatnum-1
+        end
+      end
+      if ((coatnum)>0):
+        global thread_handler_49=run Thread_while_49()
+        while ((coatnum)>0):
+          sync()
+        end
+        kill thread_handler_49
+      end
+      $ 132 "Halt"
+      halt
+      thread_flag_48 = 1
+    end
+    if (partnum <= sidenum):
+      global thread_handler_48=run Thread_if_48()
+      while (thread_flag_48 == 0):
+        if not(partnum <= sidenum):
+          kill thread_handler_48
+          thread_flag_48 = 2
+        else:
+          sync()
+        end
+      end
+    else:
+      thread_flag_48 = 2
+    end
+    if (thread_flag_48 == 2):
+      $ 133 "Else" "noBreak"
+      $ 134 "Loop (coatnum)>0"
+      thread Thread_while_134():
+        while (True):
+          $ 135 "partleft≔partnum"
+          global partleft=partnum
+          $ 136 "loopnum≔1"
+          global loopnum=1
+          $ 137 "turnnum≔0"
+          global turnnum=0
+          $ 138 "Loop partleft>0"
+          thread Thread_while_138():
+            while (True):
+              $ 140 "Call Spraychip2"
+              Spraychip2()
+              $ 141 "If loopnum≟1 or loopnum≟4 or loopnum≟7 or loopnum≟10"
+              global thread_flag_141=0
+              thread Thread_if_141():
+                $ 161 "MoveJ"
+                $ 162 "toprightscrew1" "breakAfter"
+                set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+                movej(get_inverse_kin(toprightscrew1_p, qnear=toprightscrew1_q), a=1.3962634015954636, v=1.0471975511965976)
+                $ 163 "c≔toprightscrew1"
+                global c=toprightscrew1_p
+                $ 164 "Call m2"
+                m2()
+                thread_flag_141 = 1
+              end
+              if (loopnum == 1  or  loopnum == 4  or  loopnum == 7  or  loopnum == 10):
+                global thread_handler_141=run Thread_if_141()
+                while (thread_flag_141 == 0):
+                  if not(loopnum == 1  or  loopnum == 4  or  loopnum == 7  or  loopnum == 10):
+                    kill thread_handler_141
+                    thread_flag_141 = 2
+                  else:
+                    sync()
+                  end
+                end
+              else:
+                thread_flag_141 = 2
+              end
+              if (thread_flag_141 == 2):
+                $ 165 "ElseIf loopnum≟2 or loopnum≟5 or loopnum≟8 or loopnum≟11"
+                if (loopnum == 2  or  loopnum == 5  or  loopnum == 8  or  loopnum == 11):
+                  $ 185 "MoveJ"
+                  $ 186 "trs2" "breakAfter"
+                  set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+                  movej(get_inverse_kin(trs2_p, qnear=trs2_q), a=1.3962634015954636, v=1.0471975511965976)
+                  $ 187 "c≔trs2"
+                  global c=trs2_p
+                  $ 188 "Call m2"
+                  m2()
+                else:
+                  $ 189 "Else" "noBreak"
+                  $ 210 "MoveJ"
+                  $ 211 "trs3" "breakAfter"
+                  set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+                  movej(get_inverse_kin(trs3_p, qnear=trs3_q), a=1.3962634015954636, v=1.0471975511965976)
+                  $ 212 "c≔trs3"
+                  global c=trs3_p
+                  $ 213 "Call m2"
+                  m2()
+                end
+              end
+              $ 214 "loopnum≔loopnum+1"
+              global loopnum=loopnum+1
+              $ 215 "partleft≔partleft-1"
+              global partleft=partleft-1
+            end
+          end
+          if (partleft>0):
+            global thread_handler_138=run Thread_while_138()
+            while (partleft>0):
+              sync()
+            end
+            kill thread_handler_138
+          end
+          $ 216 "i≔0"
+          global i=0
+          $ 217 "Loop (6-turnnum)>0"
+          thread Thread_while_217():
+            while (True):
+              $ 218 "Call turntable"
+              turntable()
+              $ 219 "turnnum≔turnnum+1"
+              global turnnum=turnnum+1
+            end
+          end
+          if ((6-turnnum)>0):
+            global thread_handler_217=run Thread_while_217()
+            while ((6-turnnum)>0):
+              sync()
+            end
+            kill thread_handler_217
+          end
+          $ 220 "coatnum≔coatnum-1"
+          global coatnum=coatnum-1
+        end
+      end
+      if ((coatnum)>0):
+        global thread_handler_134=run Thread_while_134()
+        while ((coatnum)>0):
+          sync()
+        end
+        kill thread_handler_134
+      end
+      $ 221 "Halt"
+      halt
+    end
+  end
+end

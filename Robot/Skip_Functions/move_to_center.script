@@ -1,0 +1,48 @@
+def move_to_center():
+  global _hidden_verificationVariable=0
+  set_target_payload(0.530000, [0.009000, -0.039000, 0.092000], [0.000534, 0.000534, 0.000534, 0.000000, 0.000000, 0.000000])
+  set_safety_mode_transition_hardness(1)
+  set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+  set_tool_communication(False, 115200, 0, 1, 1.5, 3.5)
+  set_tool_output_mode(0)
+  set_tool_digital_output_mode(0, 1)
+  set_tool_digital_output_mode(1, 1)
+  set_tool_voltage(0)
+  set_gravity([0.0, 0.0, 9.82])
+  set_standard_analog_input_domain(0, 1)
+  set_standard_analog_input_domain(1, 1)
+  set_tool_analog_input_domain(0, 1)
+  set_tool_analog_input_domain(1, 1)
+  set_analog_outputdomain(0, 0)
+  set_analog_outputdomain(1, 0)
+  set_input_actions_to_default()
+  global Al_plate=p[0.12405209206180495,-0.2666666051843552,0.020008101224669964,-9.276623980477388E-5,1.8107917580596192E-5,3.1233857134705927]
+  global Frame2x2=p[0.18266245434305164,-0.34273121659514855,0.026002571110600767,-2.225423529876215E-4,3.0110667546023537E-4,3.1233976058306383]
+  global URlogoTutorial=p[-0.08178353973148575,-0.3363174165299142,0.04788621506469384,-3.9746155723688456E-5,-3.4682148779121894E-5,-1.5668291789091222]
+  global carouselrod=p[0.2020731702281844,-0.34951442511341274,0.1947611446273096,3.139766958234101,-0.10689428010274801,-1.1796370330365635E-5]
+  global paper=p[-0.09670794781244417,-0.3283412964648025,0.027665994240809913,-3.2057893450593004E-5,2.867088716161181E-5,-1.6085327915291054]
+  global rod=p[0.13368013097420872,-0.41123185103490206,0.09926814901395645,2.2214229924093103,-2.2214158162465862,-2.9165882738638143E-5]
+  # begin: URCap Installation Node
+  #   Source: External Control, 1.0.5, FZI Research Center for Information Technology
+  #   Type: External Control
+  # end: URCap Installation Node
+  step_count_2ffbefe9_615e_4fa1_bf78_7868ff9dadf4 = 0.0
+  thread Step_Counter_Thread_7b43f007_62b3_4516_a808_b3f4fe016357():
+    while (True):
+      step_count_2ffbefe9_615e_4fa1_bf78_7868ff9dadf4 = step_count_2ffbefe9_615e_4fa1_bf78_7868ff9dadf4 + 1.0
+      sync()
+    end
+  end
+  run Step_Counter_Thread_7b43f007_62b3_4516_a808_b3f4fe016357()
+  global c1_p=p[-.131558494518, -.216203746798, .141733921245, 3.139748519396, -.105357470843, -.000037184361]
+  global c1_q=[-1.578486744557516, -1.2450097066215058, -2.086237668991089, -1.378754587178566, 1.5769187211990356, 3.2046616077423096]
+  global Waypoint_1_p=p[-.131558494518, -.216203746798, .141733921245, 3.139748519396, -.105357470843, -.000037184361]
+  global Waypoint_1_q=[-1.578486744557516, -1.2450097066215058, -2.086237668991089, -1.378754587178566, 1.5769187211990356, 3.2046616077423096]
+  $ 2 "Robot Program"
+  $ 3 "MoveJ"
+  $ 4 "c1" "breakAfter"
+  movej(c1_q, a=1.2, v=0.25)
+  $ 5 "MoveL"
+  $ 6 "Waypoint_1" "breakAfter"
+  movel(Waypoint_1_p, a=1.2, v=0.25)
+end
