@@ -1,0 +1,7 @@
+ Program
+   Variables Setup
+   Robot Program
+     MoveJ
+       c1
+     MoveL
+       Waypoint_1

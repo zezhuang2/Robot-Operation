@@ -1,0 +1,4371 @@
+def P124517011_SRFpreload_V1():
+  global _hidden_verificationVariable=0
+  step_count_28707e12_0c2a_4f39_b822_8a6eb026eba7 = 0.0
+  thread Step_Counter_Thread_bc455d1c_3720_4032_8e16_f4a00f067eee():
+    while (True):
+      step_count_28707e12_0c2a_4f39_b822_8a6eb026eba7 = step_count_28707e12_0c2a_4f39_b822_8a6eb026eba7 + 1.0
+      sync()
+    end
+  end
+  run Step_Counter_Thread_bc455d1c_3720_4032_8e16_f4a00f067eee()
+  set_target_payload(0.530000, [0.009000, -0.039000, 0.092000], [0.000534, 0.000534, 0.000534, 0.000000, 0.000000, 0.000000])
+  set_safety_mode_transition_hardness(1)
+  set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+  set_tool_communication(False, 115200, 0, 1, 1.5, 3.5)
+  set_tool_output_mode(0)
+  set_tool_digital_output_mode(0, 1)
+  set_tool_digital_output_mode(1, 1)
+  set_tool_voltage(0)
+  set_gravity([0.0, 0.0, 9.82])
+  set_standard_analog_input_domain(0, 1)
+  set_standard_analog_input_domain(1, 1)
+  set_tool_analog_input_domain(0, 1)
+  set_tool_analog_input_domain(1, 1)
+  set_analog_outputdomain(0, 0)
+  set_analog_outputdomain(1, 0)
+  set_input_actions_to_default()
+  global Al_plate=p[0.12405209206180495,-0.2666666051843552,0.020008101224669964,-9.276623980477388E-5,1.8107917580596192E-5,3.1233857134705927]
+  global Frame2x2=p[0.18266245434305164,-0.34273121659514855,0.026002571110600767,-2.225423529876215E-4,3.0110667546023537E-4,3.1233976058306383]
+  global Plane_1=p[0.0,0.0,0.0,0.0,0.0,0.0]
+  global URlogoTutorial=p[-0.08178353973148575,-0.3363174165299142,0.04788621506469384,-3.9746155723688456E-5,-3.4682148779121894E-5,-1.5668291789091222]
+  global carousel=p[0.13865255139760183,-0.25132593351268107,0.051531504137083003,-4.453572132438073E-5,-1.3071222590669835E-4,-3.1349676625391965]
+  global carouselrod=p[0.2020731702281844,-0.34951442511341274,0.1947611446273096,3.139766958234101,-0.10689428010274801,-1.1796370330365635E-5]
+  global paper=p[-0.09670794781244417,-0.3283412964648025,0.027665994240809913,-3.2057893450593004E-5,2.867088716161181E-5,-1.6085327915291054]
+  global rod=p[0.13368013097420872,-0.41123185103490206,0.09926814901395645,2.2214229924093103,-2.2214158162465862,-2.9165882738638143E-5]
+  # begin: URCap Installation Node
+  #   Source: Remote TCP & Toolpath, 1.3.0.build16, Universal Robots A/S
+  #   Type: Remote TCP & Toolpath
+  mc_check_divergence = True
+  mc_lookahead = 0.03
+  mc_gain = 2000
+  mc_dt = 0.004
+  
+  mc_conv_tol_s = 0.001
+  mc_conv_loops = 100
+  
+  mc_ee_set_id = 2
+  
+  MC_GROUP_STANDBY = 0
+  MC_GROUP_STOPPING = 2
+  MC_GROUP_ERROR_STOP = 3
+  
+  MC_ERROR_PATHDIVERGED = 0
+  MC_ERROR_COLLISION = 1
+  MC_ERROR_JOINTLIMIT = 2
+  MC_ERROR_SINGULARITY = 4
+  MC_ERROR_PLANNINGFAILED = 16
+  MC_ERROR_DAEMONSTOPPED = 1024
+  MC_ERROR_SERVER_BUSY = 1025
+  MC_ERROR_NOT_INITIALIZED = 2000
+  
+  MC_TOOLPATH_ERROR_NONE = 0
+  MC_TOOLPATH_ERROR_FILELOAD = 1
+  MC_TOOLPATH_ERROR_PARSE = 2
+  MC_TOOLPATH_ERROR_EMPTYTOOLPATH = 3
+  MC_TOOLPATH_ERROR_UNSUPPORTEDTYPE = 4
+  
+  MC_GROUP_STATUS_INPUT = 24
+  MC_CURRENT_MOTION_ID_INPUT = 25
+  MC_ERROR_CODE_INPUT = 26
+  MC_DIGITAL_OUTPUTS_INPUT = 27
+  MC_JOINT_VALUE_INPUT = 24
+  MC_WATCHDOG_INPUT = 30
+  MC_PATH_SPEED_INPUT = 31
+  MC_SPEEDFACTOR_OUTPUT = 24
+  
+  mc_last_watchdog = 0
+  mc_watchdog_counter = 0
+  mc_watchdog_counter_limit = 100
+  
+  mc_last_motion_id = -1
+  mc_group_status = MC_GROUP_STOPPING
+  mc_server_started = False
+  mc_rtcp_moving = False
+  mc_debug_msg = False
+  mc_gmm_initialized = False
+  mc_last_digital_outputs = 0
+  
+  def mc_initialize(mode, tcp, doc=6):
+  	mc_check_busy()
+  
+  	if (mode == 0 and doc == 6):
+  		mc_ee_set_id = 0
+  	end
+  
+  	if (mode == 1 and doc == 6):
+  		mc_ee_set_id = 2
+  	end
+  
+  	if (mode == 0 and doc == 5):
+  		mc_ee_set_id = 1
+  	end
+  
+  	if (mode == 1 and doc == 5):
+  		mc_ee_set_id = 3
+  	end
+  
+  	mc_initialize_internal(tcp)
+  end
+  
+  def mc_initialize_internal(tcp):
+  	if (mc_server_started == False):
+  		global mc_server = rpc_factory("xmlrpc", "127.0.0.1:7828")
+  		mc_server_started = True
+  	end
+  
+  	mc_server.setDataStoreBoolean("IS_ON", "/robot/check_divergence", mc_check_divergence)
+  	mc_server.reset()
+  	mc_group_status = MC_GROUP_STANDBY
+  	mc_set_speed_factor(1.0)
+  	mc_server.setKinTransform(mc_ee_set_id, 0, tcp)
+  	mc_gmm_initialized = False
+  end
+  
+  def mc_check_busy():
+  	enter_critical
+  	if (mc_rtcp_moving == False):
+  		mc_rtcp_moving = True
+  	else:
+  		mc_error_stop("", "", MC_ERROR_SERVER_BUSY)
+  	end
+  	exit_critical
+  end
+  
+  def mc_add_linear(pose, a, v, r):
+  	mc_check_ready()
+  	ee_id = 0
+  	buffer_mode = "BLENDING_NEXT"
+  	transition_mode = "CORNER_DISTANCE"
+  	id = mc_server.moveLinearAbsolute(pose, mc_ee_set_id, ee_id, v, a, buffer_mode, transition_mode, r)
+  
+  	if (id == -1):
+  		mc_error_stop("Compute node returned ID ", id)
+  	end
+  
+  	mc_last_motion_id = id
+  
+  	return id
+  end
+  
+  def mc_add_circular(pose_via, pose_to, a, v, r, mode = 0):
+  	mc_check_ready()
+  	ee_id = 0
+  	buffer_mode = "BLENDING_NEXT"
+  	transition_mode = "CORNER_DISTANCE"
+  	id = mc_server.moveCircularBorderAbsolute(pose_via, pose_to, mode, mc_ee_set_id, ee_id, v, a, buffer_mode, transition_mode, r)
+  
+  	if (id == -1):
+  		mc_error_stop("Compute node returned ID ", id)
+  	end
+  
+  	mc_last_motion_id = id
+  
+  	return id
+  end
+  
+  def mc_add_path(path_id, a, v, r):
+  	mc_check_ready()
+  	ee_id = 0
+  	buffer_mode = "BLENDING_NEXT"
+  	transition_mode = "CORNER_DISTANCE"
+  	id = mc_server.movePath(path_id, mc_ee_set_id, ee_id, v, a, buffer_mode, transition_mode, r)
+  
+  	if (id == -1):
+  		result = mc_server.getErrorCode()
+  		mc_toolpath_error_stop(result[0], result[1])
+  	end
+  
+  	mc_last_motion_id = id
+  
+  	return id
+  end
+  
+  def mc_load_path(nc_file, use_feedrate = False):
+  	id = mc_server.loadPath(nc_file, use_feedrate)
+  
+  	if (id < 0):
+  		result = mc_server.getErrorCode()
+  		mc_toolpath_error_stop(result[0], result[1])
+  	end
+  
+  	return id
+  end
+  
+  def mc_get_target_rtcp_speed():
+  	return read_input_float_register(MC_PATH_SPEED_INPUT)
+  end
+  
+  def mc_check_ready():
+  	if mc_group_status != MC_GROUP_STANDBY:
+  		mc_error_stop("", "", MC_ERROR_NOT_INITIALIZED)
+  	end
+  end
+  
+  def mc_set_pcs(pcs):
+  	ee_id = 0
+  	mc_server.setCoordinateTransform(mc_ee_set_id, ee_id, pcs, "ABORTING")
+  end
+  
+  def mc_set_digital_outputs():
+  	current_do = read_input_integer_register(MC_DIGITAL_OUTPUTS_INPUT)
+  	current_do_bin = integer_to_binary_list(current_do)
+  	last_do_bin = integer_to_binary_list(mc_last_digital_outputs)
+  	loopcounter = 0
+  	while (loopcounter < 4):
+  		value_bit = loopcounter * 6
+  		port_bit_0 = value_bit + 1
+  		port_bit_1 = value_bit + 2
+  		port_bit_2 = value_bit + 3
+  		port_bit_3 = value_bit + 4
+  		port_bit_4 = value_bit + 5
+  		last_port = binary_list_to_integer([last_do_bin[port_bit_0], last_do_bin[port_bit_1], last_do_bin[port_bit_2], last_do_bin[port_bit_3], last_do_bin[port_bit_4]])
+  		current_port = binary_list_to_integer([current_do_bin[port_bit_0], current_do_bin[port_bit_1], current_do_bin[port_bit_2], current_do_bin[port_bit_3], current_do_bin[port_bit_4]])
+  		if (current_port != 0 and (current_port != last_port or current_do_bin[value_bit] != last_do_bin[value_bit])):
+  			if (current_port <= 8):
+  				set_standard_digital_out(current_port - 1, current_do_bin[value_bit])
+  			elif (current_port <= 16):
+  				set_configurable_digital_out(current_port - 9, current_do_bin[value_bit])
+  			else:
+  				set_tool_digital_out(current_port - 17, current_do_bin[value_bit])
+  			end
+  		end
+  		loopcounter = loopcounter + 1
+  	end
+  	mc_last_digital_outputs = current_do
+  end
+  
+  def mc_run_motion(id=-1):
+  	if (id == -1):
+  		id = mc_last_motion_id
+  	end
+  
+  	mc_debugMsg("Waiting for ID ", id)
+  
+  	if (mc_gmm_initialized == False):
+  		mc_initialize_gmm()
+  	end
+  
+  	mc_current_motion_id = read_input_integer_register(MC_CURRENT_MOTION_ID_INPUT)
+  	mc_group_status = read_input_integer_register(MC_GROUP_STATUS_INPUT)
+  	joint_targets = get_actual_joint_positions()
+  	while (mc_current_motion_id <= id and mc_current_motion_id != -2 and mc_group_status != MC_GROUP_STOPPING and mc_group_status != MC_GROUP_ERROR_STOP):
+  		mc_current_motion_id = read_input_integer_register(MC_CURRENT_MOTION_ID_INPUT)
+  		mc_group_status = read_input_integer_register(MC_GROUP_STATUS_INPUT)
+  
+  		joint_targets = mc_get_joint_targets(joint_targets)
+  		servoj(joint_targets, t = mc_dt, lookahead_time = mc_lookahead, gain = mc_gain)
+  
+  		mc_set_digital_outputs()
+  
+  		mc_check_watchdog()
+  	end
+  
+  	if (mc_group_status == MC_GROUP_STOPPING or mc_group_status == MC_GROUP_ERROR_STOP):
+  		stopj(45)
+  
+  		mc_debugMsg("Stopping due to error after ID ", id)
+  
+  		mc_server.setDataStoreBoolean("IS_RTCP_RUNNING", "/group_motion_manager", False)
+  
+  		error_code = read_input_integer_register(MC_ERROR_CODE_INPUT)
+  		mc_error_stop("Compute node returned group status ", mc_group_status, error_code)
+  
+  		mc_rtcp_moving = False
+  		mc_group_status = MC_GROUP_STOPPING
+  	end
+  
+  	if (id == mc_last_motion_id):
+  		mc_debugMsg("Stopping after ID ", id)
+  		mc_check_convergence(joint_targets)
+  
+  		mc_server.setDataStoreBoolean("IS_RTCP_RUNNING", "/group_motion_manager", False)
+  
+  		mc_rtcp_moving = False
+  		mc_group_status = MC_GROUP_STOPPING
+  	end
+  
+  	mc_debugMsg("Completed ID ", id)
+  end
+  
+  def mc_set_speed_factor(s):
+  	write_output_float_register(MC_SPEEDFACTOR_OUTPUT, s)
+  end
+  
+  def mc_initialize_gmm():
+  	mc_current_motion_id = read_input_integer_register(MC_CURRENT_MOTION_ID_INPUT)
+  	while (mc_current_motion_id != -1):
+  		mc_current_motion_id = read_input_integer_register(MC_CURRENT_MOTION_ID_INPUT)
+  		sleep(mc_dt)
+  		mc_check_watchdog()
+  	end
+  
+  	mc_server.setDataStoreBoolean("IS_RTCP_RUNNING", "/group_motion_manager", True)
+  
+  	while (mc_current_motion_id == -1):
+  		mc_current_motion_id = read_input_integer_register(MC_CURRENT_MOTION_ID_INPUT)
+  		sleep(mc_dt)
+  		mc_check_watchdog()
+  	end
+  
+  	mc_gmm_initialized = True
+  end
+  
+  def mc_check_convergence(joint_targets):
+  	loopcounter = 0
+  	converged = False
+  	while (converged == False and loopcounter < mc_conv_loops):
+  
+  		joint_targets = mc_get_joint_targets(joint_targets)
+  		ur_targets = get_target_joint_positions()
+  		joint_speeds = get_actual_joint_speeds()
+  
+  		position_converged = joint_targets[0] == ur_targets[0] and joint_targets[1] == ur_targets[1] and joint_targets[2] == ur_targets[2] and joint_targets[3] == ur_targets[3] and joint_targets[4] == ur_targets[4] and joint_targets[5] == ur_targets[5]
+  		speed_converged = joint_speeds[0] <= mc_conv_tol_s and joint_speeds[1] <= mc_conv_tol_s and joint_speeds[2] <= mc_conv_tol_s and joint_speeds[3] <= mc_conv_tol_s and joint_speeds[4] <= mc_conv_tol_s and joint_speeds[5] <= mc_conv_tol_s
+  		converged = position_converged and speed_converged
+  
+  		servoj(joint_targets, t = mc_dt, lookahead_time = mc_lookahead, gain = mc_gain)
+  
+  		loopcounter = loopcounter + 1
+  	end
+  
+  	mc_debugMsg("Convergence loop count: ", loopcounter)
+  end
+  
+  def mc_check_watchdog():
+  	current_watchdog = read_input_float_register(MC_WATCHDOG_INPUT)
+  
+  	if (current_watchdog > mc_last_watchdog):
+  		mc_last_watchdog = current_watchdog
+  		mc_watchdog_counter = 0
+  	else:
+  		mc_watchdog_counter = mc_watchdog_counter + 1
+  		if (mc_watchdog_counter > mc_watchdog_counter_limit):
+  			mc_error_stop("", "", MC_ERROR_DAEMONSTOPPED)
+  		end
+  	end
+  end
+  
+  def mc_get_joint_targets(joint_targets):
+  	joint_targets[0] = read_input_float_register(MC_JOINT_VALUE_INPUT)
+  	joint_targets[1] = read_input_float_register(MC_JOINT_VALUE_INPUT + 1)
+  	joint_targets[2] = read_input_float_register(MC_JOINT_VALUE_INPUT + 2)
+  	joint_targets[3] = read_input_float_register(MC_JOINT_VALUE_INPUT + 3)
+  	joint_targets[4] = read_input_float_register(MC_JOINT_VALUE_INPUT + 4)
+  	joint_targets[5] = read_input_float_register(MC_JOINT_VALUE_INPUT + 5)
+  	return joint_targets
+  end
+  
+  def mc_error_stop(msg, param="", error_code=MC_ERROR_PLANNINGFAILED):
+  	if (msg != ""):
+  		textmsg(msg, param)
+  	end
+  
+  	textmsg("Error code: ", error_code)
+  	error_msg = mc_getErrorMessage(error_code)
+  	textmsg(error_msg)
+  
+  	popup(error_msg, title="Remote TCP", error=True, blocking=False)
+  	halt
+  end
+  
+  def mc_toolpath_error_stop(error_code, param):
+  	msg = mc_getToolpathMessage(error_code)
+  	textmsg(msg + " - Line: ", param)
+  
+  	popup(msg, title="Toolpath Validation", error=True, blocking=True)
+  	halt
+  end
+  
+  def mc_debugMsg(msg, param=""):
+  	if (mc_debug_msg == True):
+  		textmsg(msg, param)
+  	end
+  end
+  def mc_getErrorMessage(error_code):
+  	if error_code == MC_ERROR_PATHDIVERGED:
+  		return "<html>Robot cannot maintain tool speed. You may avoid this issue by:<ul><li>reducing the tool speed;</li><li>avoiding sharp corners;</li><li>staying away from singularities.</li></ul></html>"
+  	elif error_code == MC_ERROR_COLLISION:
+  		return "Robot is in collision."
+  	elif error_code == MC_ERROR_JOINTLIMIT:
+  		return "Robot is at a joint limit."
+  	elif error_code == MC_ERROR_SINGULARITY:
+  		return "Robot is at a singularity."
+  	elif error_code == MC_ERROR_DAEMONSTOPPED:
+  		return "The controller stopped."
+  	elif error_code == MC_ERROR_SERVER_BUSY:
+  		return "Another Remote TCP Move node is running."
+  	elif error_code == MC_ERROR_NOT_INITIALIZED:
+  		return "Group motion manager is not initialized."
+  	else:
+  		return "Motion planning failed."
+  	end
+  end
+  
+  def mc_getToolpathMessage(message_code):
+  	if message_code == MC_TOOLPATH_ERROR_NONE:
+  		return "Toolpath file is valid."
+  	elif message_code == MC_TOOLPATH_ERROR_FILELOAD:
+  		return "File cannot be loaded."
+  	elif message_code == MC_TOOLPATH_ERROR_PARSE:
+  		return "Parsing error"
+  	elif message_code == MC_TOOLPATH_ERROR_EMPTYTOOLPATH:
+  		return "Empty toolpath"
+  	elif message_code == MC_TOOLPATH_ERROR_UNSUPPORTEDTYPE:
+  		return "Unsupported type"
+  	else:
+  		return "Unknown toolpath validation error"
+  	end
+  end
+  # end: URCap Installation Node
+  # begin: URCap Installation Node
+  #   Source: Robotiq_Copilot, 2.7.0.56387, Robotiq Inc.
+  #   Type: Machine Tending
+  def rq_is_stack_light_machine_state_running():
+    return False
+  end
+  def rq_is_stack_light_machine_state_idle():
+    return False
+  end
+  # end: URCap Installation Node
+  # begin: URCap Installation Node
+  #   Source: Robotiq_Copilot, 2.7.0.56387, Robotiq Inc.
+  #   Type: Copilot
+  ###############################################################
+  # Script file used to communicate with Robotiq's ft sensor
+  # Version: 0.0.1
+  ###############################################################
+
+  node_rpc_server = rpc_factory("xmlrpc","http://127.0.0.1:4251/node")
+  linalg = rpc_factory("xmlrpc","http://127.0.0.1:4251/linalg")
+  storevar = rpc_factory("xmlrpc","http://127.0.0.1:4251/storevariable")
+  kinematics_rpc_server = rpc_factory("xmlrpc","http://127.0.0.1:4251/")
+
+  global Fx = 0.0
+  global Fy = 0.0
+  global Fz = 0.0
+  global Mx = 0.0
+  global My = 0.0
+  global Mz = 0.0
+  global T_base_sensor = p[0,0,0,0,0,0]
+  global tcp_wrench = [0,0,0,0,0,0]
+  global base_wrench = [0,0,0,0,0,0]
+  global sensor_wrench = [0,0,0,0,0,0]
+  global rq_depal_end_pose_offset = p[0,0,0,0,0,0]
+  global rq_ft_sensor_connected = False
+
+  rq_target_joint_positions = get_actual_joint_positions()
+  rq_elapsed_time = 0
+  rq_force_protect_urcap = 0.0
+  rq_torque_protect_urcap = 0.0
+  rq_collision_detection_enabled = False
+  rq_collision_detection_active_time = 0.0
+  rq_halt_on_collision_detection = True
+  is_rq_prevent_steady_enabled = True
+  rq_active_node = 0
+  rq_node_executor_thread_running = False
+  rq_lookahead_time = 0.05
+  rq_continue_node_execution = True
+  rq_controller_time_step = 0.008
+
+  rq_linear_axis_move_abs_target_position = 0.0
+  rq_linear_axis_move_abs_target_speed = 0.0 # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+  rq_linear_axis_move_abs_target_acc = 0.0 # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+  rq_linear_axis_move_abs_target_decel = 0.0 # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+  rq_linear_axis_move_absolute_thread = 0
+  rq_linear_axis_move_absolute_thread_running = False
+
+  def pose_to_list(p):
+    return [p[0], p[1], p[2], p[3], p[4], p[5]]
+  end
+
+  def list_to_pose(l):
+    return p[l[0], l[1], l[2], l[3], l[4], l[5]]
+  end
+
+  def rq_init_path(pathId):
+     initPathAnswer = node_rpc_server.initpath(pathId)
+     verify_path_answer(initPathAnswer)
+     return initPathAnswer[0]
+  end
+
+  def concat(str1, str2, str3):
+    return str_cat(str1, str_cat(str2, str3))
+  end
+  def key_val(key, val):
+    return concat(concat("`", key, "`"), ":", val)
+  end
+
+  thread rq_prevent_steady():
+    local q_start = get_target_joint_positions()
+    local q = q_start
+    local p = 0
+
+    while True:
+      p = p + rq_controller_time_step*4*3.14159
+      local offset = 0.000001*sin(p)
+      q[5] = q_start[5] + offset
+      servoj(q)
+    end
+  end
+
+  def linear_axis_move_abs(target_position,
+                           target_speed,
+                           target_acceleration,
+                           target_deceleration,
+                           is_blocking,
+                           prevent_steady = True):
+    rq_linear_axis_move_abs_target_position = target_position
+    rq_linear_axis_move_abs_target_speed = target_speed
+    rq_linear_axis_move_abs_target_acc = target_acceleration
+    rq_linear_axis_move_abs_target_decel = target_deceleration
+    is_rq_prevent_steady_enabled = prevent_steady
+
+    if( rq_linear_axis_move_absolute_thread_running ):
+      kill rq_linear_axis_move_absolute_thread
+    end
+    rq_linear_axis_move_absolute_thread = run linear_axis_move_abs_thread()
+    if(is_blocking):
+      join rq_linear_axis_move_absolute_thread
+    end
+  end #linear_axis_move_abs
+
+  thread linear_axis_move_abs_thread():
+
+    if is_rq_prevent_steady_enabled:
+      rq_prevent_steady_thread = run rq_prevent_steady()
+    end
+
+    rq_linear_axis_move_absolute_thread_running = True
+    timeout_in_milliseconds = 500
+    target_position_reached = False
+    number_of_done_status_received_while_not_at_target = 0
+
+    while( not target_position_reached ):
+      move_absolute_response = node_rpc_server.linearaxismove(rq_linear_axis_move_abs_target_position,
+                                                              rq_linear_axis_move_abs_target_speed,
+                                                              rq_linear_axis_move_abs_target_acc,
+                                                              rq_linear_axis_move_abs_target_decel,
+                                                              timeout_in_milliseconds)
+
+      if move_absolute_response == 0: # Done
+        position_tolerance = 1e-3
+        local position = node_rpc_server.linearaxisgetactualposition() # local because it is a variable under 15 chars that a user could have defined
+        target_position_reached = ( norm( position - rq_linear_axis_move_abs_target_position ) < position_tolerance )
+        if not target_position_reached:
+          number_of_done_status_received_while_not_at_target = number_of_done_status_received_while_not_at_target + 1
+          if ( number_of_done_status_received_while_not_at_target > 10 ): #When the move starts, it may take some time before the status changes from done to busy so we accept a certain number of done status without being at the target position
+            textmsg("error: target position should be reached when move absolute status is Done")
+          end
+        end
+      elif move_absolute_response == 1: # Normal (safeguard stopped, busy moving, or paused)
+        # do nothing
+      elif move_absolute_response == 2: # Error
+        textmsg("Linear axis absolute move error")
+        popup("Program paused because axis is not ready or the requested position is outside the allowed range.",
+              title="Linear axis move error", warning=False, error=True, blocking=True)
+        socket_send_line("pause", "RQDashboardClient") # If the axis is not ready, this allows the user to go fix it and then resume the program.
+        sleep(1.0) # The socket_send_line command is non-blocking, so we need to wait for the progam to pause.
+                   # Without the sleep, execution will continue and multiple popups and program pauses will be executed.
+      end
+
+      sleep(rq_controller_time_step)
+    end #while
+    rq_linear_axis_move_absolute_thread_running = False
+
+    if is_rq_prevent_steady_enabled:
+      kill rq_prevent_steady_thread
+    end
+
+  end # linear_axis_move_abs_thread
+
+  def setup_force_node_on_server(generic_rq_insertion_force_node_id = 1,
+                                 feature=1,
+                                 targetforce = [0,0,0,0,0,0],
+                                 force_control_enabled_axes = [False, False, False, False, False, False],
+                                 max_negative_deviation_vector = [-0.1, -0.1, -0.1, -0.1, -0.1, -0.1],
+                                 max_positive_deviation_vector = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+                                 adaptiveStiffness = True):
+    node_rpc_server.setforcecontrolfeature(generic_rq_insertion_force_node_id, feature)
+    node_rpc_server.setforcecontroltargetforce(generic_rq_insertion_force_node_id, targetforce)
+    node_rpc_server.setforcecontrolenabledaxes(generic_rq_insertion_force_node_id, force_control_enabled_axes)
+    node_rpc_server.setforcecontrolmaximaldeviation(generic_rq_insertion_force_node_id, max_negative_deviation_vector, max_positive_deviation_vector)
+    node_rpc_server.setforcecontroladaptivestiffnessenabledaxes(generic_rq_insertion_force_node_id, True)
+  end
+
+  def verify_path_answer(path_answer):
+   initPathStatusCode = path_answer[1]
+   handle_path_node_error_code(initPathStatusCode)
+  end
+
+  def handle_path_node_error_code(initPathStatusCode):
+    if initPathStatusCode == -1:
+      popup("Could not compute path with the selected options.", "Robotiq's FT Sensor", blocking=True, error=True)
+    elif initPathStatusCode == 1:
+      popup("Joint solution impossible. Change your starting position.", "Robotiq's FT Sensor", blocking=True, error=True)
+    elif initPathStatusCode == 2:
+      popup("Discontinuous path detected. Change your starting position.", "Robotiq's FT Sensor", blocking=True, error=True)
+    elif initPathStatusCode == 3:
+      popup("Path time limit has been reached. Increase the speed of your path or break it down in multiple shorter paths.", "Robotiq's FT Sensor", blocking=True, error=True)
+    elif initPathStatusCode == 4:
+      popup("Could not compute path with the selected options. Computing path timeout.", "Robotiq's FT Sensor", blocking=True, error=True)
+    elif initPathStatusCode == 5:
+      popup("Path computation was aborted.", "Robotiq's FT Sensor", blocking=True, error=True)
+    elif initPathStatusCode == 6:
+      popup("A previous path computation is still in progress. Please try again in a few seconds.", "Robotiq's FT Sensor", blocking=True, error=True)
+    elif initPathStatusCode == 7:
+      textmsg("Path initialization error: Invalid path id.") # No popup needed in this case.
+    elif initPathStatusCode == 8:
+      popup("Palletizer error: box number out of range.", blocking=True, error=True)
+    elif initPathStatusCode == 9:
+      popup("Palletizer error: collision detected.", blocking=True, error=True)
+    elif initPathStatusCode == 10:
+      popup("Palletizer error: boxes overlap in layer.", blocking=True, error=True)
+    elif initPathStatusCode == 11:
+      popup("Palletizer error: empty layer.", blocking=True, error=True)
+    elif initPathStatusCode == 12:
+      popup("Palletizer error: The PLC was not connected during node creation.", blocking=True, error=True)
+    elif initPathStatusCode != 0:
+      textmsg("Unexpected initPathStatusCode value : ", initPathStatusCode)
+    end
+
+    if initPathStatusCode != 0:
+      halt
+    end
+  end
+
+  def rq_wait_ft_sensor_steady(timeout = 2000):
+
+    max_mean_squared_error = [0.1, 0.1, 0.1, 0.0001, 0.0001, 0.0001]
+    local mean = sensor_wrench
+
+    mean_squared_error = sensor_wrench
+    local i = 0
+    while i<6:
+      mean_squared_error[i] = mean_squared_error[i] * mean_squared_error[i]
+      i=i+1
+    end
+
+    is_sensor_steady = False
+    local alpha = 0.9
+    local timer = 0
+
+    while (not is_sensor_steady) and (timer < timeout):
+      sleep(rq_controller_time_step)
+      timer = timer + 8
+
+      i = 0
+      while i < 6:
+        mean[i] = alpha * mean[i] + (1.0 - alpha) * sensor_wrench[i]
+        error = sensor_wrench[i] - mean[i]
+        mean_squared_error[i] = alpha * mean_squared_error[i] + ((1.0 - alpha) * error * error)
+        i = i+1
+      end
+
+      is_sensor_steady = True
+      i = 0
+      while (i < 6) and is_sensor_steady:
+        is_sensor_steady = mean_squared_error[i] < max_mean_squared_error[i]
+        i = i+1
+      end
+    end
+
+    return is_sensor_steady
+  end
+
+  thread rq_elapsed_timer_ms():
+    rq_elapsed_time = 0
+    dt = 1000/500
+    while True:
+      rq_elapsed_time =  rq_elapsed_time + dt
+      sync()
+    end
+  end
+
+  def get_sensor_fx():
+    return Fx
+  end
+
+  def get_sensor_fy():
+    return Fy
+  end
+
+  def get_sensor_fz():
+    return Fz
+  end
+
+  def get_sensor_mx():
+    return Mx
+  end
+
+  def get_sensor_my():
+    return My
+  end
+
+  def get_sensor_mz():
+    return Mz
+  end
+
+  def get_applied_tcp_force(index):
+    return -1.0 * tcp_wrench[index]
+  end
+
+  def get_applied_base_force(index):
+    return -1.0 * base_wrench[index]
+  end
+
+  def express_vector_in_new_frame(T_from_to, V_from):
+    Q_from_to = p[0, 0, 0, T_from_to[3], T_from_to[4], T_from_to[5]]
+    V_to = pose_trans(pose_inv(Q_from_to), p[V_from[0], V_from[1], V_from[2], 0, 0, 0])
+    return [V_to[0], V_to[1], V_to[2]]
+  end
+
+  def express_force_in_frame(T_from_to, wrench_from):
+    F = express_vector_in_new_frame(T_from_to, [wrench_from[0], wrench_from[1], wrench_from[2]])
+    T = express_vector_in_new_frame(T_from_to, [wrench_from[3], wrench_from[4], wrench_from[5]])
+    return [F[0], F[1], F[2], T[0], T[1], T[2]]
+  end
+
+  def express_pose_A_relative_to_pose_B(pose_A, pose_B):
+    return pose_trans(pose_inv(pose_B), pose_A)
+  end
+
+  thread read_force():
+
+    if (not socket_open("127.0.0.1", 29999, "RQDashboardClient")):
+      popup("Can't connect to the Dashboard server", "Robotiq's FT Sensor", error=True)
+      halt
+    end
+
+    rq_collision_detection_active_count = 0
+    rq_collision_detection_active = False
+
+    while True:
+        T_base_tcp = get_actual_tcp_pose()
+        T_base_flange = get_actual_tool_flange_pose()
+        T_flange_sensor = p[0, 0, 0, 0, 0, 0]
+        T_base_sensor = pose_trans(T_base_flange, T_flange_sensor)
+
+        T_flange_tcp = pose_trans( pose_inv(T_base_flange), T_base_tcp)
+        T_sensor_tcp = pose_trans( pose_inv(T_flange_sensor), T_flange_tcp)
+
+        sensor_wrench = express_force_in_frame(T_base_sensor, get_tcp_force())
+        tcp_wrench = wrench_trans(pose_inv(T_sensor_tcp), sensor_wrench)
+        base_wrench = express_force_in_frame(pose_inv(T_base_tcp), tcp_wrench)
+
+        Fx = sensor_wrench[0]
+        Fy = sensor_wrench[1]
+        Fz = sensor_wrench[2]
+        Mx = sensor_wrench[3]
+        My = sensor_wrench[4]
+        Mz = sensor_wrench[5]
+
+        write_output_float_register(TCP_FX_ACTUAL_OUTPUT_DOUBLE, tcp_wrench[0])
+        write_output_float_register(TCP_FY_ACTUAL_OUTPUT_DOUBLE, tcp_wrench[1])
+        write_output_float_register(TCP_FZ_ACTUAL_OUTPUT_DOUBLE, tcp_wrench[2])
+        write_output_float_register(TCP_MX_ACTUAL_OUTPUT_DOUBLE, tcp_wrench[3])
+        write_output_float_register(TCP_MY_ACTUAL_OUTPUT_DOUBLE, tcp_wrench[4])
+        write_output_float_register(TCP_MZ_ACTUAL_OUTPUT_DOUBLE, tcp_wrench[5])
+
+        if rq_collision_detection_enabled:
+            if rq_collision_detection_active_time < (0.5*rq_controller_time_step):
+                if norm([Fx, Fy, Fz]) > rq_force_protect_urcap:
+                    rq_on_collision_detection("Force limit value exceeded.")
+                elif norm([Mx, My, Mz]) > rq_torque_protect_urcap:
+                    rq_on_collision_detection("Torque limit value exceeded.")
+                end
+            else:
+                rq_collision_detection_active_time = rq_collision_detection_active_time + rq_controller_time_step
+                if rq_collision_detection_active_time >= 1.0:
+                    rq_collision_detection_active_time = 0.0
+                end
+            end
+        end
+
+        sync()
+        sync()
+        sync()
+        sync()
+
+    end
+  end
+
+  def rq_get_ft_sensor_state():
+    socket_open("127.0.0.1",63350,"rq_ft_sensor_state")
+    socket_send_string("CURRENT STATE", "rq_ft_sensor_state")
+    rq_sensor_state = socket_read_string("rq_ft_sensor_state")
+    socket_close("rq_ft_sensor_state")
+
+    if rq_sensor_state == "":
+      rq_sensor_state = "RQ_STATE_INIT"
+    end
+
+    return rq_sensor_state
+  end
+
+  def rq_ft_sensor_disconnected_warn_user():
+    socket_open("127.0.0.1",29999,"SensorWarning")
+    socket_send_string("popup FT Sensor must be connected to run this program.","SensorWarning")
+    socket_send_byte(10,"SensorWarning")
+    socket_close("SensorWarning")
+  end
+
+  def rq_ft_sensor_disconnected_stop_program():
+    socket_open("127.0.0.1", 30002, "rq_ft_sensor_stop_socket")
+
+    socket_send_string("def rq_ft_sensor_stop_program():", "rq_ft_sensor_stop_socket")
+    socket_send_byte(10, "rq_ft_sensor_stop_socket")
+    socket_send_string("  stopj(5.0)", "rq_ft_sensor_stop_socket")
+    socket_send_byte(10, "rq_ft_sensor_stop_socket")
+    socket_send_string("end", "rq_ft_sensor_stop_socket")
+    socket_send_byte(10, "rq_ft_sensor_stop_socket")
+
+    socket_close("rq_ft_sensor_stop_socket")
+  end
+
+  def rq_ft_sensor_disconnected_check():
+    if rq_get_ft_sensor_state() == "RQ_STATE_INIT":
+      rq_ft_sensor_disconnected_stop_program()
+      rq_ft_sensor_disconnected_warn_user()
+
+      return True
+    else:
+      return False
+    end
+  end
+
+  #RTDE input registers
+  TARGET_JOINT_0_INPUT_REGISTER_DOUBLE = 40
+  TARGET_JOINT_1_INPUT_REGISTER_DOUBLE = 41
+  TARGET_JOINT_2_INPUT_REGISTER_DOUBLE = 42
+  TARGET_JOINT_3_INPUT_REGISTER_DOUBLE = 43
+  TARGET_JOINT_4_INPUT_REGISTER_DOUBLE = 44
+  TARGET_JOINT_5_INPUT_REGISTER_DOUBLE = 45
+  FINISH_NODE_INPUT_REGISTER_INT32 = 40
+  RUNTIME_ERROR_INPUT_REGISTER_INT32 = 41
+  ACTIVATION_NODE_COUNT_INPUT_REGISTER_INT32 = 42
+
+  #RTDE output registers
+  ACTIVE_NODE_OUTPUT_REGISTER_INT32 = 40
+  NODE_EXECUTION_OUTPUT_COUNT_INT32 = 41
+  ACTIVATION_NODE_COUNT_OUTPUT_REGISTER_INT32 = 42
+  TCP_FX_ACTUAL_OUTPUT_DOUBLE = 34
+  TCP_FY_ACTUAL_OUTPUT_DOUBLE = 35
+  TCP_FZ_ACTUAL_OUTPUT_DOUBLE = 36
+  TCP_MX_ACTUAL_OUTPUT_DOUBLE = 37
+  TCP_MY_ACTUAL_OUTPUT_DOUBLE = 38
+  TCP_MZ_ACTUAL_OUTPUT_DOUBLE = 39
+  GENERAL_OUTPUT_DOUBLE_40 = 40
+  GENERAL_OUTPUT_DOUBLE_41 = 41
+  GENERAL_OUTPUT_DOUBLE_42 = 42
+  GENERAL_OUTPUT_DOUBLE_43 = 43
+  GENERAL_OUTPUT_DOUBLE_44 = 44
+  GENERAL_OUTPUT_DOUBLE_45 = 45
+
+  write_output_integer_register(ACTIVE_NODE_OUTPUT_REGISTER_INT32, 0)
+  write_output_integer_register(NODE_EXECUTION_OUTPUT_COUNT_INT32, 0)
+  write_output_integer_register(ACTIVATION_NODE_COUNT_OUTPUT_REGISTER_INT32, 0)
+  write_output_float_register(TCP_FX_ACTUAL_OUTPUT_DOUBLE, 0)
+  write_output_float_register(TCP_FY_ACTUAL_OUTPUT_DOUBLE, 0)
+  write_output_float_register(TCP_FZ_ACTUAL_OUTPUT_DOUBLE, 0)
+  write_output_float_register(TCP_MX_ACTUAL_OUTPUT_DOUBLE, 0)
+  write_output_float_register(TCP_MY_ACTUAL_OUTPUT_DOUBLE, 0)
+  write_output_float_register(TCP_MZ_ACTUAL_OUTPUT_DOUBLE, 0)
+
+  global activation_node_count = 0
+  global node_execution_count = 0
+
+  def element_wise_subtract(l1, l2):
+    local r = l1
+    local i = 0
+    while i<length(r):
+      r[i]=l1[i]-l2[i]
+      i=i+1
+    end
+    return r
+  end
+
+  def element_wise_add(l1, l2):
+    local result = l1
+    local i = 0
+    while i < length(result):
+      result[i] = l1[i] + l2[i]
+      i = i + 1
+    end
+    return result
+  end
+
+  def list_by_scalar_multiply(l1, scalar):
+      local r = l1
+      local i = 0
+      while i<length(r):
+        r[i]=l1[i]*scalar
+        i=i+1
+      end
+      return r
+   end
+
+  def norm_inf(v):
+    local norm = 0
+    local i = 0
+    while i<length(v):
+        n = norm(v[i])
+        if(n > norm):
+          norm = n
+        end
+      i=i+1
+    end
+    return norm
+  end
+
+  def active_and_reset_node(nodeId):
+    server_activation_node_count = read_input_integer_register(ACTIVATION_NODE_COUNT_INPUT_REGISTER_INT32)
+
+    activation_node_count = activation_node_count + 1
+    node_execution_count = 0
+    write_output_integer_register(NODE_EXECUTION_OUTPUT_COUNT_INT32, node_execution_count)
+    rq_active_node = nodeId
+    write_output_integer_register(ACTIVE_NODE_OUTPUT_REGISTER_INT32, nodeId)
+    write_output_integer_register(ACTIVATION_NODE_COUNT_OUTPUT_REGISTER_INT32, activation_node_count)
+
+    while server_activation_node_count == read_input_integer_register(ACTIVATION_NODE_COUNT_INPUT_REGISTER_INT32):
+      sleep(rq_controller_time_step)
+    end
+  end
+
+  def execute_node(nodeId, startThread = False):
+    node_execution_thread = 0
+    active_and_reset_node(nodeId)
+    if startThread:
+      rq_target_joint_positions = get_actual_joint_positions()
+      movej(rq_target_joint_positions) # This movej is used to prevent the "another thread is already controlling the robot" error.
+      rq_continue_node_execution = True
+      node_execution_thread = run execute_node_thread()
+    end
+    while not active_node_completed():
+      sync()
+    end
+    return node_execution_thread
+  end
+
+  def setup_node_execution_related_variables():
+    activation_node_count = 0
+    node_execution_count = 0
+    write_output_integer_register(ACTIVE_NODE_OUTPUT_REGISTER_INT32, 0)
+    write_output_integer_register(ACTIVATION_NODE_COUNT_OUTPUT_REGISTER_INT32, activation_node_count)
+    write_output_integer_register(NODE_EXECUTION_OUTPUT_COUNT_INT32, node_execution_count)
+    sleep(rq_controller_time_step)
+  end
+
+  def start_node_executor():
+    setup_node_execution_related_variables()
+
+    succeeded = node_rpc_server.startnodeexecutor()
+    if not succeeded:
+      node_rpc_server.stopnodeexecutor()
+      sleep(0.5) # Needed for URControl to free the input registers.
+      succeeded = node_rpc_server.startnodeexecutor()
+      if not succeeded:
+        popup("RTDE interface cannot initialize. Make sure that Ethernet/IP adapter and Profinet are disabled, and that no other URCaps use the RTDE interface.", "Robotiq Copilot", error=True)
+        halt
+      end
+    end
+
+    hand_shake_xmlrpcserver()
+  end
+
+  def reset_node_executor():
+    setup_node_execution_related_variables()
+
+    succeeded = node_rpc_server.resetnodeexecutor()
+    if not succeeded:
+      popup("RTDE interface cannot initialize. Make sure that Ethernet/IP adapter and Profinet are disabled, and that no other URCaps use the RTDE interface.", "Robotiq Copilot", error=True)
+      halt
+    end
+
+    hand_shake_xmlrpcserver()
+  end
+
+  def hand_shake_xmlrpcserver():
+    timer_thread = run rq_elapsed_timer_ms()
+    sleep(rq_controller_time_step)
+    node_execution_initialized = False
+    while (not node_execution_initialized) and (rq_elapsed_time < 100):
+      node_execution_initialized = (read_input_integer_register(FINISH_NODE_INPUT_REGISTER_INT32) == -1)
+      sleep(rq_controller_time_step)
+    end
+    kill timer_thread
+
+    if (not node_execution_initialized):
+      popup("Node Execution initialization failed.", "Robotiq Copilot", error=True)
+      halt
+    end
+  end
+
+  thread execute_node_thread():
+    rq_target_joint_positions = get_actual_joint_positions()
+    servoj(rq_target_joint_positions)
+    while rq_continue_node_execution:
+      new_rq_target_joint_positions = update_target_position()
+      joint_target_distances = element_wise_subtract(new_rq_target_joint_positions, rq_target_joint_positions)
+      max_joint_target_displacement = norm_inf(joint_target_distances)
+      if max_joint_target_displacement > 0.2:
+          textmsg("previous target position: ", rq_target_joint_positions)
+          textmsg("next target position: ", new_rq_target_joint_positions)
+          textmsg("max joint target displacement: ", max_joint_target_displacement)
+          popup("Node executor error: see Log tab for details", "Robotiq Copilot", False, True, True)
+          halt
+      end
+
+      local i = 1
+      while i < 5: # (servoj frequency)/(rtde frequency) = 500/125 = 4
+        rq_target_joint_positions_interpolated = element_wise_add( rq_target_joint_positions,
+                                                                   list_by_scalar_multiply(joint_target_distances, 0.25*i) )
+        servoj(rq_target_joint_positions_interpolated, t=get_steptime(), lookahead_time=rq_lookahead_time, gain=500)
+        i = i + 1
+      end
+
+      rq_target_joint_positions = new_rq_target_joint_positions
+    end
+    stopj(5)
+  end
+
+  # The thread below is used to prevent "another thread is already controlling the robot error".
+  # In some occasions, even a sleep(0.05) will not work so this is necessary (until fixed by UR).
+  # The thread is immediately killed to avoid unnecessary motion for the case of a parent node
+  # that modifies the servoj target joint positions.
+  def kill_thread( thread_id ):
+    kill thread_id
+    run_movej_thread = run movej_thread()
+    sleep(rq_controller_time_step)
+    kill run_movej_thread
+  end
+
+  thread movej_thread():
+    movej(rq_target_joint_positions)
+  end
+
+  def active_node_completed():
+    return (read_input_integer_register(ACTIVATION_NODE_COUNT_INPUT_REGISTER_INT32) == activation_node_count) and
+           (read_input_integer_register(FINISH_NODE_INPUT_REGISTER_INT32) == rq_active_node)
+  end
+
+  def rq_handle_error_code(code):
+    message = "Runtime error!"
+
+    if code == 1:
+      message = "Robotiq license error!"
+    elif code == 2:
+      message = "Program stopped due to runtime error. Please restart the program."
+    end
+
+    popup(message, "Robotiq Copilot", error=True)
+    halt
+  end
+
+  def update_target_position():
+
+    error_code = read_input_integer_register(RUNTIME_ERROR_INPUT_REGISTER_INT32)
+
+    if error_code != 0:
+      rq_handle_error_code(error_code)
+    end
+
+    new_rq_target_joint_positions = [0,0,0,0,0,0]
+    new_rq_target_joint_positions[0] = read_input_float_register(TARGET_JOINT_0_INPUT_REGISTER_DOUBLE)
+    new_rq_target_joint_positions[1] = read_input_float_register(TARGET_JOINT_1_INPUT_REGISTER_DOUBLE)
+    new_rq_target_joint_positions[2] = read_input_float_register(TARGET_JOINT_2_INPUT_REGISTER_DOUBLE)
+    new_rq_target_joint_positions[3] = read_input_float_register(TARGET_JOINT_3_INPUT_REGISTER_DOUBLE)
+    new_rq_target_joint_positions[4] = read_input_float_register(TARGET_JOINT_4_INPUT_REGISTER_DOUBLE)
+    new_rq_target_joint_positions[5] = read_input_float_register(TARGET_JOINT_5_INPUT_REGISTER_DOUBLE)
+
+    node_execution_count = node_execution_count + 1
+    write_output_integer_register(NODE_EXECUTION_OUTPUT_COUNT_INT32, node_execution_count)
+    return new_rq_target_joint_positions
+  end
+
+  def set_servoj_node_cmd(q):
+    write_output_float_register(GENERAL_OUTPUT_DOUBLE_40, q[0])
+    write_output_float_register(GENERAL_OUTPUT_DOUBLE_41, q[1])
+    write_output_float_register(GENERAL_OUTPUT_DOUBLE_42, q[2])
+    write_output_float_register(GENERAL_OUTPUT_DOUBLE_43, q[3])
+    write_output_float_register(GENERAL_OUTPUT_DOUBLE_44, q[4])
+    write_output_float_register(GENERAL_OUTPUT_DOUBLE_45, q[5])
+  end
+
+  def rq_collision_detection_start(force_limit = 140, torque_limit = 14, halt_on_collision = True):
+    rq_force_protect_urcap = force_limit
+    rq_torque_protect_urcap = torque_limit
+    rq_collision_detection_active_time = 0.0
+    rq_collision_detection_enabled = True
+    rq_halt_on_collision_detection = halt_on_collision
+  end
+
+  def rq_collision_detection_stop():
+    rq_collision_detection_enabled = False
+  end
+
+  def rq_on_collision_detection(message):
+    textmsg("Collision Detection. " + message)
+    popupTitle = "Collision Detection"
+    if rq_halt_on_collision_detection:
+      popup(message + " Program halt.", popupTitle, False, True, False)
+      halt
+    else:
+      popup(message + " Program suspend.", popupTitle, True, False, False)
+      socket_send_line("pause", "RQDashboardClient")
+      rq_collision_detection_active_time = rq_controller_time_step
+    end
+  end
+
+  def round(number_to_round):
+    if number_to_round - floor(number_to_round) < 0.5:
+      return floor(number_to_round)
+    else:
+      return ceil(number_to_round)
+    end
+  end
+
+  # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+  def rq_execute_box_trajectory(nodeId, current_box_count, has_box_payload, end_pose_offset = p[0,0,0,0,0,0]):
+    rq_lookahead_time = 0.08
+    local payload_mass = get_target_payload()
+    local payload_cog  = get_target_payload_cog()
+    local flange_payload = [payload_mass, payload_cog[0], payload_cog[1], payload_cog[2]]
+
+    path_answer = node_rpc_server.initboxtrajectory(nodeId, current_box_count, has_box_payload, flange_payload, end_pose_offset)
+
+    verify_path_answer(path_answer)
+    reset_node_executor()
+    node_execution_thread = execute_node(nodeId, True)
+    rq_continue_node_execution = False
+    join node_execution_thread
+    rq_lookahead_time = 0.05
+  end
+
+  ################################
+  # MAIN
+  ################################
+
+  run read_force()
+  start_node_executor()
+  
+  preparationErrorXmlRpcClient = rpc_factory("xmlrpc","http://localhost:45697")
+  contactOffsetXmlRpcClient = rpc_factory("xmlrpc","http://localhost:41787")
+  palletizerXmlRpcClient = rpc_factory("xmlrpc","http://localhost:46233")
+  machineTendingXmlRpcClient = rpc_factory("xmlrpc","http://localhost:36739")
+    ###############################################################
+    # Halt if a script preparation error occurred
+    ###############################################################
+    def checkForScriptPreparationException():
+      if(preparationErrorXmlRpcClient.hasErrorOccurred()):
+        popup(preparationErrorXmlRpcClient.getErrorMessage(), title=preparationErrorXmlRpcClient.getNodeInErrorTitle(), error=True, blocking=True)
+        halt
+      end
+    end
+  
+    checkForScriptPreparationException()
+  #***********************************************************************************************
+  # verify tap detection
+  #***********************************************************************************************
+  
+  def rq_tap_count(forces, high_threshold):
+  
+    low_threshold = 2
+    tapCount = 0
+    lookingForPeak = True
+    indexDown = 0
+  
+    i = 1
+    lastIndex = length(forces) - 1
+    while i <= lastIndex:
+  
+      deltaForce = forces[i] - forces[0]
+  
+     if lookingForPeak:
+        if deltaForce >  high_threshold:
+          lookingForPeak = False
+        end
+      else:
+        if deltaForce < low_threshold:
+          tapCount = tapCount + 1
+          lookingForPeak = True
+          indexDown = i
+        end
+      end
+      i = i + 1
+  
+    end
+  
+    if indexDown != lastIndex:
+      tapCount = 0
+    end
+  
+    return tapCount
+  
+  end
+  def shift_right(list, default_value = 0):
+  
+     i = length(list)-1
+     while (i > 0):
+        list[i]=list[i-1]
+        i=i-1
+     end
+     list[0] = default_value
+  
+     return list
+  end
+  
+  #***********************************************************************************************
+  # Wait for force reached
+  #***********************************************************************************************
+  # desired_wrench : desired wrench
+  # is_active      : list of 0 and 1, 1 : axis is controlled
+  # feature        : 0:base, 1:tcp
+  # timeout        : timeout in miliseconds
+  #***********************************************************************************************
+  def rq_wait_for_force_reached(desired_wrench, is_active, feature, timeout):
+  
+    feature_base = 0
+    feature_tool = 1
+    time_constant = 0.025
+    alpha = 1 - pow(2.718, -1.0 * rq_controller_time_step / time_constant)
+  
+    thresholds = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    minimal_thresholds = [1.0, 1.0, 1.0, 0.1, 0.1, 0.1]
+  
+    applied_wrench = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    filtered_wrench = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  
+    if (feature == feature_base):
+      applied_wrench = list_by_scalar_multiply(base_wrench, -1.0)
+    else:
+      applied_wrench = list_by_scalar_multiply(tcp_wrench, -1.0)
+    end
+    filtered_wrench = applied_wrench
+  
+    i = 0
+    while (i < 6):
+      if (is_active[i]):
+        thresholds[i] = 0.05 * norm(desired_wrench[i])
+        if thresholds[i] < minimal_thresholds[i]:
+          thresholds[i] = minimal_thresholds[i]
+        end
+      else:
+        thresholds[i] = 10000
+      end
+      i = i+1
+    end
+  
+   force_reached = False
+  
+   timer = 0
+  
+   while ((not force_reached) and (timer < timeout)):
+  
+      if (feature == feature_base):
+         applied_wrench = list_by_scalar_multiply(base_wrench, -1.0)
+      else:
+         applied_wrench = list_by_scalar_multiply(tcp_wrench, -1.0)
+      end
+  
+      i = 0
+      while (i < 6):
+        filtered_wrench[i] = (alpha * applied_wrench[i]) + ((1.0 - alpha) * filtered_wrench[i])
+        i = i+1
+      end
+  
+      force_reached = True
+  
+      i = 0
+      while ((i < 6) and force_reached):
+        error = norm(desired_wrench[i] - filtered_wrench[i])
+        if (error > thresholds[i]):
+          force_reached = False
+        end
+        i = i + 1
+      end
+  
+      timer = timer + rq_controller_time_step
+  
+      sleep(rq_controller_time_step)
+  
+    end
+  
+    return force_reached
+  end
+  #***********************************************************************************************
+  # verify click detection
+  #***********************************************************************************************
+  click_detection_children_ended = False
+  
+  def rq_click_detection(force_drop_threshold = 10, torque_drop_threshold = 1, force_radio_button_selected = True):
+  
+    current_norm = 0
+    drop_threshold = 0
+    norms = [0.0, 0.0, 0.0, 0.0, 0.0]
+    click_detected = False
+    wrench_indices = [0,0,0]
+  
+    if(force_radio_button_selected):
+      drop_threshold = force_drop_threshold
+      wrench_indices = [0,1,2]
+    else:
+      drop_threshold =torque_drop_threshold
+      wrench_indices = [3,4,5]
+    end
+  
+    while ((not click_detection_children_ended) and (not click_detected)):
+  
+      current_norm = norm([sensor_wrench[wrench_indices[0]], sensor_wrench[wrench_indices[1]], sensor_wrench[wrench_indices[2]]])
+  
+      norms[4] = norms[3]
+      norms[3] = norms[2]
+      norms[2] = norms[1]
+      norms[1] = norms[0]
+      norms[0] = current_norm
+  
+      avg_norm = (norms[2] + norms[3] + norms[4]) / 3.0
+  
+      #Check if clicking is detected with force
+      norm_drop = avg_norm - current_norm
+      if(norm_drop > drop_threshold):
+        textmsg("Click detected")
+        click_detected=True
+      else:
+        sleep(rq_controller_time_step)
+      end
+    end
+  
+    return click_detected
+  end
+  ###############################################################
+  # Script file used to define Robotiq functions for the Insertion node
+  # Version: 0.0.2
+  ###############################################################
+  
+  rq_ins_offset = p[0, 0, 0, 0, 0, 0]
+  rq_ins_start_pose = p[0, 0, 0, 0, 0, 0]
+  rq_actual_to_destination = p[0, 0, 0, 0, 0, 0]
+  rq_ins_destination =p[0, 0, 0, 0, 0, 0]
+  rq_ins_speed_setting = 0
+  rq_rotation_not_completed = False
+  rq_find_bottom_not_completed = False
+  rq_spiral_not_completed = False
+  
+  def ins_actual_force_urcap(direction="X+"):
+    axis = str_at(direction, 0)
+    if (axis == "x") or (axis == "X"):
+      return norm(get_applied_tcp_force(0))
+    elif (axis == "y") or (axis == "Y"):
+      return norm(get_applied_tcp_force(1))
+    elif (axis == "z") or (axis == "Z"):
+      return norm(get_applied_tcp_force(2))
+    else:
+      textmsg("ins_actual_force_urcap, invalid direction ", direction)
+    end
+  end
+  
+  def ins_actual_torque_urcap(direction = "Z+"):
+    if (direction == "X+") or (direction == "X-") or (direction == "X"):
+      return get_applied_tcp_force(3)
+    elif (direction == "Y+") or (direction == "Y-") or (direction == "Y"):
+      return get_applied_tcp_force(4)
+    else:
+      return get_applied_tcp_force(5)
+    end
+  
+  end
+  
+  def square(a):
+    return a*a
+  end
+  
+  def update_servoj_node_target(target_joint_pos):
+    set_servoj_node_cmd(target_joint_pos)
+    sleep(rq_controller_time_step)
+  end
+  
+  def create_all_insertion_nodes():
+    global rq_insertion_force_node_id = node_rpc_server.createnewforcenode()
+    global rq_insertion_movej_node_id = node_rpc_server.createnewmovejnode()
+    global rq_insertion_servoj_node_id = node_rpc_server.createnewservojnode()
+    node_rpc_server.setparentid(rq_insertion_movej_node_id, rq_insertion_force_node_id)
+    node_rpc_server.setparentid(rq_insertion_servoj_node_id, rq_insertion_force_node_id)
+  end
+  
+  def get_offset_projected_in_spiral_plane(direction, current_pose, pose_ref):
+    axis = str_at(direction, 0)
+    axis_index = 0
+    if axis == "X":
+      axis_index = 0
+    elif axis == "Y":
+      axis_index = 1
+    elif axis == "Z":
+      axis_index = 2
+    else:
+      textmsg("get_offset_projected_in_spiral_plane, invalid direction ", direction)
+    end
+  
+    pose_offset = pose_trans( pose_inv(pose_ref), current_pose ) # current_pose and pose_ref should have the same orientations.
+                                                                 # pose_offset is returned expressed in pose_ref frame
+  
+    pose_offset[axis_index] = 0 # valeur en direction mise a zero
+    pose_offset[3] = 0 # valeur en Rx mise a zero
+    pose_offset[4] = 0 # valeur en Ry mise a zero
+    pose_offset[5] = 0 # valeur en Rz mise a zero
+  
+    return pose_offset
+  end
+  
+  def update_spiral_offset(direction, spiral_initial_pose, spiral_initial_pose_offset, spiral_initial_pose_offset_name):
+    pos_diff_tcp = get_offset_projected_in_spiral_plane(direction, get_actual_tcp_pose(), spiral_initial_pose)
+    spiral_initial_pose_offset = interpolate_pose(spiral_initial_pose_offset, pos_diff_tcp, 0.35)
+    storevar.setvariablepose(spiral_initial_pose_offset_name, spiral_initial_pose_offset)
+  end
+  
+  def determine_max_spiral_radius_from_actual_position(direction, spiral_initial_pose, max_radius):
+      dist_to_initial_pose = norm( get_offset_projected_in_spiral_plane(direction, get_actual_tcp_pose(), spiral_initial_pose))
+      if (max_radius > dist_to_initial_pose):
+        new_max_radius = max_radius - dist_to_initial_pose
+      else:
+        new_max_radius = 0
+      end
+  
+      return new_max_radius
+  end
+  
+  def insertion_compliant_move_urcap(axis = "Z",
+                                     direction_sign = 1,
+                                     compliant_insert_force_threshold = 20,
+                                     speed = 0.04,
+                                     feature = 1,
+                                     max_position_deviation = 0.1):
+    feature_base = 0
+    feature_tool = 1
+  
+    if axis == "X":
+      axis_index = 0
+    elif axis == "Y":
+      axis_index = 1
+    elif axis == "Z":
+      axis_index = 2
+    else:
+      textmsg("insertion_compliant_move_urcap, invalid direction ", axis)
+    end
+  
+    current_pose = get_actual_tcp_pose()
+    insertion_offset = p[0,0,0,0,0,0]
+    rq_actual_to_destination = pose_trans(pose_inv(current_pose), rq_ins_destination)
+    insertion_offset[axis_index] = rq_actual_to_destination[axis_index]
+    insertion_pose = pose_trans(current_pose, insertion_offset)
+    distance = point_dist(current_pose, insertion_pose)
+    number_of_steps = floor( distance / (speed * rq_controller_time_step) ) + 1
+    alpha_step  = 1.0 / number_of_steps
+  
+    # initialize forcenode
+    node_execution_thread = initialise_force_node(position_controlled_direction = axis_index,
+                                                  feature = feature_tool,
+                                                  max_position_deviation = max_position_deviation)
+  
+    alpha = 0.0
+    surface_found = False
+    while (alpha <= 1.0) and (not surface_found):
+      alpha = alpha + alpha_step
+      interpolated_pose = interpolate_pose(current_pose, insertion_pose, alpha)
+      q0 = get_inverse_kin(interpolated_pose) # define waypoint target
+      update_servoj_node_target(q0)
+      force = 0
+      if feature == feature_base:
+        force = get_applied_base_force(axis_index)
+      elif feature == feature_tool:
+        force = get_applied_tcp_force(axis_index)
+      end
+      if (direction_sign * force) >= compliant_insert_force_threshold:
+        surface_found = True
+      end
+    end
+  
+    final_pos_reached = (alpha >= 1)
+  
+    kill_thread( node_execution_thread )
+  
+    return final_pos_reached
+  end # insertion_compliant_move_urcap
+  
+  def insert_spiral_find_hole(axis = "Z", direction_sign = 1,
+                              stop_force_threshold = 3,
+                              max_radius = 0.005,
+                              radius_incr_per_turn = 0.0003,
+                              peck_mode = False,
+                              tangential_speed = 0.005):
+  
+    if (stop_force_threshold < 0) or (stop_force_threshold > 40):
+      popup("stop_force_threshold parameter in Newton must be between 0 and 40 Newtons","ERROR rq_insert_spiral_urcap")
+      halt
+    end
+    if (max_radius < 0) or (max_radius > 0.05):
+      popup("max_radius parameter must be between 0 mm and 50 mm","ERROR rq_insert_spiral_urcap")
+      halt
+    end
+    if (radius_incr_per_turn < 0.00001) or (radius_incr_per_turn > 0.005):
+      popup("radius_incr_per_turn parameter in mm must be between 0.01 mm and 5 mm","ERROR rq_insert_spiral_urcap")
+      halt
+    end
+  
+    rq_spiral_not_completed = False
+  
+    ins_x = 0
+    ins_y = 0
+    ins_z = 0
+    ins_pose = p[0, 0, 0, 0, 0, 0]
+    ins_current_pos = p[0, 0, 0, 0, 0, 0]
+    ins_actual_angle = 0
+    ins_search_result = False
+    ins_radius_offset = 0
+    ins_PI = 3.14159
+    radius_inc_per_rad = radius_incr_per_turn / (2*ins_PI)
+    ins_actual_radius = 0.0001  #Start radius
+    ins_desired_arc_length = tangential_speed * rq_controller_time_step
+  
+    sleep(rq_controller_time_step)
+    #Find the bore of the part
+    ins_current_pos = get_actual_tcp_pose()
+    sleep(rq_controller_time_step)
+  
+    # if axis == "Z"
+    search_axis = 2
+    other_axis_A = 0
+    other_axis_B = 1
+    if (axis == "X"):
+      search_axis = 0
+      other_axis_A = 1
+      other_axis_B = 2
+    elif (axis == "Y"):
+      search_axis = 1
+      other_axis_A = 2
+      other_axis_B = 0
+    end
+  
+    #********************************************************************************************************************
+    #Spiral Search using any Axis
+    #********************************************************************************************************************
+    while ((ins_actual_radius <= max_radius) and (ins_actual_force_urcap(axis) >= stop_force_threshold)):
+      if peck_mode:
+        #Fragile mode, the robot rises between each new point
+        #Retreat from position
+        ins_pose[search_axis] = -0.002 * direction_sign
+        next_tcp_pose = pose_trans(ins_current_pos,ins_pose)
+        movej(next_tcp_pose)
+        sleep(0.1)
+        #Rotate
+        ins_desired_arc_length = 0.0005
+        delta_angle = ins_desired_arc_length / ins_actual_radius #small angle approximation
+        ins_actual_angle = ins_actual_angle + delta_angle
+  
+        ins_pose[other_axis_A] = cos( ins_actual_angle ) * ins_actual_radius
+        ins_pose[other_axis_B] = sin( ins_actual_angle ) * ins_actual_radius
+  
+        ins_actual_radius = ins_actual_angle * radius_inc_per_rad + ins_radius_offset
+        next_tcp_pose = pose_trans(ins_current_pos, ins_pose)
+        movej(next_tcp_pose)
+        sleep(0.1)
+        #Re-establish contact with the part
+        ins_pose[search_axis] = 0.0005 * direction_sign
+        next_tcp_pose = pose_trans(ins_current_pos, ins_pose)
+        movel(next_tcp_pose, a=0.6, v=rq_ins_speed_setting)
+        sleep(0.2)
+      else:
+        #standard mode: the Spiral_Search function will maintain contact between both mating parts at all times
+        ins_pose[other_axis_A] = cos( ins_actual_angle ) * ins_actual_radius
+        ins_pose[other_axis_B] = sin( ins_actual_angle ) * ins_actual_radius
+  
+        delta_angle = ins_desired_arc_length / ins_actual_radius
+        ins_actual_angle = ins_actual_angle + delta_angle
+        ins_actual_radius = ins_actual_angle * radius_inc_per_rad + ins_radius_offset
+        next_tcp_pose = pose_trans(ins_current_pos,ins_pose)
+        next_joint_pos = get_inverse_kin(next_tcp_pose)
+        servoj(next_joint_pos, 0.1, 0.1, rq_controller_time_step, 0.05, 500)
+      end
+    end # while loop
+    if (ins_actual_radius <= max_radius ):
+      ins_search_result = True
+    else:
+      ins_search_result = False
+      rq_spiral_not_completed = True
+    end
+    stopj(2)
+    return ins_search_result
+  
+  end # insert_spiral_find_hole
+  
+  ####################  SPIRAL #############################
+  def rq_insert_spiral_urcap(direction = "Z",
+                             stop_force_threshold = 3,
+                             max_radius = 0.005,
+                             radius_incr = 0.0003,
+                             peck_mode = False,
+                             tangential_speed = 0.005,
+                             compliant_insert_force_threshold = 10,
+                             spiral_initial_pose_offset_name = "defaultname",
+                             intelligent_approach_enabled = False):
+  
+    max_radius = max_radius / 1000 #TODO: change unit to meters and remove this line
+    radius_incr = radius_incr / 1000 #TODO: change unit to meters and remove this line
+  
+    if (rq_insertion_force_node_id == -1):
+      create_all_insertion_nodes()
+    end
+  
+    hole_found = False
+    spiral_bottom_target_reached = False
+    number_of_failed_spiral_tries = 0
+    number_of_spiral_tries_max = 5
+    max_position_deviation = max_radius
+  
+    # define the direction sign from rq_ins_destination
+    current_pose = get_actual_tcp_pose()
+    rq_actual_to_destination = pose_trans(pose_inv(current_pose), rq_ins_destination)
+    axis = str_at(direction, 0)
+    direction_sign = 1
+    direction = str_cat(axis,"+")
+    if axis == "X":
+      axis_index = 0
+    elif axis == "Y":
+      axis_index = 1
+    elif axis == "Z":
+      axis_index = 2
+    else:
+      textmsg("spiral insert, invalid direction ", direction)
+    end
+    if (rq_actual_to_destination[axis_index] < 0):
+      direction_sign = -1
+      direction = str_cat(axis,"-")
+    end
+  
+    # linearsearch param
+    lin_search_stop_force_threshold = compliant_insert_force_threshold
+    spiral_initial_pose = get_actual_tcp_pose()
+    if intelligent_approach_enabled:
+      #adjust position using previous succesfull insertion final position
+      spiral_initial_pose_offset = storevar.getvariablepose(spiral_initial_pose_offset_name, p[0,0,0,0,0,0])
+      spiral_initial_pose_refined = pose_trans(spiral_initial_pose, spiral_initial_pose_offset)
+      movel(spiral_initial_pose_refined, a = 0.1, v = 0.01)
+      sleep(0.01)
+    end
+    while ( (spiral_bottom_target_reached == False) and (number_of_failed_spiral_tries < number_of_spiral_tries_max) ):
+      rq_actual_to_destination = pose_trans(pose_inv(get_actual_tcp_pose()), rq_ins_destination)
+      max_distance = norm( rq_actual_to_destination[axis_index] )
+      contact_initiated = rq_linear_search_urcap(direction, lin_search_stop_force_threshold, tangential_speed, max_distance, 1)
+      if contact_initiated:
+        new_max_radius = determine_max_spiral_radius_from_actual_position(direction, spiral_initial_pose, max_radius)
+        hole_found = insert_spiral_find_hole(axis, direction_sign, stop_force_threshold, new_max_radius, radius_incr, peck_mode, tangential_speed)
+        if (hole_found == True): # if hole is found, try to insert
+          max_force_control_position_deviation = determine_max_spiral_radius_from_actual_position(direction, spiral_initial_pose, max_radius)
+          spiral_bottom_target_reached = insertion_compliant_move_urcap(axis, direction_sign, compliant_insert_force_threshold, tangential_speed, 1, max_force_control_position_deviation)
+          if spiral_bottom_target_reached:
+            if intelligent_approach_enabled:
+              update_spiral_offset(direction, spiral_initial_pose, spiral_initial_pose_offset, spiral_initial_pose_offset_name) # update actual hole position.
+            end
+          else:
+            textmsg("Insertion spiral: could not reach hole bottom")
+          end
+        else:
+          textmsg("Insertion error: hole was not found after contact")
+          break
+        end
+      else: # linear_search reached the teach position without contact
+          spiral_bottom_target_reached = True
+      end # if contact_initiated
+      number_of_failed_spiral_tries = number_of_failed_spiral_tries + 1
+    end # while
+    return (not spiral_bottom_target_reached)
+  end # rq_insert_spiral_urcap
+  
+  def insertion_finish_move_urcap(direction = "Z+"):
+    insertion_offset = p[0,0,0,0,0,0]
+    current_pose = get_actual_tcp_pose()
+    rq_actual_to_destination = pose_trans(pose_inv(current_pose), rq_ins_destination)
+    axis = str_at(direction, 0)
+    if axis == "X":
+      insertion_offset = p[rq_actual_to_destination[0],0,0,0,0,0]
+    elif axis == "Y":
+      insertion_offset = p[0,rq_actual_to_destination[1],0,0,0,0]
+    elif axis == "Z":
+      insertion_offset = p[0,0,rq_actual_to_destination[2],0,0,0]
+    else:
+      textmsg("insertion_finish_move_urcap, invalid direction ", direction)
+    end
+    insertion_pose = pose_trans(current_pose, insertion_offset)
+    movel(insertion_pose, a=0.05, v=rq_ins_speed_setting)
+  end
+  
+  def rq_xor(a, b):
+    return (a and not(b)) or (not(a) and b)
+  end
+  
+  def rq_adapt_force_control_to_direction(position_controlled_direction = 2, feature = 1, max_position_deviation = 0.1):
+    force_control_enabled_vector = [True, True, True, False, False, False]
+    force_control_enabled_vector[position_controlled_direction] = False
+    targetForce = [0, 0, 0, 0, 0, 0]
+    max_negative_deviation_vector = [-max_position_deviation, -max_position_deviation, -max_position_deviation, 0, 0, 0]
+    max_positive_deviation_vector = [max_position_deviation, max_position_deviation, max_position_deviation, 0, 0, 0]
+    max_negative_deviation_vector[position_controlled_direction] = 0
+    max_positive_deviation_vector[position_controlled_direction] = 0
+    adaptiveStiffness = True
+    setup_force_node_on_server(rq_insertion_force_node_id,
+                               feature, targetForce,
+                               force_control_enabled_vector,
+                               max_negative_deviation_vector,
+                               max_positive_deviation_vector,
+                               adaptiveStiffness)
+  end
+  
+  def initialise_force_node(position_controlled_direction = 2, feature = 1, max_position_deviation = 0.1):
+    movej(get_actual_joint_positions()) # This moveJ is used to prevent "another thread is already controlling the robot error".
+    rq_adapt_force_control_to_direction(position_controlled_direction = position_controlled_direction,
+                                        feature = 1,
+                                        max_position_deviation = max_position_deviation)
+    set_servoj_node_cmd(get_actual_joint_positions())
+    reset_node_executor()
+    active_and_reset_node(rq_insertion_force_node_id)
+    active_and_reset_node(rq_insertion_servoj_node_id)
+    node_execution_thread = run execute_node_thread()
+    return node_execution_thread
+  end
+  
+  ####################  ROTATIONAL #############################
+  def rq_insert_rotation_urcap(positive_rotation_desired = True,
+                               direction="Z",
+                               speed = 0.004,
+                               force_threshold = 10,
+                               rotation_speed = 5,
+                               max_angle_deg = 360,
+                               peck_mode = False,
+                               max_rotation_torque=1):
+  
+    speed = speed / 1000 # TODO: change speed input units to meters instead of mm and remove this line
+    max_force_control_position_deviation = 0.002 # TODO: add a parameter for this in the interface
+    max_torque_reached_counter_fail_threshold = 1/rq_controller_time_step # try for about one second
+  
+    if (rq_insertion_force_node_id == -1):
+        create_all_insertion_nodes()
+    end
+  
+    # define the direction sign
+    rq_actual_to_destination = pose_trans(pose_inv(get_actual_tcp_pose()), rq_ins_destination)
+    axis = str_at(direction, 0)
+    direction_sign = 1
+    direction = str_cat(axis,"+")
+    if axis == "X":
+      rq_ins_offset = p[rq_actual_to_destination[0], 0, 0, 0, 0, 0]
+      rot_axe = 3
+      axis_index = 0
+    elif axis == "Y":
+      rq_ins_offset = p[0, rq_actual_to_destination[1], 0, 0, 0, 0]
+      rot_axe = 4
+      axis_index = 1
+    elif axis == "Z":
+      rq_ins_offset = p[0, 0, rq_actual_to_destination[2], 0, 0, 0]
+      rot_axe = 5
+      axis_index = 2
+    else:
+      textmsg("insertion: invalid direction ", direction)
+    end
+    if (rq_actual_to_destination[axis_index] < 0):
+      direction_sign = -1
+      direction = str_cat(axis,"-")
+      positive_rotation_desired = not positive_rotation_desired
+    end
+  
+    distance_to_destination = norm( rq_actual_to_destination[axis_index] )
+  
+    contact_with_piece_initiated = rq_linear_search_urcap(direction, force_threshold, speed, distance_to_destination, feature = 1)
+  
+    if( contact_with_piece_initiated ):
+  
+      # verify validity of user inputs
+      if ((rotation_speed <= 0) or (rotation_speed > 60)):
+        popup("rotation speed parameter in degrees / second must be between 0.01 and 60","ERROR rq_insert_rotation_urcap")
+        halt
+      elif ((max_rotation_torque < 0.01) or (max_rotation_torque > 15)):
+        popup("max_rotation_torque parameter in Newton-meter must be between 0.01 and 15","ERROR rq_insert_rotation_urcap")
+        halt
+      elif ((max_angle_deg <= 1) or (max_angle_deg > 360)):
+        popup("max angle parameter in degree must be between 1 and 360","ERROR rq_insert_rotation_urcap")
+        halt
+      end
+  
+      # initialize forcenode: adapt to direction
+      node_execution_thread = initialise_force_node(position_controlled_direction = axis_index,
+                                                    feature = 1,
+                                                    max_position_deviation = max_force_control_position_deviation)
+  
+      if positive_rotation_desired:
+        rot_direction_sign = 1
+      else:
+        rot_direction_sign = -1
+      end
+      rq_ins_speed_setting = speed
+      posrot = p[0,0,0,0,0,0]
+      max_rot_angle = d2r(max_angle_deg)
+      time_step_signed = rq_controller_time_step * rot_direction_sign * direction_sign
+      rot_step = d2r(rotation_speed) * time_step_signed
+      rot_step_5deg_per_second = d2r(5) * time_step_signed
+  
+      line_step = rq_ins_speed_setting * rq_controller_time_step * direction_sign
+      rot_actual_angle = 0
+      rot_actual_mode = 1 #1= linear, 2 = rotation
+      rot_actual_distance = 0
+      ins_rotation_initial_pose = get_actual_tcp_pose()
+      rq_actual_to_destination = pose_trans( pose_inv(ins_rotation_initial_pose), rq_ins_destination )
+      distance_to_destination = norm( rq_actual_to_destination[axis_index] )
+      global rq_insertion_max_torque_reached_counter = 0
+  
+      if peck_mode:
+        #peck mode
+        positive_rotation_computed = positive_rotation_desired
+        while ( (norm(rot_actual_distance) < distance_to_destination) and
+                (norm(rot_actual_angle) <= max_rot_angle) and
+                (rq_insertion_max_torque_reached_counter < max_torque_reached_counter_fail_threshold) ):
+          is_max_torque_reached = norm(get_applied_tcp_force(rot_axe)) > max_rotation_torque
+          if (ins_actual_force_urcap(direction) >= force_threshold):
+            #goes up
+            posrot[axis_index] = rot_actual_distance - 0.002 * direction_sign
+            next_tcp_pose = pose_trans(ins_rotation_initial_pose, posrot)
+            next_joint_pos = get_inverse_kin(next_tcp_pose)
+            node_rpc_server.movejdefinewaypoint(rq_insertion_movej_node_id, next_joint_pos, 0.4, 0.4)
+            execute_node(rq_insertion_movej_node_id, False )
+            #rotate
+            rot_actual_angle = compute_rotation_next_angle(rot_actual_angle, 285 * rot_step, is_max_torque_reached) # value of 285 define the peck mode "step size". determined ad oc
+            posrot[rot_axe] = rot_actual_angle
+            next_tcp_pose = pose_trans(ins_rotation_initial_pose, posrot)
+            next_joint_pos = get_inverse_kin(next_tcp_pose)
+            node_rpc_server.movejdefinewaypoint(rq_insertion_movej_node_id, next_joint_pos, 1, 1)
+            execute_node(rq_insertion_movej_node_id, False )
+            #go back in touch with the part
+            posrot[axis_index] = rot_actual_distance
+            next_tcp_pose = pose_trans(ins_rotation_initial_pose, posrot)
+            next_joint_pos = get_inverse_kin(next_tcp_pose)
+            node_rpc_server.movejdefinewaypoint(rq_insertion_movej_node_id, next_joint_pos, 0.4, 0.3)
+            execute_node(rq_insertion_movej_node_id, False )
+            sleep(0.1)
+          else:
+            rq_insertion_max_torque_reached_counter = 0
+            rot_actual_distance = rot_actual_distance + line_step
+            posrot[axis_index] = rot_actual_distance
+            next_tcp_pose = pose_trans(ins_rotation_initial_pose, posrot)
+            next_joint_pos = get_inverse_kin(next_tcp_pose)
+            update_servoj_node_target(next_joint_pos)
+            if (rq_active_node != rq_insertion_servoj_node_id):
+              active_and_reset_node(rq_insertion_servoj_node_id)
+            end
+          end # if
+        end # while
+      else:
+        #normal mode
+        while ( (norm(rot_actual_distance) <= distance_to_destination) and
+                (norm(rot_actual_angle) <= max_rot_angle) and
+                (rq_insertion_max_torque_reached_counter < max_torque_reached_counter_fail_threshold) ):
+          is_max_torque_reached = norm(get_applied_tcp_force(rot_axe)) > max_rotation_torque
+          if ( norm(get_applied_tcp_force(axis_index)) >= force_threshold ):
+            if (rot_actual_mode == 1):
+              rot_actual_distance = rot_actual_distance - line_step
+              posrot[axis_index] = rot_actual_distance
+            end
+            limited_rotation_step = limit_rotation_step_when_close_to_max_angle(rot_step, rot_step_5deg_per_second, max_rot_angle, rot_actual_angle)
+            rot_actual_angle = compute_rotation_next_angle(rot_actual_angle, limited_rotation_step, is_max_torque_reached)
+            posrot[rot_axe] = rot_actual_angle
+            rot_actual_mode = 2
+          else:
+            rq_insertion_max_torque_reached_counter = 0
+            rot_actual_distance = rot_actual_distance + line_step
+            posrot[axis_index] = rot_actual_distance
+            rot_actual_mode = 1
+          end # if
+          next_tcp_pose = pose_trans(ins_rotation_initial_pose, posrot)
+          next_joint_pos = get_inverse_kin(next_tcp_pose)
+          update_servoj_node_target(next_joint_pos)
+        end # while
+      end # if peck_mode
+  
+      kill_thread( node_execution_thread )
+      stopj(2)
+      rq_rotation_not_completed = ( (norm(rot_actual_angle) > max_rot_angle) or
+                                    (rq_insertion_max_torque_reached_counter >= max_torque_reached_counter_fail_threshold) )
+    else: # initial find_surface was unsuccessfull, assume a direct hit to target, which is a success
+      rq_rotation_not_completed = False
+    end # if contact_with_piece_initiated
+  
+    return rq_rotation_not_completed
+  end # insert rotation 2
+  
+  def limit_rotation_step_when_close_to_max_angle(rot_step, minimal_rot_step, max_rot_angle, rot_actual_angle):
+    rot_deceleration_angle_distance = d2r(3)
+    rot_direction = 1
+    if( rot_step < 0 ):
+      rot_direction = -1
+      rot_step = -1 * rot_step # get positive rot_step for calculation. Direction sign is re-introduced at the end.
+    end
+    angle_distance_to_max_rot_angle = max_rot_angle - norm(rot_actual_angle)
+    if( (angle_distance_to_max_rot_angle < rot_deceleration_angle_distance) and (rot_step > minimal_rot_step) ):
+      decelaration_slope = (rot_step - minimal_rot_step) / rot_deceleration_angle_distance
+      rot_step_limited = decelaration_slope * angle_distance_to_max_rot_angle + minimal_rot_step
+    else:
+      rot_step_limited = rot_step
+    end
+    return ( rot_direction * rot_step_limited )
+  end
+  
+  def compute_rotation_next_angle(current_angle, step, is_max_torque_reached):
+  #This function compute the rotation angle for rotational insertion by
+  # incrementing the current angle by the desired step size.
+  # If the maximal torque is reached, the rotation goes backward to
+  # return to a admissible torque. In the backward direction,
+  # a smaller step size is used to prevent constant oscillation between to steps
+    if (is_max_torque_reached):
+        rq_insertion_max_torque_reached_counter = rq_insertion_max_torque_reached_counter + 1
+        new_angle = current_angle - 0.8 * step
+    else:
+        new_angle = current_angle + step
+    end
+    return new_angle
+  end
+  
+  def center_one_axis(axis, lin_search_stop_force_threshold, speed, max_distance, feature):
+    # Initiate contact in forward direction
+    contact_initiated = rq_linear_search_urcap( str_cat(axis, "+"), lin_search_stop_force_threshold, speed, max_distance, feature)
+    if contact_initiated:
+      forward_contact_pose = get_actual_tcp_pose()
+      # Initiate contact in reverse direction
+      contact_initiated = rq_linear_search_urcap(str_cat(axis, "-"), lin_search_stop_force_threshold, speed, max_distance, feature)
+      if contact_initiated:
+        reverse_contact_pose = get_actual_tcp_pose()
+        # Go to average of contact points
+        pose_center_1 = interpolate_pose(forward_contact_pose, reverse_contact_pose, 0.5)
+        movel(pose_center_1, a=0.6, v=speed)
+      end
+    end
+    return contact_initiated
+  end
+  
+  def rq_insert_recenter_urcap(axis = "Z", max_distance = 0.1, speed = 0.005, feature = 1, lin_search_stop_force_threshold = 5):
+  
+    if (max_distance < 0) or (max_distance > 1):
+      popup("max_distance parameter in m must be between 0 and 1","ERROR rq_insert_recenter_urcap")
+      halt
+    elif (speed < 0.0001) or (speed > 0.5):
+      popup("max_radius parameter in mm must be between 0.0001m/s and 0.5m/s","ERROR rq_insert_recenter_urcap")
+      halt
+    end
+  
+    #--------------------------------------------------------------------------------------------------------------------
+    #For insertion in the X axis
+    #--------------------------------------------------------------------------------------------------------------------
+    if (axis == "X"):
+      recenter_axis_1 = "Y"
+      recenter_axis_2 = "Z"
+    #--------------------------------------------------------------------------------------------------------------------
+    #For insertion in the Y axis
+    #--------------------------------------------------------------------------------------------------------------------
+    elif (axis == "Y"):
+      recenter_axis_1 = "X"
+      recenter_axis_2 = "Z"
+    #--------------------------------------------------------------------------------------------------------------------
+    #For insertion in the Z axis
+    #--------------------------------------------------------------------------------------------------------------------
+    elif (axis == "Z"):
+      recenter_axis_1 = "X"
+      recenter_axis_2 = "Y"
+    end
+  
+    recenter_successfull = center_one_axis(recenter_axis_1, lin_search_stop_force_threshold, speed, max_distance, feature)
+    if recenter_successfull:
+      recenter_successfull = center_one_axis(recenter_axis_2, lin_search_stop_force_threshold, speed, max_distance, feature)
+    end
+  
+    if (recenter_successfull == False):
+      textmsg("rq_insert_recenter_urcap failed, could not initiate contact with piece")
+    end
+  
+    return recenter_successfull
+  end # rq_insert_recenter_urcap
+  
+  # ******************* MAIN of Insertion Preamble *******************
+  storevar.clearall()
+  global rq_insertion_force_node_id = -1
+  def rq_linear_search_common_validation(abs_max_distance, speed, force_threshold):
+    if (abs_max_distance > 2.0):
+      popup("maximum distance parameter in meters must be between 0 and 2.0","ERROR rq_linear_search_urcap")
+      halt
+    elif (speed < 0.0001) or (speed > 0.15):
+      popup("speed parameter in mm/s must be between 0.1 and 150","ERROR rq_linear_search_urcap")
+      halt
+    elif (force_threshold < 0.0) or (force_threshold > 200):
+      popup("Force parameter in Newtons must be between 0 and 200","ERROR rq_linear_search_urcap")
+      halt
+    end
+  end
+  
+  def rq_linear_search_get_direction_sign(direction):
+    sign = str_at(direction, 1)
+    direction_sign = 1
+    if sign == "-":
+      direction_sign = -1
+    end
+    return direction_sign
+  end
+  
+  def rq_linear_search_get_force_index(direction):
+    axis = str_at(direction, 0)
+    force_index = 0
+    if (axis == "X") or (axis == "x"):
+      force_index = 0
+    elif (axis == "Y") or (axis == "y"):
+      force_index = 1
+    elif (axis == "Z") or (axis == "z"):
+      force_index = 2
+    else:
+      popup("direction parameter must be X+, X-, Y+, Y-, Z+ or Z-","ERROR rq_linear_search_urcap")
+      halt
+    end
+    return force_index
+  end
+  
+  def rq_linear_search_get_pose_offset(force_index, max_distance):
+    pose_offset = p[0,0,0,0,0,0]
+    pose_offset[force_index] = max_distance
+    return pose_offset
+  end
+  
+  def rq_linear_search_execution(pose_from, pose_to, force_threshold, speed, T_tcp_to_force_frame, force_index, direction_sign):
+    steptime = rq_controller_time_step
+    distance = point_dist(pose_from, pose_to)
+    number_pose_interpolate = floor(distance / (speed * steptime)) + 1
+    delta_alpha = 1.0 / number_pose_interpolate
+  
+    alpha = 0.0
+    local surface_found = False
+  
+    pose_step = 0
+    end_pose_pause_time = 0.2 # to refine
+    max_pose_steps = number_pose_interpolate + end_pose_pause_time/steptime
+    while (pose_step < max_pose_steps) and (not surface_found):
+      pose_step = pose_step + 1
+      alpha = pose_step * delta_alpha
+      if (alpha < 1.0):
+        pose_interpolate = interpolate_pose(pose_from, pose_to, alpha)
+      else:
+        pose_interpolate = pose_to
+      end
+  
+      servoj(get_inverse_kin(pose_interpolate), 0.1, 0.1, steptime, 0.05, 500)
+  
+      wrench = express_force_in_frame(T_tcp_to_force_frame, tcp_wrench)
+      applied_force = -1 * wrench[force_index]
+  
+      if (direction_sign * applied_force) >= force_threshold:
+        surface_found = True
+      end
+    end
+  
+    return surface_found
+  end
+  
+  #************************************************
+  #Function:  rq_linear_search_urcap(direction="Z+", force[N] = 10, speed[m/s] = 0.004, max_distance[m] = 0.02)
+  #   Find a specific force in the direction of "direction".
+  #   Robot will move towards a max_distance from the current position in the tool frame
+  #   Return True if the force is detected during the robot motion
+  #
+  #************************************************
+  def rq_linear_search_urcap(direction="Z+", force_threshold = 10, speed = 0.004, max_distance = 0.02, feature = 0 ):
+  
+    rq_linear_search_common_validation(max_distance, speed, force_threshold)
+    if (feature != 0) and (feature != 1):
+      popup("feature value should be 0 for base or 1 for tool","ERROR rq_linear_search_urcap")
+      halt
+    end
+  
+    feature_base = 0
+    feature_tool = 1
+  
+    force_index = rq_linear_search_get_force_index(direction)
+    direction_sign = rq_linear_search_get_direction_sign(direction)
+    max_distance = direction_sign * max_distance
+    pose_offset = rq_linear_search_get_pose_offset(force_index, max_distance)
+  
+    tcp_pose = get_actual_tcp_pose()
+    pose_from = tcp_pose
+    pose_to = pose_from
+    if feature == feature_base:
+      pose_to = pose_add(pose_from, pose_offset)
+    elif feature == feature_tool:
+      pose_to = pose_trans(pose_from, pose_offset)
+    end
+  
+    T_tcp_to_force_frame = p[0, 0, 0, 0, 0, 0] # default for feature_tool
+    if (feature == feature_base):
+      T_tcp_to_force_frame = pose_inv(tcp_pose)
+    end
+  
+    surface_found = rq_linear_search_execution(pose_from, pose_to, force_threshold, speed, T_tcp_to_force_frame, force_index, direction_sign)
+  
+    return surface_found
+  end
+  
+  def rq_linear_search_custom_frame(direction="Z+", force_threshold = 10, speed = 0.004, abs_max_distance = 0.02, feature_frame = p[0, 0, 0, 0, 0, 0]):
+  
+    rq_linear_search_common_validation(abs_max_distance, speed, force_threshold)
+  
+    force_index = rq_linear_search_get_force_index(direction)
+    direction_sign = rq_linear_search_get_direction_sign(direction)
+    max_distance = direction_sign * abs_max_distance
+    pose_offset = rq_linear_search_get_pose_offset(force_index, max_distance)
+  
+    tcp_pose = get_actual_tcp_pose()
+    offset_frame = p[tcp_pose[0], tcp_pose[1], tcp_pose[2], feature_frame[3], feature_frame[4], feature_frame[5]]
+    tcp_position_with_offset = pose_trans(offset_frame, pose_offset)
+    pose_from = tcp_pose
+    pose_to = p[tcp_position_with_offset[0], tcp_position_with_offset[1], tcp_position_with_offset[2], tcp_pose[3], tcp_pose[4], tcp_pose[5]]
+  
+    T_tcp_to_force_frame = pose_trans(pose_inv(tcp_pose), feature_frame)
+  
+    surface_found = rq_linear_search_execution(pose_from, pose_to, force_threshold, speed, T_tcp_to_force_frame, force_index, direction_sign)
+  
+    return surface_found
+  end
+  
+  def validate_wait_for_force_drop_common_parameters(force_threshold, timeout_seconds):
+    if (timeout_seconds < 0.0) or (timeout_seconds > 3600):
+      popup("timeout parameter in s must be between 0 and 3600","ERROR rq_wait_for_force_drop")
+      halt
+    elif (force_threshold < 0.0) or (force_threshold > 200):
+      popup("Force parameter in Newtons must be between 0 and 200","ERROR rq_wait_for_force_drop")
+      halt
+    end
+  end
+  
+  def rq_wait_for_force_drop_execution(force_threshold, T_tcp_to_force_frame, force_index, direction_sign, timeout_seconds):
+    local steptime = get_steptime()
+    local release_detected = False
+    local time = 0
+  
+    while (time < timeout_seconds) and (not release_detected):
+      time = time + steptime
+  
+      local wrench = express_force_in_frame(T_tcp_to_force_frame, tcp_wrench)
+      local force = -1 * wrench[force_index]
+  
+      if (direction_sign * force) < force_threshold:
+        release_detected = True
+      end
+      sync()
+    end
+  
+    return release_detected
+  end
+  
+  def rq_wait_for_force_drop_custom_frame(direction="Z+", force_threshold = 10, timeout_seconds = 60, feature_frame = p[0, 0, 0, 0, 0, 0] ):
+    validate_wait_for_force_drop_common_parameters(force_threshold, timeout_seconds)
+  
+    local force_index = rq_linear_search_get_force_index(direction)
+    local direction_sign = rq_linear_search_get_direction_sign(direction)
+  
+    local tcp_pose = get_actual_tcp_pose()
+    local T_tcp_to_force_frame = pose_trans(pose_inv(tcp_pose), feature_frame)
+  
+    local release_detected = rq_wait_for_force_drop_execution(force_threshold, T_tcp_to_force_frame, force_index, direction_sign, timeout_seconds)
+  
+    return release_detected
+  end
+  
+  def rq_wait_for_force_drop(direction="Z+", force_threshold = 10, timeout_seconds = 60, feature = 0 ):
+    validate_wait_for_force_drop_common_parameters(force_threshold, timeout_seconds)
+    if (feature != 0) and (feature != 1):
+      popup("feature value should be 0 for base or 1 for tool","ERROR rq_wait_for_force_drop")
+      halt
+    end
+  
+    local force_index = rq_linear_search_get_force_index(direction)
+    local direction_sign = rq_linear_search_get_direction_sign(direction)
+  
+    local feature_base = 0
+    local feature_tool = 1
+    local tcp_pose = get_actual_tcp_pose()
+    local T_tcp_to_force_frame = p[0, 0, 0, 0, 0, 0] # default for feature_tool
+    if (feature == feature_base):
+      T_tcp_to_force_frame = pose_inv(tcp_pose)
+    end
+  
+    local release_detected = rq_wait_for_force_drop_execution(force_threshold, T_tcp_to_force_frame, force_index, direction_sign, timeout_seconds)
+  
+    return release_detected
+  end
+  
+  
+  
+    ##############################################
+    # OFFSET FEATURE-RELATED VARIABLES AND METHODS
+    ##############################################
+    def cross_product(vector1,vector2):
+      v_temp=[0,0,0]
+      v_temp[0]=vector1[1]*vector2[2]-vector1[2]*vector2[1]
+      v_temp[1]=vector1[2]*vector2[0]-vector1[0]*vector2[2]
+      v_temp[2]=vector1[0]*vector2[1]-vector1[1]*vector2[0]
+      return v_temp
+    end
+  
+    def relocate_xyzr(init_feature, init_touch_pose, touch_pose):
+      init_touch_pose_2_init_feature = pose_trans( pose_inv(init_touch_pose), init_feature)
+      new_feature = pose_trans( touch_pose, init_touch_pose_2_init_feature )
+  
+      return new_feature
+    end
+  
+    def relocate_orientation(touch1_init_pose, touch2_init_pose, feature_init_pose, touch1_pose, touch2_pose):
+      #when relocating using 2 touch, the center of rotation is around touch point 1 (this could be changed)
+  
+      # initial touch2 pose in initial touch 1 pose frame:
+      touch2_initial_pose_in_touch1_initial_pose_frame = pose_trans(pose_inv(touch1_init_pose), touch2_init_pose)
+  
+      # find theoric touch2_pose if no rotation
+      touch2_pose_if_no_rotation = pose_trans(touch1_pose, touch2_initial_pose_in_touch1_initial_pose_frame)
+  
+      # vectors touch1 to touch2
+      touch1_pose_to_touch2_pose = pose_trans(pose_inv(touch1_pose), touch2_pose)
+      touch1_pose_to_touch2_pose_if_no_rotation = pose_trans(pose_inv(touch1_pose), touch2_pose_if_no_rotation)
+  
+      #angle axis calculation
+      normal_vector = cross_product(touch1_pose_to_touch2_pose_if_no_rotation, touch1_pose_to_touch2_pose)
+      normal_vector_norm = norm(normal_vector)
+      if (normal_vector_norm > 10e-6):
+        rotation_angle_rad = asin( normal_vector_norm / (norm(touch1_pose_to_touch2_pose_if_no_rotation) * norm(touch1_pose_to_touch2_pose) ) )
+        normal_vector_to_angle_axis_multiply_norm_factor = rotation_angle_rad / normal_vector_norm
+        angle_axis = [normal_vector[0] * normal_vector_to_angle_axis_multiply_norm_factor, normal_vector[1] * normal_vector_to_angle_axis_multiply_norm_factor, normal_vector[2] * normal_vector_to_angle_axis_multiply_norm_factor]
+        rotation_offset_pose = p[0, 0, 0, angle_axis[0], angle_axis[1], angle_axis[2]]
+  
+        #rotate touch1 pose using touch2 information
+        touch1_pose_rotated = pose_trans(touch1_pose, rotation_offset_pose)
+      else:
+        touch1_pose_rotated = touch1_pose
+      end
+  
+      # relocate the feature using touch1_rotated_pose
+      return relocate_xyzr(feature_init_pose, touch1_init_pose, touch1_pose_rotated)
+    end
+  
+    def relocate_1_touch(touch_init_pose, touch_pose, feature_init_pose, feature_actual_pose):
+      touch_initial_pose_in_initial_feature_frame = pose_trans(pose_inv(feature_init_pose), touch_init_pose)
+      touch_actual_pose_in_actual_feature_frame = pose_trans(pose_inv(feature_actual_pose), touch_pose)
+  
+      # difference between touch poses in their respective feature frame
+      touch_pose_offset = pose_sub(touch_actual_pose_in_actual_feature_frame, touch_initial_pose_in_initial_feature_frame)
+  
+      # remove all rotation from offset
+      touch_pose_offset[3] = 0
+      touch_pose_offset[4] = 0
+      touch_pose_offset[5] = 0
+  
+      # apply pose offset to actual feature
+      return pose_trans(feature_actual_pose, touch_pose_offset)
+    end
+    ##############################################
+    # PALLETIZER INITIALIZATION
+    ##############################################
+    global rq_palletizer_state_changed = False
+  
+    def assert_not_in_palletizer_node(function_name):
+      rq_palletizer_uuid = palletizerXmlRpcClient.getCurrentPalletizerNode()
+      if (rq_palletizer_uuid != ""):
+        popup(str_cat(function_name," should never be called from within a Palletizer node."), title="Palletizer", error=True, blocking=True)
+        halt
+      end
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_pallet_viewer(runtime=True):
+  
+      assert_not_in_palletizer_node("rq_pallet_viewer")
+  
+      if(not palletizerXmlRpcClient.acknowledgePalletStates(runtime)):
+        checkForScriptPreparationException()
+        halt
+      end
+  
+      if (runtime):
+        rq_palletizer_state_changed = True
+      end
+    end
+  
+    palletizerXmlRpcClient.setCurrentPalletizerNode("")
+  
+    rq_pallet_viewer(runtime=False)
+  
+  
+    ##############################################
+    # PALLETIZER-RELATED VARIABLES AND METHODS
+    ##############################################
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_get_nb_processed_boxes():
+      rq_palletizer_uuid = palletizerXmlRpcClient.getCurrentPalletizerNode()
+      if rq_palletizer_uuid == "":
+        popup("rq_get_nb_processed_boxes() should only be called from within a Palletizer node.", title="Palletizer", error=True, blocking=True)
+        halt
+      end
+  
+      rq_box_count = palletizerXmlRpcClient.getCurrentBoxCount(rq_palletizer_uuid)
+      if rq_box_count == -1:
+        popup("Invalid Palletizer node id used for rq_get_nb_processed_boxes()", title="Palletizer", error=True, blocking=True)
+        halt
+      end
+      return rq_box_count
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_get_current_box_type():
+         rq_palletizer_uuid = palletizerXmlRpcClient.getCurrentPalletizerNode()
+         if rq_palletizer_uuid == "":
+            popup("rq_get_current_box_type() should only be called from within a Palletizer node.", title="Palletizer", error=True, blocking=True)
+            halt
+         end
+  
+         rq_box_type_name = palletizerXmlRpcClient.getCurrentBoxTypeName(rq_palletizer_uuid)
+         return rq_box_type_name
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_get_current_pal_recipe():
+        rq_palletizer_uuid = palletizerXmlRpcClient.getCurrentPalletizerNode()
+        if rq_palletizer_uuid == "":
+           popup("rq_get_current_pal_recipe() should only be called from within a Palletizer node.", title="Palletizer", error=True, blocking=True)
+           halt
+        end
+  
+        rq_pal_unit_load_name = palletizerXmlRpcClient.getCurrentPalletUnitLoadName(rq_palletizer_uuid)
+        return rq_pal_unit_load_name
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_set_pallet_completed():
+      rq_palletizer_uuid = palletizerXmlRpcClient.getCurrentPalletizerNode()
+      if rq_palletizer_uuid == "":
+        popup("rq_set_pallet_completed() should only be called from within a Palletizer node.", title="Palletizer", error=True, blocking=True)
+        halt
+      end
+  
+      palletizerXmlRpcClient.skipToAfterPallet(rq_palletizer_uuid)
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_demo_mode_switch_palletizer_mode():
+      palletizerXmlRpcClient.demoModeFakePalletSwapAndAndSwitchPalletizerMode()
+    end
+  
+    def rq_linear_axis_scan(halt_on_error=True):
+      local succeeded = False
+      local error_message = ""
+  
+      if not node_rpc_server.linearaxisconnected():
+        succeeded = node_rpc_server.linearaxisscan()
+        if succeeded:
+          textmsg("Linear axis scanned successfully")
+        else:
+          error_message = "rq_linear_axis_scan() was unable to find linear axis"
+        end
+      else:
+        succeeded = True
+        textmsg("Linear axis already connected")
+      end
+  
+      if not succeeded:
+        if halt_on_error:
+          popup(error_message, title="Linear Axis", error=True, blocking=True)
+          halt
+        else:
+          textmsg(error_message)
+        end
+      end
+  
+      return succeeded
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_linear_axis_start(halt_on_error=True):
+      local succeeded = False
+      local error_message = ""
+  
+      if not node_rpc_server.linearaxisconnected():
+        error_message = "rq_linear_axis_start() was unable to start linear axis : linear axis not connected"
+      else:
+        succeeded = node_rpc_server.linearaxisstart()
+        if succeeded:
+          textmsg("Linear axis started successfully")
+        else:
+          error_message = "rq_linear_axis_start() was unable to start linear axis"
+        end
+      end
+  
+      if not succeeded:
+        if halt_on_error:
+          popup(error_message, title="Linear Axis", error=True, blocking=True)
+          halt
+        else:
+          textmsg(error_message)
+        end
+      end
+  
+      return succeeded
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_linear_axis_disable(halt_on_error=True):
+      local succeeded = False
+      local error_message = ""
+  
+      if not node_rpc_server.linearaxisconnected():
+        error_message = "rq_linear_axis_disable() was unable to disable linear axis : linear axis not connected"
+      else:
+        succeeded = node_rpc_server.linearaxisdisable()
+        if succeeded:
+          textmsg("Linear axis disabled successfully")
+        else:
+          error_message = "rq_linear_axis_disable() was unable to disable linear axis"
+        end
+      end
+  
+      if not succeeded:
+        if halt_on_error:
+          popup(error_message, title="Linear Axis", error=True, blocking=True)
+          halt
+        else:
+          textmsg(error_message)
+        end
+      end
+  
+      return succeeded
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_set_palletizer_state(palletizer_index, processed_boxes, next_step, other_pallet_state="ABSENT", current_pallet="CURRENT", left_recipe="", right_recipe=""):
+      assert_not_in_palletizer_node("rq_set_palletizer_state")
+  
+      palletizerXmlRpcClient.setPalletizerState(palletizer_index, processed_boxes, next_step, other_pallet_state, current_pallet, left_recipe, right_recipe)
+      checkForScriptPreparationException()
+      rq_palletizer_state_changed = True
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_get_pallet_state(is_pallet_left):
+      return node_rpc_server.getPalletState(is_pallet_left)
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_use_payload_with_box(ratio=1):
+      local rq_palletizer_uuid = palletizerXmlRpcClient.getCurrentPalletizerNode()
+      if rq_palletizer_uuid == "":
+        popup("rq_use_payload_with_box() should only be called from within a Palletizer node.", title="Palletizer", error=True, blocking=True)
+        halt
+      end
+  
+      if ratio < 0 or ratio > 1:
+        popup("rq_use_payload_with_box: ratio should be in range [0, 1].", title="Palletizer", error=True, blocking=True)
+        halt
+      end
+  
+      local initial_payload = palletizerXmlRpcClient.getInitialPayload()
+      local initial_center_of_gravity = palletizerXmlRpcClient.getInitialCenterOfGravity()
+      local box_payload = palletizerXmlRpcClient.getCurrentBoxTypeWeight(rq_palletizer_uuid) * ratio
+      local tcp_offset_from_flange = get_tcp_offset()
+      local current_box_type_cog_offset = palletizerXmlRpcClient.getCurrentBoxTypeCenterOfGravityInTcpreferenceFrame(rq_palletizer_uuid)
+      local current_box_type_cog_in_tcp_frame  = p[
+        current_box_type_cog_offset[0],
+        current_box_type_cog_offset[1],
+        current_box_type_cog_offset[2],
+        0, 0, 0
+      ]
+      local box_center_of_gravity_in_flange_reference_frame = pose_trans(tcp_offset_from_flange, current_box_type_cog_in_tcp_frame)
+      local new_payload = initial_payload + box_payload
+      if new_payload > 0:
+         local new_center_of_gravity = [
+            (initial_center_of_gravity[0]*initial_payload + box_center_of_gravity_in_flange_reference_frame[0]*box_payload) / new_payload,
+            (initial_center_of_gravity[1]*initial_payload + box_center_of_gravity_in_flange_reference_frame[1]*box_payload) / new_payload,
+            (initial_center_of_gravity[2]*initial_payload + box_center_of_gravity_in_flange_reference_frame[2]*box_payload) / new_payload
+         ]
+         set_target_payload(new_payload, new_center_of_gravity)
+      end
+      palletizerXmlRpcClient.setPayloadModifiedByScriptFunction()
+    end
+  
+    def rq_use_payload_without_box():
+      local rq_palletizer_uuid = palletizerXmlRpcClient.getCurrentPalletizerNode()
+      if rq_palletizer_uuid == "":
+        popup("rq_use_payload_without_box() should only be called from within a Palletizer node.", title="Palletizer", error=True, blocking=True)
+        halt
+      end
+  
+      local initial_payload = palletizerXmlRpcClient.getInitialPayload()
+      local initial_center_of_gravity = palletizerXmlRpcClient.getInitialCenterOfGravity()
+      set_target_payload(initial_payload, initial_center_of_gravity)
+      palletizerXmlRpcClient.setPayloadModifiedByScriptFunction()
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_use_payload_no_box():
+      rq_use_payload_without_box()
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_set_box_payload(box_payload):
+      local rq_palletizer_uuid = palletizerXmlRpcClient.getCurrentPalletizerNode()
+      if rq_palletizer_uuid == "":
+        popup("rq_set_box_payload(box_payload) should only be called from within a Palletizer node.", title="Palletizer",
+        error=True, blocking=True)
+        halt
+      end
+  
+      if box_payload < 0 or box_payload > 20:
+        popup("rq_set_box_payload: box payload should be between 0 and 20 kg.", title="Palletizer", error=True, blocking=True)
+        halt
+      end
+  
+      palletizerXmlRpcClient.setCurrentBoxTypeWeight(rq_palletizer_uuid, box_payload)
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_register_bounding_box(referential, position, dimensions):
+      local rq_pose_string = str_cat("", position)
+      rq_pose_string = str_sub(rq_pose_string, 1, str_len(rq_pose_string))
+  
+      local rq_json_string = str_cat("{'boundingBoxes':[{'parentId':", referential)
+      rq_json_string = str_cat(rq_json_string, ", 'pose':")
+      rq_json_string = str_cat(rq_json_string, rq_pose_string)
+      rq_json_string = str_cat(rq_json_string, ",'dimensions':")
+      rq_json_string = str_cat(rq_json_string, dimensions)
+      rq_json_string = str_cat(rq_json_string, "}]}")
+  
+      node_rpc_server.configurePalletizerInstallation(rq_json_string)
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_set_gripper_collision_model(fileName, referenceFrame, filePath="/programs/"):
+        local rq_json_string = str_cat("{'gripperMesh':{'fileName':'", fileName)
+        rq_json_string = str_cat(rq_json_string, "', 'filePath':'")
+        rq_json_string = str_cat(rq_json_string, filePath)
+        rq_json_string = str_cat(rq_json_string, "','referenceFrame':")
+        rq_json_string = str_cat(rq_json_string, referenceFrame)
+        rq_json_string = str_cat(rq_json_string, "}}")
+  
+        node_rpc_server.configurePalletizerInstallation(rq_json_string)
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_set_conveyor_clearance(is_left_pallet, height):
+      if height < 0:
+        popup("rq_set_conveyor_clearance(): The clearance height should be positive.", title="Palletizer", error=True,
+        blocking=True)
+      elif height == 0:
+        height = 0.0001
+      end
+  
+      pallet_side = "right"
+      if(is_left_pallet):
+         pallet_side = "left"
+      end
+  
+      local palletId = node_rpc_server.getPalletId(pallet_side)
+      node_rpc_server.setConveyorVerticalClearance(palletId, height)
+    end
+    ###############################################################
+    # Linear Axis Move related methods
+    ###############################################################
+    def verify_is_in_linear_axis_range(target_axis_position):
+      axis_position_range = node_rpc_server.linearaxisgetpositionrange()
+  
+      if target_axis_position < axis_position_range[0] or target_axis_position > axis_position_range[1]:
+        textmsg("Linear axis target position : ", target_axis_position)
+        textmsg("Linear axis position range : ", axis_position_range)
+        popup("Linear axis position is unreachable.", "Linear Axis Move", blocking=True, error=True)
+        halt
+      end
+    end
+  
+    # Documented in monorepo/doc/pal/PalAdvancedProgrammingFunctions.md
+    def rq_get_linear_axis_pos():
+        axis_position = node_rpc_server.linearaxisgetactualposition()
+        return axis_position
+    end
+  
+  BLOW_OFF_MODE_NO_AIR = 0
+  BLOW_OFF_MODE_SMART_AIR = 1
+  UNDEFINED_THREAD_ID = -1
+  MODBUS_TYPE = "MODBUS"
+  STANDARD_TYPE = "STANDARD"
+  INVALID_OUTPUT_ADDRESS = -1
+  RQ_UNUSED_TIMEOUT = -1
+  
+  global rq_cnc_insertion_node_ids = [-1, -1]
+  global rq_run_timeout = 30
+  
+  ###################################################################################
+  #
+  # Generic methods
+  #
+  ###################################################################################
+  
+  def bool_to_str(value):
+    if value:
+      return "true"
+    else:
+      return "false"
+    end
+  end
+  
+  def bool_array_to_string(array, index):
+    if (index >= length(array)):
+      return "]"
+    end
+  
+    separator = ","
+    if (index == length(array) - 1):
+      separator = ""
+    end
+  
+    if (index == 0):
+      str_array = concat("[", bool_to_str(array[index]), separator)
+      return str_cat(str_array, bool_array_to_string(array, index + 1))
+    else:
+      return concat(bool_to_str(array[index]), separator, bool_array_to_string(array, index + 1))
+    end
+  end
+  
+  def rq_bool_array_to_string(array):
+    return bool_array_to_string(array, 0)
+  end
+  
+  def json_force_node(force, max_negative_deviation, max_positive_deviation, stiffness, enabled_axis, feature, is_adaptive):
+    json = "{"
+    json = concat(json, key_val("forceFrame", feature), ",")
+    json = concat(json, key_val("isAdaptive", is_adaptive), ",")
+    json = concat(json, key_val("isForceControlAboutActualPosition", "false"), ",")
+    json = concat(json, key_val("isForceMode", enabled_axis), ",")
+    json = concat(json, key_val("maxNegativeDeviation", max_negative_deviation), ",")
+    json = concat(json, key_val("maxPositiveDeviation", max_positive_deviation), ",")
+    json = concat(json, key_val("stiffness", stiffness), ",")
+    json = concat(json, key_val("targetTcpWrench", force), "}")
+    return json
+  end
+  
+  def rq_setup_machine_tending_force_node(feature, force, stiffness, max_negative_deviation, max_positive_deviation, enabled_axis, is_adaptive):
+    force_node_id = node_rpc_server.createnewforcenode()
+    node_rpc_server.fromjson(force_node_id, json_force_node(force, max_negative_deviation, max_positive_deviation,
+    stiffness, rq_bool_array_to_string(enabled_axis), 1, bool_to_str(is_adaptive)))
+    return force_node_id
+  end
+  
+  ###################################################################################
+  #
+  # TRAJECTORY UTILITIES
+  #
+  ###################################################################################
+  
+  def dot_product(v1, v2):
+    return [v1]*transpose(v2)
+  end
+  
+  def get_symmetric_poses_from_middle(p1, p2, middle_pose, distance):
+    distance_p1_middle = point_dist(p1, middle_pose)
+    alpha = (distance / 2) / distance_p1_middle
+    start_pose = interpolate_pose(middle_pose, p1, alpha)
+    end_pose = interpolate_pose(middle_pose, p2, alpha)
+  
+    return [start_pose, end_pose]
+  end
+  
+  def translate_to_origin(pose):
+    return p[0, 0, 0, pose[3], pose[4], pose[5]]
+  end
+  
+  
+  ###################################################################################
+  #
+  # ROBOTIQ PART PRESENTER
+  #
+  ###################################################################################
+  
+  global cnc_part_presenter_index = 0
+  
+  def rq_pallet_get_poses_from_index(p_corner_1_approach, p_corners, nb_rows, nb_columns, alternate_direction, index):
+      row = floor(index / nb_columns)
+      column = index % nb_columns
+  
+      row_alpha = 0
+      if(nb_rows > 1):
+          row_alpha = row / (nb_rows - 1)
+      end
+  
+      p_row_start = interpolate_pose(p_corners[0], p_corners[3], row_alpha)
+      p_row_end = interpolate_pose(p_corners[1], p_corners[2], row_alpha)
+  
+      column_alpha = 0
+      if(nb_columns > 1):
+          column_alpha = column / (nb_columns - 1)
+      end
+  
+      if(alternate_direction and (row % 2) and nb_columns > 1):
+          pallet_pose = interpolate_pose(p_row_end, p_row_start, column_alpha)
+      else:
+          pallet_pose = interpolate_pose(p_row_start, p_row_end, column_alpha)
+      end
+  
+      T_1approach_1 = pose_trans(inv(p_corner_1_approach), p_corners[0])
+      approach_pose = pose_trans(pallet_pose, inv(T_1approach_1))
+  
+      return [approach_pose, pallet_pose]
+  end
+  
+  ###################################################################################
+  #
+  # MOVE DOOR
+  #
+  ###################################################################################
+  
+  def rq_setup_door_force_node(reference_frame, force, stiffness):
+    feature = 1
+    forces = [force,0,0,0,0,0]
+    max_negative_deviation = [-5, 0, 0, 0, 0, 0]
+    max_positive_deviation = [0.01, 0, 0, 0, 0, 0] # using a large value here would allow the trajectory to violate the kinematics limits, using zero removes the force node effect
+    stiffnesses = [stiffness, 100, 100, 100, 100, 100]
+    enabled_axis = [True, False, False, False, False, False]
+    is_adaptive = True
+  
+    force_node_id = rq_setup_machine_tending_force_node(feature, forces, stiffnesses, max_negative_deviation,
+    max_positive_deviation, enabled_axis, is_adaptive)
+  
+    node_rpc_server.setCustomFixedForceFrame(force_node_id, [reference_frame[3],reference_frame[4],reference_frame[5]])
+  
+    return force_node_id
+  end
+  
+  def json_rq_moves_node(tcp_speed, tcp_accel):
+    json = "{"
+    json = concat(json, key_val("offsetType", 0), ",")
+    json = concat(json, key_val("tcpSpeed", tcp_speed), ",")
+    json = concat(json, key_val("tcpAccel", tcp_accel), ",")
+    json = concat(json, key_val("actualreferenceframe", [0, 0, 0, 0, 0, 0]), ",")
+    json = concat(json, key_val("originalreferenceframe", [0, 0, 0, 0, 0, 0]), "}")
+    return json
+  end
+  
+  def rq_setup_rqmoves_node(parent_node_id, tcp_speed, tcp_accel):
+    rq_moves_node_id = node_rpc_server.createnewrqmoves()
+    node_rpc_server.fromjson(rq_moves_node_id, json_rq_moves_node(tcp_speed, tcp_accel))
+    node_rpc_server.setparentid(rq_moves_node_id, parent_node_id)
+    return rq_moves_node_id
+  end
+  
+  def rq_setup_waypoint_node(pose, joints, is_straight, parent_node_id):
+    def json_waypoint_node(pose, joints, is_straight):
+      json = "{"
+      json = concat(json, key_val("jointPositions", joints), ",")
+      json = concat(json, key_val("tcpPose", [pose[0],pose[1],pose[2],pose[3],pose[4],pose[5]]), ",")
+      json = concat(json, key_val("isStraight", bool_to_str(is_straight)), "}")
+      return json
+    end
+  
+    waypoint_node_id = node_rpc_server.createnewwaypointnode()
+    node_rpc_server.fromjson(waypoint_node_id, json_waypoint_node(pose, joints, is_straight))
+    node_rpc_server.setparentid(waypoint_node_id, parent_node_id)
+    node_rpc_server.rqmovesaddwaypoint(parent_node_id, waypoint_node_id)
+    return waypoint_node_id
+  end
+  
+  def rq_setup_move_door(reference_frame, start_pose, start_joints, stop_pose, stop_joints, move_force, contact_force, tcp_speed=0.4, tcp_accel=0.4):
+  
+    stop_pose_in_start_frame = pose_trans(pose_inv(start_pose), stop_pose)
+  
+    seeks_contact = False
+    stiffness = 10
+    move_force_node_id = rq_setup_door_force_node(reference_frame, move_force, stiffness)
+    rq_moves_node_id = rq_setup_rqmoves_node(move_force_node_id, tcp_speed, tcp_accel)
+    waypoint_open = rq_setup_waypoint_node(start_pose, start_joints, False, rq_moves_node_id)
+    waypoint_close = rq_setup_waypoint_node(stop_pose, stop_joints, True, rq_moves_node_id)
+    seeks_contact = True
+    stiffness = 100
+    contact_force_node_id = rq_setup_door_force_node(reference_frame, contact_force, stiffness)
+  
+    rq_movej_node_id = node_rpc_server.createnewmovejnode()
+    node_rpc_server.setparentid(rq_movej_node_id, move_force_node_id)
+  
+    return [move_force_node_id, rq_moves_node_id, waypoint_open, waypoint_close, contact_force_node_id, rq_movej_node_id]
+  end
+  
+  def rq_move_door(start_pose, start_joints, stop_pose, stop_joints, move_force, contact_force, tcp_speed, tcp_accel, approach_pose, approach_joints, end_reached_threshold=0.001):
+  
+    reference_frame = list_to_pose(kinematics_rpc_server.reorientP1WithXTowardP2andZApproxP1Z(start_pose, stop_pose))
+  
+    node_ids = rq_setup_move_door(reference_frame, start_pose, start_joints, stop_pose, stop_joints, move_force, contact_force, tcp_speed, tcp_accel)
+  
+    move_force_node_id = node_ids[0]
+    rq_moves_node_id = node_ids[1]
+    start_waypoint_node_id = node_ids[2]
+    end_waypoint_node_id = node_ids[3]
+    contact_force_node_id = node_ids[4]
+    rq_movej_node_id = node_ids[5]
+  
+    rq_wait_ft_sensor_steady(2000)
+    zero_ftsensor()
+    sleep(0.1)
+  
+    path_answer = node_rpc_server.rqmovesinit(rq_moves_node_id)
+    verify_path_answer(path_answer)
+  
+    approach_position_joints = get_inverse_kin(approach_pose, qnear=approach_joints)
+    movej(approach_position_joints)
+  
+    node_rpc_server.movejdefinewaypoint(rq_movej_node_id, get_actual_joint_positions(), 1.0, 1.0)
+    node_rpc_server.setparentid(rq_movej_node_id, move_force_node_id)
+    reset_node_executor()
+    active_and_reset_node(move_force_node_id)
+    node_execution_thread = execute_node(rq_movej_node_id, True)
+  
+    path_answer = node_rpc_server.rqmovesinit(rq_moves_node_id)
+    verify_path_answer(path_answer)
+    q0 = node_rpc_server.rqmovesgetfirstpoint(rq_moves_node_id)
+    node_rpc_server.setparentid(rq_movej_node_id, move_force_node_id)
+    node_rpc_server.movejdefinewaypoint(rq_movej_node_id, q0, 1.0, 0.4)
+    execute_node(rq_movej_node_id)
+    execute_node(start_waypoint_node_id)
+    execute_node(end_waypoint_node_id)
+  
+    kill_thread(node_execution_thread)
+  
+    node_rpc_server.movejdefinewaypoint(rq_movej_node_id, get_actual_joint_positions(), 1.0, 1.0)
+    node_rpc_server.setparentid(rq_movej_node_id, contact_force_node_id)
+    reset_node_executor()
+    active_and_reset_node(contact_force_node_id)
+    node_execution_thread = execute_node(rq_movej_node_id, True)
+  
+    timeout = 20
+    while (point_dist(get_actual_tcp_pose(), stop_pose) > end_reached_threshold):
+      if (timeout <= 0):
+        popup("Door has not reached its final position")
+        halt
+      else:
+        sync()
+        timeout = timeout - get_steptime()
+      end
+    end
+  
+    kill_thread(node_execution_thread)
+  
+    approach_pose_in_start_frame = pose_trans(pose_inv(start_pose), approach_pose)
+    retract_pose = pose_trans(get_actual_tcp_pose(), approach_pose_in_start_frame)
+    movej(retract_pose)
+  
+    node_rpc_server.deletenode(move_force_node_id)
+    node_rpc_server.deletenode(rq_moves_node_id)
+    node_rpc_server.deletenode(start_waypoint_node_id)
+    node_rpc_server.deletenode(end_waypoint_node_id)
+    node_rpc_server.deletenode(contact_force_node_id)
+    node_rpc_server.deletenode(rq_movej_node_id)
+  
+  end
+  
+  ###################################################################################
+  #
+  # CNC Insertion
+  #
+  ###################################################################################
+  
+  def rq_collet_insertion(contact_pose, insert_pose, inserted_pose):
+      movel(contact_pose, a=1.2, v=0.025)
+      movel(insert_pose, a=1.2, v=0.025)
+  
+      zero_ftsensor()
+      sleep(0.1)
+  
+      direction = "Z+"
+      stop_force_threshold = 3.0
+      max_radius = 5.0
+      radius_incr = 0.7
+      peck_mode = False
+      tangential_speed = 0.02
+      compliant_insert_force_threshold = 10.0
+      spiral_initial_pose_offset_name = "spiral_initial_pose_offset_name"
+      rq_ins_destination = inserted_pose
+      max_distance = point_dist(inserted_pose, get_actual_tcp_pose())
+      rq_spiral_not_completed = False
+      rq_ins_speed_setting = 0.02
+  
+      rq_insert_spiral_urcap(direction, stop_force_threshold, max_radius, radius_incr, peck_mode, tangential_speed, compliant_insert_force_threshold, spiral_initial_pose_offset_name)
+  
+      if (rq_spiral_not_completed):
+        return False
+      end
+  
+      return True
+  end
+  
+  def rq_push_part(approach_pose, chuck_pose):
+      zero_ftsensor()
+      sleep(0.1)
+  
+      # Find pose with z axis pointing in the direction of the insertion
+      p1 = translate_to_origin(approach_pose)
+      insertion_dir_in_base_frame = pose_trans(p1, pose_trans(pose_inv(approach_pose), chuck_pose))
+      ref_frame_pose = list_to_pose(kinematics_rpc_server.poseFromZaxis([insertion_dir_in_base_frame[0], insertion_dir_in_base_frame[1], insertion_dir_in_base_frame[2]]))
+  
+      surface_found = rq_linear_search_custom_frame("Z+", 10.0, 0.025, 0.1, ref_frame_pose)
+  
+      if not(surface_found):
+          return False
+      end
+  
+      return True
+  end
+  
+  def rq_place_in_chuck(close_chuck_do, open_chuck_do, chuck_approach, chuck_position, chuck_delay):
+      rq_open_workholding(close_chuck_do, open_chuck_do)
+  
+      movel(chuck_approach, a=1.2, v=0.25)
+      movel(chuck_position, a=1.2, v=0.25)
+  
+      rq_close_workholding(close_chuck_do, open_chuck_do)
+      sleep(chuck_delay)
+  end
+  
+  def rq_pre_pick_in_chuck(chuck_approach, chuck_position, speed=0.25, accel=1.2):
+      movel(chuck_approach, accel, speed)
+      movel(chuck_position, accel, speed)
+  end
+  
+  def rq_post_pick_in_chuck(close_chuck_do, open_chuck_do, chuck_approach, chuck_position, chuck_delay, speed=0.25,
+  accel=1.2):
+      rq_open_workholding(close_chuck_do, open_chuck_do)
+      sleep(chuck_delay)
+  
+      movel(chuck_approach, accel, speed)
+  end
+  
+  def rq_open_workholding(close_do, open_do):
+      rq_set_workholding_do(close_do, open_do, False)
+  end
+  
+  def rq_close_workholding(close_do, open_do):
+      rq_set_workholding_do(close_do, open_do, True)
+  end
+  
+  def rq_set_workholding_do(close_do, open_do, close_request):
+      is_close_do_valid = rq_is_do_valid(close_do)
+      is_open_do_valid = rq_is_do_valid(open_do)
+  
+      if(is_close_do_valid):
+          set_standard_digital_out(close_do, close_request)
+      end
+      if(is_open_do_valid):
+          set_standard_digital_out(open_do, not close_request)
+      end
+      if(is_close_do_valid or is_open_do_valid):
+          sleep(0.5)
+      end
+  end
+  
+  def rq_is_do_valid(do_id):
+      return do_id >= 0 and do_id <= 7
+  end
+  
+  def set_cleaning_digital_output(address, state, blow_off_mode, output_type):
+     if(blow_off_mode == BLOW_OFF_MODE_SMART_AIR):
+       rq_set_output(output_type, address, state)
+     end
+  end
+  
+  ###################################################################################
+  #
+  # PATH GENERATOR 6 POINTS CURVE BUILT WITH 2 POINTS
+  #
+  ###################################################################################
+  
+  def execute_half_pipe(pose_1, pose_2,pose_transformation_air_nozzle_to_actual_tcp, depth, length_distance, width, angle, speed, spacing, address, output_type, blow_off_mode, passes):
+    path_gen_poses = get_path_generator_6_points_poses(pose_1, pose_2, pose_transformation_air_nozzle_to_actual_tcp, depth, length_distance, width, angle)
+    start_pose = p[path_gen_poses[0,0],path_gen_poses[0,1],path_gen_poses[0,2],path_gen_poses[0,3],path_gen_poses[0,4],path_gen_poses[0,5]]
+    path_generator_node_id = setup_path_generator_6_points(path_gen_poses, speed, spacing)
+    execute_path_generator_6_points(path_generator_node_id, start_pose,  address, output_type, blow_off_mode, passes)
+  end
+  
+  def get_path_generator_6_points_poses(pose_2, pose_5,pose_transformation_air_nozzle_to_actual_tcp, depth=0.01, length=0, width=0.05, angle_deg=0):
+  
+    def offset_pose(pose, offset, offset_reference_frame, pose_transformation_air_nozzle_to_actual_tcp):
+      pose_relative_to_ref_frame = express_pose_A_relative_to_pose_B(pose, offset_reference_frame)
+      ref_frame_with_offset = pose_trans(offset_reference_frame, offset)
+      pose_with_offset = pose_trans(ref_frame_with_offset, pose_relative_to_ref_frame)
+      pose_with_offset_for_actual_tcp = pose_trans(pose_with_offset, pose_transformation_air_nozzle_to_actual_tcp)
+      return pose_to_list(pose_with_offset_for_actual_tcp)
+    end
+  
+    if(length > 0):
+      middle_pose = interpolate_pose(pose_2, pose_5, 0.5)
+  
+      poses = get_symmetric_poses_from_middle(pose_2, pose_5, middle_pose, length)
+      pose_2 = poses[0]
+      pose_5 = poses[1]
+    end
+  
+    path_ref_frame = list_to_pose(kinematics_rpc_server.reorientP1WithXTowardP2andZApproxP1Z(pose_2, pose_5))
+  
+    offset1 = pose_add(p[0,0,0,0,d2r(angle_deg),0], p[0, width,-depth,-d2r(angle_deg),0,0])
+    offset2 = pose_add(p[0,0,0,0,d2r(angle_deg),0], p[0,     0,     0,              0,0,0])
+    offset3 = pose_add(p[0,0,0,0,d2r(angle_deg),0], p[0,-width,-depth, d2r(angle_deg),0,0])
+  
+    pose_1_array = offset_pose(pose_2, offset1, path_ref_frame, pose_transformation_air_nozzle_to_actual_tcp)
+    pose_2_array = offset_pose(pose_2, offset2, path_ref_frame, pose_transformation_air_nozzle_to_actual_tcp)
+    pose_3_array = offset_pose(pose_2, offset3, path_ref_frame, pose_transformation_air_nozzle_to_actual_tcp)
+  
+    pose_4_array = offset_pose(pose_5, offset1, path_ref_frame, pose_transformation_air_nozzle_to_actual_tcp)
+    pose_5_array = offset_pose(pose_5, offset2, path_ref_frame, pose_transformation_air_nozzle_to_actual_tcp)
+    pose_6_array = offset_pose(pose_5, offset3, path_ref_frame, pose_transformation_air_nozzle_to_actual_tcp)
+  
+    return [pose_1_array, pose_2_array, pose_3_array, pose_4_array, pose_5_array, pose_6_array]
+  end
+  
+  def setup_path_generator_6_points(pose_list, tcp_speed=0.1, spacing=0.02):
+  
+    def json_path_generator_node(pose_list, tcp_speed, spacing):
+  
+      SIX_POINTS_CURVE = 3
+      OFFSET_TYPE_NONE = 0
+      FORCE_OPPOSITE_SIDE = 2
+  
+      json = "{"
+      json = concat(json, key_val("tcpSpeed", tcp_speed), ",")
+      json = concat(json, key_val("poses", pose_list), ",")
+      json = concat(json, key_val("avoidAbruptEnd", "false"), ",")
+      json = concat(json, key_val("isSurfaceFillOn", "true"), ",")
+      json = concat(json, key_val("spacing", spacing), ",")
+      json = concat(json, key_val("pathType", SIX_POINTS_CURVE), ",")
+      json = concat(json, key_val("offsetType",OFFSET_TYPE_NONE), ",")
+      json = concat(json, key_val("endingMode", FORCE_OPPOSITE_SIDE), "}")
+  
+      return json
+    end
+  
+    rq_path_generator_parent_id = 0
+    path_generator_node_id = node_rpc_server.createPathGeneratorNode()
+    node_rpc_server.fromjson(path_generator_node_id, json_path_generator_node(pose_list, tcp_speed, spacing))
+    node_rpc_server.setparentid(path_generator_node_id, rq_path_generator_parent_id)
+  
+    return path_generator_node_id
+  end
+  
+  def execute_path_generator_6_points(path_generator_node_id, pose_1, address = INVALID_OUTPUT_ADDRESS, output_type = MODBUS_TYPE, blow_off_mode = BLOW_OFF_MODE_NO_AIR, passes = 1):
+    index = 0
+    while (index < passes):
+      movej(get_inverse_kin(pose_1))
+      set_cleaning_digital_output(address, True, blow_off_mode, output_type)
+      reset_node_executor()
+      node_execution_thread = execute_node(path_generator_node_id, True)
+      rq_continue_node_execution = False
+      set_cleaning_digital_output(address, False, blow_off_mode, output_type)
+      join node_execution_thread
+      index = index + 1
+    end
+    node_rpc_server.deletenode(path_generator_node_id)
+  end
+  
+  ###################################################################################
+  #
+  # Straight line trajectory
+  #
+  ###################################################################################
+  
+  def execute_straight_line(p1, p2,pose_transformation_air_nozzle_to_actual_tcp, accel=1.2, speed=0.25, distance = 0, angles = [0, 0, 0], address = INVALID_OUTPUT_ADDRESS, output_type = MODBUS_TYPE, blow_off_mode = BLOW_OFF_MODE_NO_AIR, passes = 1):
+    offset_for_angles = p[0, 0, 0, d2r(angles[0]), d2r(angles[1]), d2r(angles[2])]
+    p1 = pose_trans(p1, offset_for_angles)
+    p2 = pose_trans(p2, offset_for_angles)
+  
+    # apply transformation to take into account that the actual tcp offset is not the same as the one that was used when the waypoints were saved:
+    p1 = pose_trans(p1, pose_transformation_air_nozzle_to_actual_tcp)
+    p2 = pose_trans(p2, pose_transformation_air_nozzle_to_actual_tcp)
+    global air_output_adress = address
+  
+    qActual = get_actual_joint_positions()
+    CleanPathId = node_rpc_server.createnewcleaningpathnode(p1, p2, qActual, passes, distance, accel, speed, blow_off_mode)
+  
+    reset_node_executor()
+    if output_type == MODBUS_TYPE:
+      air_thread = run modbusAirControlThread()
+    elif output_type == STANDARD_TYPE:
+      air_thread = run standardAirControlThread()
+    end
+  
+    node_execution_thread = execute_node(CleanPathId, True)
+    rq_continue_node_execution = False
+  
+    join node_execution_thread
+    node_rpc_server.deletenode(CleanPathId)
+    if output_type == MODBUS_TYPE or output_type == STANDARD_TYPE :
+      kill air_thread
+    end
+  end
+  
+  ###################################################################################
+  #
+  # Cross trajectory
+  #
+  ###################################################################################
+  
+  def find_cross_trajectory_poses(p1, p2, height=0, width=0, p1_angles = [0, 0, 0], p2_angles = [0, 0, 0], p3_angles = [0, 0, 0], p4_angles = [0, 0, 0]):
+    def find_side_poses(p0, p1):
+      def find_side_pose(p0,p1,angle):
+        p1_T_p0 = pose_trans(pose_inv(p0), p1)
+        rotated_p0_by_90_degrees = pose_trans(p0, p[0, 0, 0, 0, 0, d2r(angle)])
+  
+        side_pose = pose_trans(rotated_p0_by_90_degrees, p1_T_p0)
+        side_pose[3] = p0[3]
+        side_pose[4] = p0[4]
+        side_pose[5] = p0[5]
+  
+        return side_pose
+      end
+  
+      p3= find_side_pose(p0, p1, 90)
+      p4 = find_side_pose(p0, p1, 270)
+  
+      return [p3, p4]
+    end
+  
+    def get_start_and_end_poses_based_on_distance(p1, p2, middle_pose, distance):
+      if(distance == 0):
+        start_pose = p1
+        end_pose = p2
+      else:
+        poses = get_symmetric_poses_from_middle(p1, p2, middle_pose, distance)
+        start_pose = poses[0]
+        end_pose = poses[1]
+      end
+      return [start_pose, end_pose]
+    end
+  
+    def get_side_poses_based_on_distance(p1, p2, middle_pose, width):
+      if(width == 0):
+        side_poses = find_side_poses(middle_pose, p1)
+      else:
+        poses = get_symmetric_poses_from_middle(p1, p2, middle_pose, width)
+        side_poses = find_side_poses(middle_pose, poses[0])
+      end
+  
+      return side_poses
+    end
+  
+    def get_angle_offset(angles):
+      return  p[0, 0, 0, d2r(angles[0]), d2r(angles[1]), d2r(angles[2])]
+    end
+  
+    middle_pose = interpolate_pose(p1, p2, 0.5)
+  
+    start_and_end_poses = get_start_and_end_poses_based_on_distance(p1, p2, middle_pose, height)
+    side_poses = get_side_poses_based_on_distance(p1, p2, middle_pose, width)
+  
+    p1_offset = get_angle_offset(p1_angles)
+    p2_offset = get_angle_offset(p2_angles)
+    p3_offset = get_angle_offset(p3_angles)
+    p4_offset = get_angle_offset(p4_angles)
+  
+    start_and_end_poses[0] = pose_trans(start_and_end_poses[0], p1_offset)
+    start_and_end_poses[1] = pose_trans(start_and_end_poses[1], p2_offset)
+    side_poses[0] = pose_trans(side_poses[0], p3_offset)
+    side_poses[1] = pose_trans(side_poses[1], p4_offset)
+  
+    return [middle_pose, start_and_end_poses[0], start_and_end_poses[1], side_poses[0], side_poses[1]]
+  end
+  
+  def execute_cross_trajectory(p1, p2,pose_transformation_air_nozzle_to_actual_tcp, height=0, width=0, p1_angles = [0, 0, 0], p2_angles = [0, 0, 0], p3_angles = [0, 0, 0], p4_angles = [0, 0, 0], accel=1.2, speed=0.25,  address = INVALID_OUTPUT_ADDRESS, output_type = MODBUS_TYPE, blow_off_mode = BLOW_OFF_MODE_NO_AIR, passes = 1):
+  
+    cross_poses = find_cross_trajectory_poses(p1, p2, height, width, p1_angles, p2_angles, p3_angles, p4_angles)
+  
+    p0 = pose_trans(cross_poses[0], pose_transformation_air_nozzle_to_actual_tcp)
+    p1 = pose_trans(cross_poses[1], pose_transformation_air_nozzle_to_actual_tcp)
+    p2 = pose_trans(cross_poses[2], pose_transformation_air_nozzle_to_actual_tcp)
+    p3 = pose_trans(cross_poses[3], pose_transformation_air_nozzle_to_actual_tcp)
+    p4 = pose_trans(cross_poses[4], pose_transformation_air_nozzle_to_actual_tcp)
+  
+   index = 0
+  
+   while (index < passes):
+     movej(get_inverse_kin(p0))
+     set_cleaning_digital_output(address, True, blow_off_mode, output_type)
+     movel(p1, accel, speed)
+     movel(p2, accel, speed)
+     movel(p0, accel, speed)
+     movel(p3, accel, speed)
+     movel(p4, accel, speed)
+     set_cleaning_digital_output(address, False, blow_off_mode, output_type)
+     index = index + 1
+   end
+  end
+  
+  def execute_waypoint_cross_trajectory(starting_pose, finishing_pose, accel=1.2, speed=0.25):
+   movej(get_inverse_kin(starting_pose))
+   movel(finishing_pose, accel, speed)
+  end
+  
+  ###################################################################################
+  #
+  # Fermat spiral trajectory
+  #
+  ###################################################################################
+  
+  def execute_fermat_spiral(start_pose, end_pose,pose_transformation_air_nozzle_to_actual_tcp, max_radius = 0, angle = 0, number_of_turns = 1, speed = 0.25,address = INVALID_OUTPUT_ADDRESS, output_type = MODBUS_TYPE, blow_off_mode = BLOW_OFF_MODE_NO_AIR, passes = 1):
+    def find_middle(start_pose, end_pose):
+      alpha = 0.5
+      return interpolate_pose(start_pose, end_pose, alpha)
+    end
+  
+    def find_next_theta(spiral_constant, theta, speed):
+      denom = spiral_constant * sqrt(1/(4*theta) + theta)
+      theta_dot = speed / denom
+      theta = theta + theta_dot * rq_controller_time_step
+      return theta
+    end
+  
+    def find_spiral_pose(theta, spiral_plane, center_pose, angle, spiral_constant, pose_transformation_air_nozzle_to_actual_tcp):
+      local r = spiral_constant * sqrt(theta)
+      local x = r * cos(theta)
+      local y = r * sin(theta)
+  
+      local p2 = pose_trans(spiral_plane, p[x,y,0,0,0,0])
+      local p3 = p[p2[0], p2[1], p2[2], center_pose[3], center_pose[4], center_pose[5]]
+      local p4 = pose_trans(p3, pose_transformation_air_nozzle_to_actual_tcp)
+      local p5 = pose_trans(p4, p[0, 0, 0, -d2r(angle)*cos(theta), -d2r(angle)*sin(theta), 0])
+      return p5
+    end
+  
+    def execute_outer_to_inner_spiral(start_pose, middle_pose, spiral_plane, pose_transformation_air_nozzle_to_actual_tcp, max_angle, angle, spiral_constant_nominal, speed, address, output_type, blow_off_mode):
+      local theta = max_angle
+      local max_r = point_dist(start_pose, middle_pose)
+      local spiral_constant = -1 * spiral_constant_nominal
+      local r = max_r
+      local is_first_pose = True
+  
+      while (norm((r)) <= max_r):
+        theta = find_next_theta(spiral_constant, theta, speed)
+        if(theta < 0):
+          break
+        end
+  
+        r = spiral_constant * sqrt(theta)
+        next_pose = find_spiral_pose(theta, spiral_plane, middle_pose, angle, spiral_constant, pose_transformation_air_nozzle_to_actual_tcp)
+  
+        if (is_first_pose):
+          movej(get_inverse_kin(next_pose))
+          set_cleaning_digital_output(address, True, blow_off_mode, output_type)
+          is_first_pose = False
+        else:
+          servoj(get_inverse_kin(next_pose), t = rq_controller_time_step)
+        end
+      end
+    end
+  
+    def execute_inner_to_outer_spiral(start_pose, middle_pose, spiral_plane, pose_transformation_air_nozzle_to_actual_tcp, angle, spiral_constant, speed):
+      local theta = 0.0001
+      local max_r = point_dist(start_pose, middle_pose)
+      local r = 0
+  
+      while (norm(r) <= max_r):
+        theta = find_next_theta(spiral_constant, theta, speed)
+        r = spiral_constant * sqrt(theta)
+        next_pose = find_spiral_pose(theta, spiral_plane, middle_pose, angle, spiral_constant, pose_transformation_air_nozzle_to_actual_tcp)
+        servoj(get_inverse_kin(next_pose), t = rq_controller_time_step)
+      end
+    end
+  
+    max_angle = d2r(number_of_turns * 360)
+    middle_pose = find_middle(start_pose, end_pose)
+  
+    if(max_radius > 0):
+      poses = get_symmetric_poses_from_middle(start_pose, end_pose, middle_pose, max_radius * 2)
+      start_pose = poses[0]
+      end_pose = poses[1]
+    end
+  
+    SPIRAL_CONSTANT = (point_dist(middle_pose, start_pose)) / sqrt(max_angle)
+  
+    spiral_plane = list_to_pose(kinematics_rpc_server.reorientP1WithXTowardP2andZApproxP1Z(middle_pose, end_pose))
+  
+  
+    index = 0
+    while(index < passes):
+      execute_outer_to_inner_spiral(start_pose, middle_pose, spiral_plane,pose_transformation_air_nozzle_to_actual_tcp, max_angle, angle, SPIRAL_CONSTANT, speed, address, output_type, blow_off_mode)
+      execute_inner_to_outer_spiral(end_pose, middle_pose, spiral_plane, pose_transformation_air_nozzle_to_actual_tcp, angle, SPIRAL_CONSTANT, speed)
+      set_cleaning_digital_output(address, False, blow_off_mode, output_type)
+      index = index + 1
+    end
+  end
+  
+  ###################################################################################
+  #
+  # ROBOTIQ VISE INSERTION
+  #
+  # - The first touch is performed in the direction of the gravity, regardless of
+  #   the robot mounting orientation, tcp offset and TCP orientation
+  # - Optional 2e et 3e touch are performed relative to TCP. They require that, at
+  #   the moment that the insertion is performed, the TCP is oriented such that one
+  #   axis is aligned with the gravity. The TCP axes for the 2e and 3e touch are
+  #   chosen as the ones not aligned with the gravity.
+  ###################################################################################
+  def insert_in_vise(start_pose, end_pose, number_of_touch=3, forces=[10, 20, 20], invert_axis=False, move_to_end_pose=False):
+  
+    def list_by_scalar_multiply_(l1, scalar):
+      result = l1
+      i=0
+      while i<length(result):
+        result[i]=l1[i]*scalar
+        i=i+1
+      end
+      return result
+    end
+  
+    def find_gravity_direction(acceleration_direction, threshold):
+      result = [False, False, False]
+      i = 0
+      while i < length(result):
+        result[i] =  norm(acceleration_direction[i]) > threshold
+        i = i + 1
+      end
+      return result
+    end
+  
+    def get_axis(index, direction):
+      axis = "XYZ"
+      if direction < 0:
+        sign = "-"
+      elif direction > 0:
+        sign = "+"
+      else:
+        popup("insert_in_vise:get_axis >>> direction cannot be 0. Fix it.")
+        halt
+      end
+      return str_cat(str_sub(axis, index, 1), sign)
+    end
+  
+    def direction_to_index(str):
+      if "X" == str_sub(str, 0, 1):
+        return 0
+      elif "Y" == str_sub(str, 0, 1):
+        return 1
+      elif "Z" == str_sub(str, 0, 1):
+        return 2
+      else:
+        popup("invalid direction :", str)
+        halt
+      end
+    end
+  
+    def find_touch_direction(mask, direction):
+      i = 0
+      result = [0, 0, 0]
+      while i < 3:
+        if mask[i]:
+          result[i] = direction[i]
+        end
+        i = i + 1
+      end
+      return result
+    end
+  
+    def find_touch_direction_str(mask, direction):
+      i = 0
+      result = ""
+      while i < 3:
+        if mask[i]:
+          result = str_cat(result, get_axis(i, direction[i]))
+        end
+        i = i + 1
+      end
+      return result
+    end
+  
+    def invert(list):
+      result = list
+      i = 0
+      while i < length(list):
+        result[i] = not list[i]
+        i = i + 1
+      end
+      return result
+    end
+  
+    def assert_that_the_first_touch_is_aligned_with_an_axis(first_touch_direction_mask):
+      i = 0
+      counter = 0
+      while i < length(first_touch_direction_mask):
+        if first_touch_direction_mask[i]:
+          counter = counter + 1
+        end
+        i = i + 1
+      end
+  
+      if counter != 1:
+        popup("One of the TCP axes must be perpendicular to the floor while loading the part in the vise.")
+        halt
+      end
+    end
+  
+    def setup_nodes(forces, number_of_touch, first_touch_direction_mask, direction, second_direction_str, third_direction_str):
+      def max_deviation_from(forces, enabled_axis):
+        i = 0
+        deviation = [0, 0, 0, 0, 0, 0]
+        while i < 3:
+          if forces[i] > 0:
+            deviation[i] = 10
+          elif forces[i] ==  0:
+            deviation[i] = 10
+          end
+          i = i + 1
+        end
+        while i < 6:
+          if enabled_axis[i]:
+            deviation[i] = 0.35
+          end
+          i = i + 1
+        end
+        return deviation
+      end
+  
+      def min_deviation_from(forces, enabled_axis):
+        i = 0
+        deviation = [0, 0, 0, 0, 0, 0]
+        while i < 3:
+          if forces[i] < 0:
+            deviation[i] = -10
+          elif forces[i] ==  0:
+            deviation[i] = -10
+          end
+          i = i + 1
+        end
+        while i < 6:
+          if enabled_axis[i]:
+            deviation[i] = -0.35
+          end
+          i = i + 1
+        end
+        return deviation
+      end
+  
+      def stiffness_from(forces):
+        i = 0
+        stiffness = [0, 0, 0, 100, 100, 100]
+        while i < length(forces):
+          if norm(forces[i]) > 0:
+            stiffness[i] = 100
+          else:
+            stiffness[i] = 85
+          end
+          i = i + 1
+        end
+        return stiffness
+      end
+  
+      def compute_final_forces(forces, number_of_touch, first_touch_direction_mask, direction, second_direction_str, third_direction_str):
+        final_forces = [0, 0, 0]
+        if number_of_touch > 0:
+          i = 0
+          while i < length(first_touch_direction_mask):
+            if first_touch_direction_mask[i]:
+              break
+            end
+            i = i + 1
+          end
+          final_forces[i] = direction[i] * forces[i]
+        end
+        if number_of_touch > 1:
+          i = direction_to_index(second_direction_str)
+          final_forces[i] = direction[i] * forces[i]
+        end
+        if number_of_touch > 2:
+          i = direction_to_index(third_direction_str)
+          final_forces[i] = direction[i] * forces[i]
+        end
+        return final_forces
+      end
+  
+      def compute_enabled_axis(first_touch_direction_mask):
+        enabled_axis = [True, True, True, False, False, False]
+        i = 0
+        while i < length(first_touch_direction_mask):
+          if first_touch_direction_mask[i]:
+            break
+          end
+          i = i + 1
+        end
+        enabled_axis[i + 3] = True
+  
+        return enabled_axis
+      end
+  
+      final_forces = compute_final_forces(forces, number_of_touch, first_touch_direction_mask, direction, second_direction_str, third_direction_str)
+      enabled_axis = compute_enabled_axis(first_touch_direction_mask)
+  
+      force_node_id = rq_setup_machine_tending_force_node(1, [final_forces[0], final_forces[1], final_forces[2], 0, 0, 0], stiffness_from
+      (final_forces), min_deviation_from(final_forces, enabled_axis), max_deviation_from(final_forces, enabled_axis),
+      enabled_axis, False)
+      movej_node_id = node_rpc_server.createnewmovejnode()
+      node_rpc_server.setparentid(movej_node_id, force_node_id)
+  
+      return [force_node_id, movej_node_id]
+    end
+  
+    def average_tool_acceleration_reading(n_samples, delay):
+      n = n_samples
+      reading = [0, 0, 0]
+      while n > 0:
+        reading = reading + get_tool_accelerometer_reading()
+        sleep(delay)
+        n = n - 1
+      end
+      return reading/n_samples
+    end
+  
+    def linear_search_toward_gravity(force):
+      # maybe add a stopj here to prevent acceleration reading to be influenced by robot movement
+      flange_accel = average_tool_acceleration_reading(10, 0.1) # measured accel is oriented in gravity oposite direction
+      flange_accel_pose = p[-flange_accel[0], -flange_accel[1], -flange_accel[2], 0, 0,0]
+      p1 = translate_to_origin(get_actual_tool_flange_pose())
+      gravity_dir_in_base_frame = pose_trans(p1, flange_accel_pose)
+  
+      # Find pose with z axis pointing in gravity direction:
+      ref_frame_pose = list_to_pose(kinematics_rpc_server.poseFromZaxis([gravity_dir_in_base_frame[0], gravity_dir_in_base_frame[1], gravity_dir_in_base_frame[2]]))
+      speed = 0.01
+      abs_max_distance = 0.05
+  
+      surface_found = rq_linear_search_custom_frame("Z+", force, speed, abs_max_distance, ref_frame_pose)
+      return surface_found
+    end
+  
+    #### Actual insert_in_vise method ####
+    movel(start_pose)
+    zero_ftsensor()
+  
+    # 1. Use accelerometer reading to find touches directions:
+    ACCELERATION_THRESHOLD = 8
+    flange_accel = average_tool_acceleration_reading(10, 0.1)
+    tcp_accel = pose_trans(pose_inv(get_tcp_offset()), p[flange_accel[0], flange_accel[1], flange_accel[2], 0, 0, 0])
+    first_touch_direction_mask = find_gravity_direction(tcp_accel, ACCELERATION_THRESHOLD)
+    assert_that_the_first_touch_is_aligned_with_an_axis(first_touch_direction_mask)
+  
+    direction_transform = pose_trans(pose_inv(start_pose), end_pose)
+    direction = [direction_transform[0], direction_transform[1], direction_transform[2]]
+    direction_sign = [direction[0]/norm(direction[0]), direction[1]/norm(direction[1]), direction[2]/norm(direction[2])]
+  
+    touch_direction_str = find_touch_direction_str(invert(first_touch_direction_mask), direction_sign)
+    touch_direction = find_touch_direction(invert(first_touch_direction_mask), direction_sign)
+  
+    if invert_axis:
+      second_direction_str = str_sub(touch_direction_str, 0, 2)
+      third_direction_str = str_sub(touch_direction_str, 2, 4)
+    else:
+      second_direction_str = str_sub(touch_direction_str, 2, 4)
+      third_direction_str = str_sub(touch_direction_str, 0, 2)
+    end
+  
+    end_pose_orientation = translate_to_origin(end_pose)
+  
+    # 2. Prepare nodes:
+    rq_cnc_insertion_node_ids = setup_nodes(forces, number_of_touch, first_touch_direction_mask, direction_sign, second_direction_str, third_direction_str)
+    feature_tool = 1
+  
+    # 3. Perform touches:
+    if number_of_touch > 0:
+      surface_found = linear_search_toward_gravity(forces[0])
+      if not surface_found:
+        textmsg("Insertion in vise: First contact has not been found")
+        popup("First contact has not been found", title="Insertion in vise", blocking=True)
+        return UNDEFINED_THREAD_ID
+      end
+    end
+    if number_of_touch > 1:
+      surface_found = rq_linear_search_urcap(second_direction_str, forces[1], 0.01, 0.05, feature_tool)
+      if not surface_found:
+        textmsg("Insertion in vise: Second contact has not been found")
+        popup("Second contact has not been found", title="Insertion in vise", blocking=True)
+        return UNDEFINED_THREAD_ID
+      end
+    end
+    if number_of_touch > 2:
+      surface_found = rq_linear_search_urcap(third_direction_str, forces[2], 0.01, 0.05, feature_tool)
+      if not surface_found:
+        textmsg("Insertion in vise: Third contact has not been found")
+        popup("Third contact has not been found", title="Insertion in vise", blocking=True)
+        return UNDEFINED_THREAD_ID
+      end
+    end
+  
+    # 4. Move to end position:
+    if not move_to_end_pose:
+      end_pose = get_actual_tcp_pose()
+    end
+  
+    node_rpc_server.movejdefinewaypoint(rq_cnc_insertion_node_ids[1], get_actual_joint_positions(), 1.0, 1.0)
+    reset_node_executor()
+    active_and_reset_node(rq_cnc_insertion_node_ids[0])
+    node_execution_thread = execute_node(rq_cnc_insertion_node_ids[1], True)
+    node_rpc_server.movejdefinewaypoint(rq_cnc_insertion_node_ids[1], get_inverse_kin(end_pose), 1.0, 1.0)
+    execute_node(rq_cnc_insertion_node_ids[1])
+    sleep(1)
+    return node_execution_thread
+  end
+  
+  ###################################################################################
+  # AIR OUTPUT CONTROL
+  ###################################################################################
+  thread modbusAirControlThread():
+    while (True):
+      rq_air_value = read_input_boolean_register(101)
+      modbus_set_output_signal(air_output_adress, rq_air_value, False)
+      sleep(rq_controller_time_step)
+    end
+  end
+  
+  thread standardAirControlThread():
+    while (True):
+      rq_air_value = read_input_boolean_register(101)
+      set_digital_out(air_output_adress, rq_air_value)
+      sleep(rq_controller_time_step)
+    end
+  end
+  def rq_set_output(output_type, address, value):
+    if output_type == "MODBUS":
+      modbus_set_output_signal(address, value)
+    elif output_type == "STANDARD":
+      set_standard_digital_out(address, value)
+    end
+  end
+  
+  def rq_digital_output_action(action, output_type, address, time_on=1, time_off=0.5, delay_after=0):
+    if action == "PUSH_AND_HOLD":
+      rq_set_output(output_type, address, True)
+    elif action == "PUSH":
+      rq_set_output(output_type, address, True)
+      sleep(time_on)
+      rq_set_output(output_type, address, False)
+    elif action == "DOUBLE_PUSH":
+      rq_set_output(output_type, address, True)
+      sleep(time_on)
+      rq_set_output(output_type, address, False)
+      sleep(time_off)
+      rq_set_output(output_type, address, True)
+      sleep(time_on)
+      rq_set_output(output_type, address, False)
+    elif action == "RELEASE":
+      rq_set_output(output_type, address, False)
+    end
+    sleep(delay_after)
+  end
+  def json_kinematic_parameters_ratio(ratio):
+    json = "{"
+    json = concat(json, key_val("kinematicParametersRatio", ratio), "}")
+    return json
+  end
+  
+  def execute_move_along_trail(trail_node_id, joint_positions, kinematic_parameters_ratio):
+    node_rpc_server.fromjson(trail_node_id, json_kinematic_parameters_ratio(kinematic_parameters_ratio))
+    roadmap_state = node_rpc_server.initRoadmap(trail_node_id, joint_positions)
+    path_time = roadmap_state[0]
+  
+    if(path_time > 0.0):
+      reset_node_executor()
+      node_execution_thread = execute_node(trail_node_id, True)
+      kill node_execution_thread
+    end
+  end
+    global servojId = 2
+  rq_collision_detection_stop()
+  # end: URCap Installation Node
+  global timer_1=0
+  global c1_p=p[.124631079723, -.308028756414, .121202819455, -3.141124231191, .028500472376, .002927495869]
+  global c1_q=[-0.7796428839312952, -1.6496883831419886, -1.8346924781799316, -1.2288200122169037, 1.571037769317627, 3.949756145477295]
+  global c2_p=p[.029526817192, -.305921948164, .118391903226, -3.141181649485, .028353160101, .002761019314]
+  global c2_q=[-1.032529656087057, -1.5420829218677063, -1.959731101989746, -1.2109692853740235, 1.5706452131271362, 3.6968348026275635]
+  global c3_p=p[-.067038459763, -.309045591369, .119904708816, -3.141192610771, .028366655788, .002743930455]
+  global c3_q=[-1.3553932348834437, -1.5796953640379847, -1.9152411222457886, -1.2173438531211396, 1.570389747619629, 3.3739569187164307]
+  global Waypoint_25_p=p[-.122879871442, -.368965239733, .188211838452, 3.139821275232, -.105433326911, -.000075080205]
+  global Waypoint_25_q=[-1.5479124228106897, -1.8512498341002406, -1.271846055984497, -1.5885349712767542, 1.5719534158706665, 3.2300467491149902]
+  global Waypoint_26_p=p[-.293995928019, -.360529248638, .222497263242, 3.139820833490, -.105446172100, -.000068418500]
+  global Waypoint_26_q=[-1.9689658323871058, -2.3604399166502894, -0.28896433115005493, -2.062209268609518, 1.571913719177246, 2.8087823390960693]
+  global Waypoint_27_p=p[-.293996037589, -.360524548960, .073401623062, -3.139818121402, .105463968189, .000065100461]
+  global Waypoint_27_q=[-1.9687660376178187, -2.2716170750060023, -1.1700339317321777, -1.2699676317027588, 1.5726664066314697, 2.809603691101074]
+  global Waypoint_28_p=p[-.293994929318, -.360517570897, .073396573982, -3.079220194370, .622813891331, .000072005146]
+  global Waypoint_28_q=[-1.9687660376177893, -2.2716089687261967, -1.1700649262597302, -1.269964114900139, 1.572658061981124, 3.141592653589793]
+  global Waypoint_29_p=p[-.293994178547, -.360515134427, .073402631236, -3.140584062493, .078656845609, .000054923880]
+  global Waypoint_29_q=[-1.9687698523153152, -2.2715932331392654, -1.1700625419823325, -1.2699834567121284, 1.5726652145390896, 2.792526803190927]
+  global Waypoint_30_p=p[-.293991359760, -.360511345669, .073405660262, -3.079212155022, .622831433047, .000021425167]
+  global Waypoint_30_q=[-1.9687779585452905, -2.271581312216341, -1.170064806944243, -1.2700025898209706, 1.5726886987653534, 3.141592653589793]
+  global Waypoint_31_p=p[-.293995928019, -.360529248638, .222497263242, 3.139820833490, -.105446172100, -.000068418500]
+  global Waypoint_31_q=[-1.9689658323871058, -2.3604399166502894, -0.28896433115005493, -2.062209268609518, 1.571913719177246, 2.8087823390960693]
+  global Waypoint_32_p=p[-.120064390322, -.465070651334, .187365924664, 2.700279766902, -.088400420341, .019763045538]
+  global Waypoint_32_q=[-1.5412524382220667, -1.9475652180113734, -1.406833291053772, -0.9173591893962403, 1.5603561401367188, 3.2332537174224854]
+  global Waypoint_33_p=p[-.125099110421, -.299097154487, .189878767902, 3.139750209928, -.105401717856, -.000111797080]
+  global Waypoint_33_q=[-1.550074879323141, -1.5617311683348198, -1.5979981422424316, -1.5518303674510499, 1.5716702938079834, 3.2279696464538574]
+  global Waypoint_1_p=p[.263501689877, -.337317763427, .239349489480, 3.139797243720, -.105347053477, -.000037720516]
+  global Waypoint_1_q=[-0.5959728399859827, -2.1057659588255824, -0.6533136367797852, -1.9525557957091273, 1.5718059539794922, 4.181682586669922]
+  global Waypoint_2_p=p[.265438435610, -.352444474661, .141740907029, 3.139726376264, -.105360108121, -.000022031768]
+  global Waypoint_2_q=[-0.6231134573565882, -2.1016999683775843, -1.126999020576477, -1.4828875821879883, 1.5722739696502686, 4.154912948608398]
+  global Waypoint_3_p=p[.206441973084, -.349241721273, .141737893294, 3.139734184252, -.105329347268, -.000022485776]
+  global Waypoint_3_q=[-0.7073677221881312, -1.9410401783385218, -1.3681066036224365, -1.4024366003325959, 1.5721865892410278, 4.070710182189941]
+  global Waypoint_4_p=p[.157616611756, -.378012026932, .141738203587, 3.139764187573, -.105376653239, -.000076760662]
+  global Waypoint_4_q=[-0.8494070211993616, -1.9579774341978968, -1.3439116477966309, -1.409730003481247, 1.5722019672393799, 3.928692579269409]
+  global Waypoint_5_p=p[.109134761588, -.393436595889, .141742225598, 3.139732501163, -.105376381431, -.000050533951]
+  global Waypoint_5_q=[-0.972816292439596, -1.9523960552611292, -1.3519116640090942, -1.4072665137103577, 1.5721949338912964, 3.805286407470703]
+  global Waypoint_6_p=p[-.188131250090, -.345166366147, .141750553976, 3.139727051239, -.105353578209, -.000024875816]
+  global Waypoint_6_q=[-1.7293437162982386, -1.8864180050291957, -1.4439769983291626, -1.381135032778122, 1.572224736213684, 3.0487747192382812]
+  global Waypoint_7_p=p[-.131564048097, -.216205376465, .141741700579, 3.139714533984, -.105382776464, -.000044168049]
+  global Waypoint_7_q=[-1.572542969380514, -1.2417927545360108, -2.0833356380462646, -1.3863917154124756, 1.571577787399292, 3.2058310508728027]
+  global chipC_p=p[-.099703384862, -.202952364142, .208439850600, 3.139657619359, -.105437397760, -.000145108772]
+  global chipC_q=[-1.4082325140582483, -1.0998719197562714, -1.8470008373260498, -1.7646123371519984, 1.5710017681121826, 3.3699307441711426]
+  global Waypoint_15_p=p[-.099704296715, -.202951379992, .208432580258, 3.139670120847, -.105426183766, -.000160358536]
+  global Waypoint_15_q=[-1.4082286993609827, -1.099871740942337, -1.8470300436019897, -1.764597078362936, 1.5709946155548096, 3.369927167892456]
+  global timer_1_is_counting=False
+  thread Timer_Thread():
+    while (True):
+      if (timer_1_is_counting):
+        timer_1 = timer_1 + get_steptime()
+      end
+      sync()
+    end
+  end
+  run Timer_Thread()
+  def CircleAllangles():
+    $ 268 "CircleAllangles" "noBreak"
+    $ 269 "p0≔p[c[0]+r,c[1],c[2],c[3],c[4],c[5]-1.5*A]"
+    global p0=p[c[0]+r,c[1],c[2],c[3],c[4],c[5]-1.5*A]
+    $ 270 "p45≔p[c[0]+0.71*r,c[1]+0.71*r,c[2],c[3]-A/1.1,c[4],c[5]-A/1.1]"
+    global p45=p[c[0]+0.71*r,c[1]+0.71*r,c[2],c[3]-A/1.1,c[4],c[5]-A/1.1]
+    $ 271 "p90≔p[c[0],c[1]+r,c[2],c[3]-A,c[4],c[5]]"
+    global p90=p[c[0],c[1]+r,c[2],c[3]-A,c[4],c[5]]
+    $ 272 "p135≔p[c[0]-0.71*r,c[1]+0.71*r,c[2],c[3]-A/1.1,c[4],c[5]+A/1.1]"
+    global p135=p[c[0]-0.71*r,c[1]+0.71*r,c[2],c[3]-A/1.1,c[4],c[5]+A/1.1]
+    $ 273 "p180≔p[c[0]-r,c[1],c[2],c[3],c[4],c[5]+1.5*A]"
+    global p180=p[c[0]-r,c[1],c[2],c[3],c[4],c[5]+1.5*A]
+    $ 274 "p225≔p[c[0]-0.71*r,c[1]-0.71*r,c[2],c[3]+A/1.1,c[4],c[5]+A/1.1]"
+    global p225=p[c[0]-0.71*r,c[1]-0.71*r,c[2],c[3]+A/1.1,c[4],c[5]+A/1.1]
+    $ 275 "p270≔p[c[0],c[1]-r,c[2],c[3]+A,c[4],c[5]]"
+    global p270=p[c[0],c[1]-r,c[2],c[3]+A,c[4],c[5]]
+    $ 276 "p315≔p[c[0]+0.71*r,c[1]-0.71*r,c[2],c[3]+A/1.1,c[4],c[5]-A/1.1]"
+    global p315=p[c[0]+0.71*r,c[1]-0.71*r,c[2],c[3]+A/1.1,c[4],c[5]-A/1.1]
+    $ 277 "Set atomization=On"
+    set_standard_digital_out(1, True)
+    $ 278 "Set triggersolenoid=On"
+    set_standard_digital_out(0, True)
+    $ 279 "MoveL"
+    $ 280 "p0" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p0, a=1.3, v=0.4, r=0.005)
+    $ 281 "p45" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p45, a=1.3, v=0.4, r=0.005)
+    $ 282 "p90" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p90, a=1.3, v=0.4, r=0.005)
+    $ 283 "p135" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p135, a=1.3, v=0.4, r=0.005)
+    $ 284 "p180" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p180, a=1.3, v=0.4, r=0.005)
+    $ 285 "p225" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p225, a=1.3, v=0.4, r=0.005)
+    $ 286 "p270" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p270, a=1.3, v=0.4, r=0.005)
+    $ 287 "p315" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p315, a=1.3, v=0.4, r=0.005)
+    $ 288 "p0" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p0, a=1.3, v=0.4, r=0.005)
+    $ 289 "p45" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p45, a=1.3, v=0.4, r=0.005)
+    $ 290 "p90" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p90, a=1.3, v=0.4, r=0.005)
+    $ 291 "Set atomization=Off"
+    set_standard_digital_out(1, False)
+    $ 292 "Set triggersolenoid=Off"
+    set_standard_digital_out(0, False)
+  end
+  def cleaning():
+    $ 316 "cleaning" "noBreak"
+    $ 317 "MoveJ"
+    $ 318 "Waypoint_25" "breakAfter"
+    movej(get_inverse_kin(Waypoint_25_p, qnear=Waypoint_25_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 319 "Waypoint_26" "breakAfter"
+    movej(get_inverse_kin(Waypoint_26_p, qnear=Waypoint_26_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 320 "Waypoint_27" "breakAfter"
+    movej(get_inverse_kin(Waypoint_27_p, qnear=Waypoint_27_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 321 "Waypoint_28" "breakAfter"
+    movej(get_inverse_kin(Waypoint_28_p, qnear=Waypoint_28_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 322 "Waypoint_29" "breakAfter"
+    movej(get_inverse_kin(Waypoint_29_p, qnear=Waypoint_29_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 323 "Waypoint_30" "breakAfter"
+    movej(get_inverse_kin(Waypoint_30_p, qnear=Waypoint_30_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 324 "Waypoint_31" "breakAfter"
+    movej(get_inverse_kin(Waypoint_31_p, qnear=Waypoint_31_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 325 "Waypoint_32" "breakAfter"
+    movej(get_inverse_kin(Waypoint_32_p, qnear=Waypoint_32_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 326 "Set atomization=On"
+    set_standard_digital_out(1, True)
+    $ 327 "Set triggersolenoid=On"
+    set_standard_digital_out(0, True)
+    $ 328 "Wait: 0.2"
+    sleep(0.2)
+    $ 329 "Set triggersolenoid=Off"
+    set_standard_digital_out(0, False)
+    $ 330 "Wait: 0.1"
+    sleep(0.1)
+    $ 331 "Set atomization=Off"
+    set_standard_digital_out(1, False)
+    $ 332 "Waypoint_33" "breakAfter"
+    movej(get_inverse_kin(Waypoint_33_p, qnear=Waypoint_33_q), a=1.3962634015954636, v=1.0471975511965976)
+  end
+  def turntable():
+    $ 333 "turntable" "noBreak"
+    $ 334 "MoveJ"
+    $ 335 "Waypoint_1" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115589, .194760490875, -3.139766958133, .106894280099, .000011796372], Waypoint_1_p)), qnear=Waypoint_1_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 336 "Waypoint_2" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115589, .194760490875, -3.139766958133, .106894280099, .000011796372], Waypoint_2_p)), qnear=Waypoint_2_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 337 "Waypoint_3" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115589, .194760490875, -3.139766958133, .106894280099, .000011796372], Waypoint_3_p)), qnear=Waypoint_3_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 338 "Waypoint_4" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115589, .194760490875, -3.139766958133, .106894280099, .000011796372], Waypoint_4_p)), qnear=Waypoint_4_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 339 "Waypoint_5" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115589, .194760490875, -3.139766958133, .106894280099, .000011796372], Waypoint_5_p)), qnear=Waypoint_5_q), a=1.3962634015954636, v=0.5235987755982988, r=0.02)
+    $ 340 "MoveJ"
+    $ 341 "Waypoint_6" "breakAfter"
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115589, .194760490875, -3.139766958133, .106894280099, .000011796372], Waypoint_6_p)), qnear=Waypoint_6_q), a=1.3962634015954636, v=0.3141592653589793)
+    $ 342 "Wait: 1.0"
+    sleep(1.0)
+    $ 343 "MoveJ"
+    $ 344 "Waypoint_7" "breakAfter"
+    movej(get_inverse_kin(pose_trans(carouselrod, pose_trans(p[-.225374943892, -.334963115589, .194760490875, -3.139766958133, .106894280099, .000011796372], Waypoint_7_p)), qnear=Waypoint_7_q), a=1.3962634015954636, v=1.0471975511965976, r=0.02)
+  end
+  def Spraychip2():
+    $ 345 "Spraychip2" "noBreak"
+    $ 346 "MoveJ"
+    $ 347 "chipC" "breakAfter"
+    movej(get_inverse_kin(chipC_p, qnear=chipC_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 348 "c≔chipC"
+    global c=chipC_p
+    $ 349 "rc≔27/1000"
+    global rc=27/1000
+    $ 350 "p0≔p[c[0]+rc,c[1],c[2],c[3],c[4],c[5]-1.5*0]"
+    global p0=p[c[0]+rc,c[1],c[2],c[3],c[4],c[5]-1.5*0]
+    $ 351 "p45≔p[c[0]+0.71*rc,c[1]+0.71*rc,c[2],c[3]-0/1.1,c[4],c[5]-0/1.1]"
+    global p45=p[c[0]+0.71*rc,c[1]+0.71*rc,c[2],c[3]-0/1.1,c[4],c[5]-0/1.1]
+    $ 352 "p90≔p[c[0],c[1]+rc,c[2],c[3]-0,c[4],c[5]]"
+    global p90=p[c[0],c[1]+rc,c[2],c[3]-0,c[4],c[5]]
+    $ 353 "p135≔p[c[0]-0.71*rc,c[1]+0.71*rc,c[2],c[3]-0/1.1,c[4],c[5]+0/1.1]"
+    global p135=p[c[0]-0.71*rc,c[1]+0.71*rc,c[2],c[3]-0/1.1,c[4],c[5]+0/1.1]
+    $ 354 "p180≔p[c[0]-rc,c[1],c[2],c[3],c[4],c[5]+1.5*0]"
+    global p180=p[c[0]-rc,c[1],c[2],c[3],c[4],c[5]+1.5*0]
+    $ 355 "p225≔p[c[0]-0.71*rc,c[1]-0.71*rc,c[2],c[3]+0/1.1,c[4],c[5]+0/1.1]"
+    global p225=p[c[0]-0.71*rc,c[1]-0.71*rc,c[2],c[3]+0/1.1,c[4],c[5]+0/1.1]
+    $ 356 "p270≔p[c[0],c[1]-rc,c[2],c[3]+0,c[4],c[5]]"
+    global p270=p[c[0],c[1]-rc,c[2],c[3]+0,c[4],c[5]]
+    $ 357 "p315≔p[c[0]+0.71*rc,c[1]-0.71*rc,c[2],c[3]+0/1.1,c[4],c[5]-0/1.1]"
+    global p315=p[c[0]+0.71*rc,c[1]-0.71*rc,c[2],c[3]+0/1.1,c[4],c[5]-0/1.1]
+    $ 358 "Set atomization=On"
+    set_standard_digital_out(1, True)
+    $ 359 "Set triggersolenoid=On"
+    set_standard_digital_out(0, True)
+    $ 360 "MoveL"
+    $ 361 "p0" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p0, a=1.3, v=0.085, r=0.01)
+    $ 362 "p45" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p45, a=1.3, v=0.085, r=0.01)
+    $ 363 "p90" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p90, a=1.3, v=0.085, r=0.01)
+    $ 364 "p135" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p135, a=1.3, v=0.085, r=0.01)
+    $ 365 "p180" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p180, a=1.3, v=0.085, r=0.01)
+    $ 366 "Set triggersolenoid=Off"
+    set_standard_digital_out(0, False)
+    $ 367 "Wait: 0.1"
+    sleep(0.1)
+    $ 368 "Set triggersolenoid=On"
+    set_standard_digital_out(0, True)
+    $ 369 "p225" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p225, a=1.3, v=0.085, r=0.01)
+    $ 370 "p270" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p270, a=1.3, v=0.085, r=0.01)
+    $ 371 "p315" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p315, a=1.3, v=0.085, r=0.01)
+    $ 372 "p0" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p0, a=1.3, v=0.085, r=0.01)
+    $ 373 "p45" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p45, a=1.3, v=0.085, r=0.01)
+    $ 374 "Set triggersolenoid=Off"
+    set_standard_digital_out(0, False)
+    $ 375 "Wait: 0.1"
+    sleep(0.1)
+    $ 376 "Set triggersolenoid=On"
+    set_standard_digital_out(0, True)
+    $ 377 "p90" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p90, a=1.3, v=0.085, r=0.01)
+    $ 378 "p135" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p135, a=1.3, v=0.085, r=0.01)
+    $ 379 "p180" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p180, a=1.3, v=0.085, r=0.01)
+    $ 380 "p225" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p225, a=1.3, v=0.085, r=0.01)
+    $ 381 "p270" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p270, a=1.3, v=0.085, r=0.01)
+    $ 382 "p315" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p315, a=1.3, v=0.085, r=0.01)
+    $ 383 "p0" "breakAfter"
+    set_tcp(p[0.0,0.0,0.11,0.0,0.0,0.0])
+    movel(p0, a=1.3, v=0.085, r=0.01)
+    $ 384 "MoveJ"
+    $ 385 "Waypoint_15" "breakAfter"
+    movej(get_inverse_kin(Waypoint_15_p, qnear=Waypoint_15_q), a=1.3962634015954636, v=1.0471975511965976)
+    $ 386 "Wait: 0.2"
+    sleep(0.2)
+    $ 387 "Set atomization=Off"
+    set_standard_digital_out(1, False)
+    $ 388 "Set triggersolenoid=Off"
+    set_standard_digital_out(0, False)
+  end
+  while (True):
+    $ 2 "Robot Program"
+    $ 3 "'Program to be used for part #124517-055 SRF preload'"
+    # 'Program to be used for part #124517-055 SRF preload'
+    $ 4 "'Program rev ___: mm/dd/yy note'"
+    # 'Program rev ___: mm/dd/yy note'
+    $ 5 "timer_1: Start"
+    timer_1_is_counting = True
+    $ 6 "r≔1/1000"
+    global r=1/1000
+    $ 7 "A≔8*3.1416/180"
+    global A=8*3.1416/180
+    $ 10 "sidenum≔3"
+    global sidenum=3
+    $ 12 "coatnum≔'Enter the number of coats:'"
+    global coatnum=request_integer_from_primary_client("Enter the number of coats:")
+    $ 14 "partnum≔'Enter the number of mask sets on the carousel:'"
+    global partnum=request_integer_from_primary_client("Enter the number of mask sets on the carousel:")
+    $ 15 "Loop_1≔1"
+    global Loop_1=1
+    $ 16 "If partnum≤sidenum"
+    global thread_flag_16=0
+    thread Thread_if_16():
+      $ 17 "Loop (coatnum)>0"
+      thread Thread_while_17():
+        while (True):
+          $ 18 "partleft≔partnum"
+          global partleft=partnum
+          $ 19 "loopnum≔1"
+          global loopnum=1
+          $ 20 "Loop partleft>0"
+          thread Thread_while_20():
+            while (True):
+              $ 21 "If loopnum≟1"
+              if (loopnum == 1):
+                $ 22 "Call cleaning"
+                cleaning()
+                $ 23 "Call Spraychip2"
+                Spraychip2()
+              end
+              $ 24 "If loopnum≟1 or loopnum≟4 or loopnum≟7 or loopnum≟10"
+              global thread_flag_24=0
+              thread Thread_if_24():
+                $ 25 "MoveJ"
+                $ 26 "c1" "breakAfter"
+                movej(get_inverse_kin(c1_p, qnear=c1_q), a=1.3962634015954636, v=1.0471975511965976)
+                $ 27 "c≔c1"
+                global c=c1_p
+                $ 28 "Call CircleAllangles"
+                CircleAllangles()
+                $ 29 "x2≔p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]"
+                global x2=p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]
+                $ 30 "x3≔p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                global x3=p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]
+                $ 31 "x4≔p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                global x4=p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]
+                $ 32 "MoveJ"
+                $ 33 "x2" "breakAfter"
+                movej(x2, a=1.3962634015954636, v=1.0471975511965976)
+                $ 34 "c≔x2"
+                global c=x2
+                $ 35 "Call CircleAllangles"
+                CircleAllangles()
+                $ 36 "MoveJ"
+                $ 37 "x3" "breakAfter"
+                movej(x3, a=1.3962634015954636, v=1.0471975511965976)
+                $ 38 "c≔x3"
+                global c=x3
+                $ 39 "Call CircleAllangles"
+                CircleAllangles()
+                $ 40 "MoveJ"
+                $ 41 "x4" "breakAfter"
+                movej(x4, a=1.3962634015954636, v=1.0471975511965976)
+                $ 42 "c≔x4"
+                global c=x4
+                $ 43 "Call CircleAllangles"
+                CircleAllangles()
+                thread_flag_24 = 1
+              end
+              if (loopnum == 1  or  loopnum == 4  or  loopnum == 7  or  loopnum == 10):
+                global thread_handler_24=run Thread_if_24()
+                while (thread_flag_24 == 0):
+                  if not(loopnum == 1  or  loopnum == 4  or  loopnum == 7  or  loopnum == 10):
+                    kill thread_handler_24
+                    thread_flag_24 = 2
+                  else:
+                    sync()
+                  end
+                end
+              else:
+                thread_flag_24 = 2
+              end
+              if (thread_flag_24 == 2):
+                $ 44 "ElseIf loopnum≟2 or loopnum≟5 or loopnum≟8 or loopnum≟11"
+                if (loopnum == 2  or  loopnum == 5  or  loopnum == 8  or  loopnum == 11):
+                  $ 45 "MoveJ"
+                  $ 46 "c2" "breakAfter"
+                  movej(get_inverse_kin(c2_p, qnear=c2_q), a=1.3962634015954636, v=1.0471975511965976)
+                  $ 47 "c≔c2"
+                  global c=c2_p
+                  $ 48 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 49 "x2≔p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]"
+                  global x2=p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]
+                  $ 50 "x3≔p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                  global x3=p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]
+                  $ 51 "x4≔p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                  global x4=p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]
+                  $ 52 "MoveJ"
+                  $ 53 "x2" "breakAfter"
+                  movej(x2, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 54 "c≔x2"
+                  global c=x2
+                  $ 55 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 56 "MoveJ"
+                  $ 57 "x3" "breakAfter"
+                  movej(x3, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 58 "c≔x3"
+                  global c=x3
+                  $ 59 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 60 "MoveJ"
+                  $ 61 "x4" "breakAfter"
+                  movej(x4, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 62 "c≔x4"
+                  global c=x4
+                  $ 63 "Call CircleAllangles"
+                  CircleAllangles()
+                else:
+                  $ 64 "Else" "noBreak"
+                  $ 65 "MoveJ"
+                  $ 66 "c3" "breakAfter"
+                  movej(get_inverse_kin(c3_p, qnear=c3_q), a=1.3962634015954636, v=1.0471975511965976)
+                  $ 67 "c≔c3"
+                  global c=c3_p
+                  $ 68 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 69 "x2≔p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]"
+                  global x2=p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]
+                  $ 70 "x3≔p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                  global x3=p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]
+                  $ 71 "x4≔p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                  global x4=p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]
+                  $ 72 "MoveJ"
+                  $ 73 "x2" "breakAfter"
+                  movej(x2, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 74 "c≔x2"
+                  global c=x2
+                  $ 75 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 76 "MoveJ"
+                  $ 77 "x3" "breakAfter"
+                  movej(x3, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 78 "c≔x3"
+                  global c=x3
+                  $ 79 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 80 "MoveJ"
+                  $ 81 "x4" "breakAfter"
+                  movej(x4, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 82 "c≔x4"
+                  global c=x4
+                  $ 83 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 84 "Wait: 4.0"
+                  sleep(4.0)
+                end
+              end
+              $ 85 "loopnum≔loopnum+1"
+              global loopnum=loopnum+1
+              $ 86 "partleft≔partleft-1"
+              global partleft=partleft-1
+            end
+          end
+          if (partleft>0):
+            global thread_handler_20=run Thread_while_20()
+            while (partleft>0):
+              sync()
+            end
+            kill thread_handler_20
+          end
+          $ 87 "i≔0"
+          global i=0
+          $ 88 "coatnum≔coatnum-1"
+          global coatnum=coatnum-1
+        end
+      end
+      if ((coatnum)>0):
+        global thread_handler_17=run Thread_while_17()
+        while ((coatnum)>0):
+          sync()
+        end
+        kill thread_handler_17
+      end
+      $ 89 "Halt"
+      halt
+      thread_flag_16 = 1
+    end
+    if (partnum <= sidenum):
+      global thread_handler_16=run Thread_if_16()
+      while (thread_flag_16 == 0):
+        if not(partnum <= sidenum):
+          kill thread_handler_16
+          thread_flag_16 = 2
+        else:
+          sync()
+        end
+      end
+    else:
+      thread_flag_16 = 2
+    end
+    if (thread_flag_16 == 2):
+      $ 90 "Else" "noBreak"
+      $ 91 "Loop (coatnum)>0"
+      thread Thread_while_91():
+        while (True):
+          $ 92 "partleft≔partnum"
+          global partleft=partnum
+          $ 93 "loopnum≔1"
+          global loopnum=1
+          $ 94 "turnnum≔0"
+          global turnnum=0
+          $ 95 "Loop partleft>0"
+          thread Thread_while_95():
+            while (True):
+              $ 96 "If loopnum≟1"
+              if (loopnum == 1):
+                $ 97 "Call cleaning"
+                cleaning()
+                $ 98 "Call Spraychip2"
+                Spraychip2()
+              end
+              $ 99 "If loopnum≟1 or loopnum≟4 or loopnum≟7 or loopnum≟10"
+              global thread_flag_99=0
+              thread Thread_if_99():
+                $ 100 "MoveJ"
+                $ 101 "c1" "breakAfter"
+                movej(get_inverse_kin(c1_p, qnear=c1_q), a=1.3962634015954636, v=1.0471975511965976)
+                $ 102 "c≔c1"
+                global c=c1_p
+                $ 103 "Call CircleAllangles"
+                CircleAllangles()
+                $ 104 "x2≔p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]"
+                global x2=p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]
+                $ 105 "x3≔p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                global x3=p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]
+                $ 106 "x4≔p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                global x4=p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]
+                $ 107 "MoveJ"
+                $ 108 "x2" "breakAfter"
+                movej(x2, a=1.3962634015954636, v=1.0471975511965976)
+                $ 109 "c≔x2"
+                global c=x2
+                $ 110 "Call CircleAllangles"
+                CircleAllangles()
+                $ 111 "MoveJ"
+                $ 112 "x3" "breakAfter"
+                movej(x3, a=1.3962634015954636, v=1.0471975511965976)
+                $ 113 "c≔x3"
+                global c=x3
+                $ 114 "Call CircleAllangles"
+                CircleAllangles()
+                $ 115 "MoveJ"
+                $ 116 "x4" "breakAfter"
+                movej(x4, a=1.3962634015954636, v=1.0471975511965976)
+                $ 117 "c≔x4"
+                global c=x4
+                $ 118 "Call CircleAllangles"
+                CircleAllangles()
+                thread_flag_99 = 1
+              end
+              if (loopnum == 1  or  loopnum == 4  or  loopnum == 7  or  loopnum == 10):
+                global thread_handler_99=run Thread_if_99()
+                while (thread_flag_99 == 0):
+                  if not(loopnum == 1  or  loopnum == 4  or  loopnum == 7  or  loopnum == 10):
+                    kill thread_handler_99
+                    thread_flag_99 = 2
+                  else:
+                    sync()
+                  end
+                end
+              else:
+                thread_flag_99 = 2
+              end
+              if (thread_flag_99 == 2):
+                $ 119 "ElseIf loopnum≟2 or loopnum≟5 or loopnum≟8 or loopnum≟11"
+                if (loopnum == 2  or  loopnum == 5  or  loopnum == 8  or  loopnum == 11):
+                  $ 120 "MoveJ"
+                  $ 121 "c2" "breakAfter"
+                  movej(get_inverse_kin(c2_p, qnear=c2_q), a=1.3962634015954636, v=1.0471975511965976)
+                  $ 122 "c≔c2"
+                  global c=c2_p
+                  $ 123 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 124 "x2≔p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]"
+                  global x2=p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]
+                  $ 125 "x3≔p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                  global x3=p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]
+                  $ 126 "x4≔p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                  global x4=p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]
+                  $ 127 "MoveJ"
+                  $ 128 "x2" "breakAfter"
+                  movej(x2, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 129 "c≔x2"
+                  global c=x2
+                  $ 130 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 131 "MoveJ"
+                  $ 132 "x3" "breakAfter"
+                  movej(x3, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 133 "c≔x3"
+                  global c=x3
+                  $ 134 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 135 "MoveJ"
+                  $ 136 "x4" "breakAfter"
+                  movej(x4, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 137 "c≔x4"
+                  global c=x4
+                  $ 138 "Call CircleAllangles"
+                  CircleAllangles()
+                else:
+                  $ 139 "Else" "noBreak"
+                  $ 140 "MoveJ"
+                  $ 141 "c3" "breakAfter"
+                  movej(get_inverse_kin(c3_p, qnear=c3_q), a=1.3962634015954636, v=1.0471975511965976)
+                  $ 142 "c≔c3"
+                  global c=c3_p
+                  $ 143 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 144 "x2≔p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]"
+                  global x2=p[c[0]-0.037,c[1],c[2],c[3],c[4],c[5]]
+                  $ 145 "x3≔p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                  global x3=p[c[0]-0.037,c[1]+0.037,c[2],c[3],c[4],c[5]]
+                  $ 146 "x4≔p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]"
+                  global x4=p[c[0],c[1]+0.037,c[2],c[3],c[4],c[5]]
+                  $ 147 "MoveJ"
+                  $ 148 "x2" "breakAfter"
+                  movej(x2, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 149 "c≔x2"
+                  global c=x2
+                  $ 150 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 151 "MoveJ"
+                  $ 152 "x3" "breakAfter"
+                  movej(x3, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 153 "c≔x3"
+                  global c=x3
+                  $ 154 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 155 "MoveJ"
+                  $ 156 "x4" "breakAfter"
+                  movej(x4, a=1.3962634015954636, v=1.0471975511965976)
+                  $ 157 "c≔x4"
+                  global c=x4
+                  $ 158 "Call CircleAllangles"
+                  CircleAllangles()
+                  $ 159 "Wait: 4.0"
+                  sleep(4.0)
+                end
+              end
+              $ 160 "loopnum≔loopnum+1"
+              global loopnum=loopnum+1
+              $ 161 "partleft≔partleft-1"
+              global partleft=partleft-1
+            end
+          end
+          if (partleft>0):
+            global thread_handler_95=run Thread_while_95()
+            while (partleft>0):
+              sync()
+            end
+            kill thread_handler_95
+          end
+          $ 162 "i≔0"
+          global i=0
+          $ 163 "Loop (6-turnnum)>0"
+          thread Thread_while_163():
+            while (True):
+              $ 164 "Call turntable"
+              turntable()
+              $ 165 "turnnum≔turnnum+1"
+              global turnnum=turnnum+1
+            end
+          end
+          if ((6-turnnum)>0):
+            global thread_handler_163=run Thread_while_163()
+            while ((6-turnnum)>0):
+              sync()
+            end
+            kill thread_handler_163
+          end
+          $ 166 "coatnum≔coatnum-1"
+          global coatnum=coatnum-1
+        end
+      end
+      if ((coatnum)>0):
+        global thread_handler_91=run Thread_while_91()
+        while ((coatnum)>0):
+          sync()
+        end
+        kill thread_handler_91
+      end
+      $ 167 "Halt"
+      halt
+    end
+  end
+end
